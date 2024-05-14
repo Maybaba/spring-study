@@ -2,7 +2,7 @@
 1. build gragle code
 
 ```
-plugins {
+ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.10'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -32,3 +32,9 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+```
+
+2. build gradle code for web-server
+```angular2html
+
+```
