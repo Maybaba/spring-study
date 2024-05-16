@@ -35,6 +35,6 @@ tasks.named('test') {
 ```
 
 2. build gradle code for web-server
-```angular2html
+```
 
 ```

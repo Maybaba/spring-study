@@ -10,10 +10,11 @@
 
 <h1>잘 실행됨</h1>
 
-<a href="/chap01/join">회원가입하기</a>
 <a href="/chap02/v1/join">회원가입하기(front v1)</a>
 <a href="/chap02/v2/join">회원가입하기(front v2)</a>
 <a href="/chap02/v3/join">회원가입하기(front v3)</a>
+<a href="/chap02/v4/join">회원가입하기(front v4)</a>
+<a href="/chap02/v5/join">회원가입하기(front v5)</a>
 
 
 </body>

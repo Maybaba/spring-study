@@ -24,7 +24,7 @@ public class View {
             this.viewName = prefix + viewName + suffix;
         } else {
             //redirect:/chap02/v2/show : 이후 1글자 뒤부터 포함해서 확인하기
-            this.viewName.substring(viewName.indexOf(":") + 1);
+            this.viewName = viewName.substring(viewName.indexOf(":") + 1);
         }
     }
 

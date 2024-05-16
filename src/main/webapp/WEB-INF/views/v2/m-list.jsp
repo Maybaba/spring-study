@@ -17,7 +17,7 @@
 
 <ul>
 
-  <h1>프론트컨트롤러 V1 목록보기</h1>
+  <h1>프론트컨트롤러 V2 목록보기</h1>
 
 <c:forEach var="m" items="${memberList}">   <%-- 서버에서 보낸 값을 그대로 item으로 받는다--%>
     <li>
@@ -33,7 +33,7 @@
 
 </ul>
 
-<a href="/chap02/v1/join">새로운 회원가입하기</a>
+<a href="/chap02/v2/join">새로운 회원가입하기</a>
 
 </body>
 </html>

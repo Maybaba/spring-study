@@ -15,9 +15,9 @@
 </head>
 <body>
 
-<h1>프론트컨트롤러 v3 회원가입 양식</h1>
+<h1>프론트컨트롤러 v5 회원가입 양식</h1>
 
-<form action="/chap02/v3/save" method="post">
+<form action="/chap02/v5/save" method="post">
     <label>
         # 계정명: <input type="text" name="account">
     </label>

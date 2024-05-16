@@ -1,19 +1,16 @@
-package com.study.springstudy.webservlet.chap02.v3.controller;
+package com.study.springstudy.webservlet.chap02.v4.controller;
 
 import com.study.springstudy.webservlet.MemberMemoryRepo;
-import com.study.springstudy.webservlet.ModelAndView;
-import com.study.springstudy.webservlet.View;
+import com.study.springstudy.webservlet.Model;
 import com.study.springstudy.webservlet.entity.Member;
-import org.springframework.boot.Banner;
 
 import java.util.Map;
 
-
-public class SaveController implements ControllerV3{
+public class SaveController implements ControllerV4{
 
     MemberMemoryRepo repo = MemberMemoryRepo.getInstance();
     @Override
-    public ModelAndView process(Map<String, String> paramMap) {
+    public String process(Map<String, String> paramMap, Model model) {
         //1. 회원가입 폼에서 넘어온 데이터 읽기 ( 계정명, 비밀번호, 이름 )
         String account = paramMap.get("account");
         String password = paramMap.get("password");
@@ -24,7 +21,7 @@ public class SaveController implements ControllerV3{
         Member member = new Member(account, password, userName);
         repo.save(member);
 
-        //3. 적절한 페이지로  리다이렉트
-        return new ModelAndView("redirect:/chap02/v3/show");
+        //3. 적절한 페이지로 문자열로 리다이렉트
+        return "redirect:/chap02/v4/show";
     }
 }
