@@ -61,6 +61,7 @@ public class ScoreController {
         //다시 조회로 돌아가야 저장된 데이터를 볼 수 있음
         //포워딩이 아닌 리다이렉트로 재요청을 넣어야 새롭게 디비 조회 가능
         return "redirect:/score/list";
+
     }
     @PostMapping("/remove")
     public String remove() {
@@ -68,9 +69,15 @@ public class ScoreController {
         return "";
     }
     @GetMapping("/detail")
-    public String detail() {
+    public String detail(long stuNum, Model model) {
+        Score scoreDetail = rp.findOne(stuNum);
+        model.addAttribute("s", scoreDetail);
         System.out.println("/score/detail : GET");
-        return "";
+
+        //1. 상세조회를 원하는 학번을 읽기
+        //2. DB 에 상세 조회 요청
+        //3 . DB 에서 조회한 회원정보 JSP에게 전달
+        return "score/score-detail";
     }
 
 

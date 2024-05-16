@@ -15,6 +15,8 @@ public interface ScoreRepository {
     List<Score> findAll(); //걍 리스트로 갖다 줘. 뿌엥.
 
     //저장소에서 데이터 단일 개별조회하기
+    Score findOne(long stuNum); //내가 학번 조회를 해볼게!
+    // 데이터 석차 조회하기
 
     //저장소에서 데이터 삭제하기
 

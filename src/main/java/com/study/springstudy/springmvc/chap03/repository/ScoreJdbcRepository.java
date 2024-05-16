@@ -7,10 +7,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 // 구체적인 함수 설명해. 난 마리아 디비에 설정할거야.
 public class ScoreJdbcRepository implements ScoreRepository {
 
-    private String url = "jdbc:amriadb://localhost:3306/spring5";
+    private String url = "jdbc:mariadb://localhost:3306/spring5";
     private String username = "root";
     private String password = "1234";
 
@@ -54,21 +55,46 @@ public class ScoreJdbcRepository implements ScoreRepository {
 
             String sql = "SELECT * FROM tbl_score";
 
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 Score s = new Score(rs);
                 scoreList.add(s);
-
-
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return List.of();
+        return scoreList;
     }
+
+
+    @Override
+    public Score findOne(long stuNum) {
+        //stuNum으로 행 찾기
+        try (Connection conn = connect()) {
+
+            String sql = "SELECT * FROM tbl_score WHERE stu_num = ? ";
+            //+stuNum; //pk로 where 절 걸면 1줄이거나 0줄. 당연한 얘기임 하나 밖에 없는 값이니까.
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, stuNum); //setLong 이 정확히 뭔데
+
+            ResultSet rs = pstmt.executeQuery();
+            // 찾은 값 Score 객체추가
+            if (rs.next()) { //rs 값 입력
+                return new Score(rs);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     private Connection connect() throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }
