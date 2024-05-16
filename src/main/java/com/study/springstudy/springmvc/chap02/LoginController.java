@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
+
 @Controller
 @RequestMapping("/hw/*")
 public class LoginController {
@@ -31,18 +33,37 @@ public class LoginController {
             Model model) {
         // 로그인 데이터 읽어오기
         //로그인 성공여부
+        /*
+        String message;
+        if 아이디 맞을때
+            if 비밀번호 맞을때
+            message = 성공
+            비번 틀리면
+            message = 실패
+          아이디 틀리면
+          message = 실패
+
+          model.add ~ ("message", message) -> jsp(조건문 없이) 에 메시지 전달하여 더 간결화 할 수 있다.
+         */
+        String message;
         if (id.equals("grape111") && pw.equals("ggg9999")) {
-            model.addAttribute("result", "success");
+            message = "로그인 성공!";
+            System.out.println("message = " + message);
+            model.addAttribute("result", message);
             return "mvc/s-result";
         }
         //아이디 없는 경우
         else if (id.isEmpty()) {
-            model.addAttribute("result", "f-id");
+            message = "아이디가 없습니다. ";
+            System.out.println("message = " + message);
+            model.addAttribute("result", message);
             return "mvc/s-result";
         }
         //비밀번호가 일치하지 않는 경우
         else
-            model.addAttribute("result", "f-pw");
+            message = "비밀번호가 일치하지 않습니다. ";
+        System.out.println("message = " + message);
+        model.addAttribute("result", message);
         return "mvc/s-result";
     }
 }
