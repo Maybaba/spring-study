@@ -38,13 +38,11 @@ public class BasicController {
     @RequestMapping("/major")
     public String major(
 //            @RequestParam String stu String st,
-            @RequestParam String stu,
+            @RequestParam ("stu") String st,
             String major, //왜 생략 가능?
             @RequestParam int grade) {
 
-//        String major = "st";
-
-        System.out.println("st = " + stu);
+        System.out.println("st = " + st);
         System.out.println("major = " + major);
         System.out.println("grade = " + grade);
         return "";
