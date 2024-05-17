@@ -1,11 +1,11 @@
-package com.study.springstudy.springmvc.chap04.reposotiry;
+package com.study.springstudy.springmvc.chap04;
 
 import com.study.springstudy.springmvc.chap04.entity.Board;
 
 import java.util.List;
 
 //게시판 CRUD 기능
-public class BoardRepository {
+public interface BoardRepository {
     //게시물 목록 조회
     List<Board> findAll();
 
