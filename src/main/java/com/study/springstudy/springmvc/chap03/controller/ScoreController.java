@@ -1,8 +1,10 @@
 package com.study.springstudy.springmvc.chap03.controller;
 
+import com.study.springstudy.springmvc.chap03.ScoreRepository;
 import com.study.springstudy.springmvc.chap03.dto.ScorePostDto;
 import com.study.springstudy.springmvc.chap03.entity.Score;
-import com.study.springstudy.springmvc.chap03.repository.ScoreJdbcRepository;
+import com.study.springstudy.springmvc.chap03.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +34,12 @@ import java.util.List;
 public class ScoreController {
 
     //db 처리 전담하는 의존 객체 설정 ; 의존 시 추상적인 인터페이스에 의존한다.
-    private ScoreJdbcRepository rp = new ScoreJdbcRepository();
+    //그래서 인터페이스에 의존하도록 한다.
+    private ScoreRepository rp = new ScoreMemoryRepository();
+    @Autowired
+    public ScoreController(ScoreRepository repository) {
+        this.rp = repository;
+    }
 
     //get
     @GetMapping("/list")
@@ -63,20 +70,24 @@ public class ScoreController {
         return "redirect:/score/list";
 
     }
-    @PostMapping("/remove")
+    @GetMapping("/remove") // post -> get으로 변경
     public String remove() {
         System.out.println("/score/remove : POST");
         return "";
     }
     @GetMapping("/detail")
     public String detail(long stuNum, Model model) {
+        //1. 상세조회를 원하는 학번을 읽기
         Score scoreDetail = rp.findOne(stuNum);
+
+        //2. DB 에 상세 조회 요청
         model.addAttribute("s", scoreDetail);
         System.out.println("/score/detail : GET");
+        int[] result = rp.findRankbyOne(stuNum);
+        model.addAttribute("rank", result[0]);
+        model.addAttribute("count", result[1]);
 
-        //1. 상세조회를 원하는 학번을 읽기
-        //2. DB 에 상세 조회 요청
-        //3 . DB 에서 조회한 회원정보 JSP에게 전달
+        //4 . DB 에서 조회한 회원정보 JSP에게 전달
         return "score/score-detail";
     }
 

@@ -16,9 +16,13 @@ public interface ScoreRepository {
 
     //저장소에서 데이터 단일 개별조회하기
     Score findOne(long stuNum); //내가 학번 조회를 해볼게!
+
     // 데이터 석차 조회하기
+    int[] findRankbyOne(long stuNum); //내가 해당 학생의 정보를 조회해서 계산쓰해볼게~
+
 
     //저장소에서 데이터 삭제하기
+    List<Score> Delete(long stuNum); //걍 우선 만들어. 딜리트.
 
 
 

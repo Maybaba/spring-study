@@ -34,7 +34,36 @@ tasks.named('test') {
 }
 ```
 
-2. build gradle code for web-server
+2. 단위테스트 - 새로만들기 command + shosh + T
 ```
+   package com.study.springstudy.core.chap03;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class HotelSpringDITest {
+@Test
+void diTest() {
+AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(HotelConfig.class);
+Hotel hotel = context.getBean(Hotel.class);
+hotel.inform();
+
+    }
+
+}
+```
+3. 단위테스트 - HotelConfig 새로 만들기
+```angular2html
+package com.study.springstudy.core.chap04;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackages = "com.study.springstudy.core")
+public class HotelConfig {
+}
 
 ```
