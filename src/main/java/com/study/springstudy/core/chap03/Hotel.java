@@ -1,5 +1,7 @@
 package com.study.springstudy.core.chap03;
 
+import org.springframework.stereotype.Component;
+
 /*
  * @solution
  * - 먼저 DIP를 해결하기 위해 구체적인 객체 대신
@@ -12,24 +14,26 @@ package com.study.springstudy.core.chap03;
  * 제어의 역전(IoC) : 객체 생성의 제어권을 외부로 넘긴다.
  * 의존성 주입(DI) : 외부에서 생성된 객체를 주입받는 개념
  */
+ //Hotel의 객체생성 제어권을 스프링에게 넘김
 public class Hotel {
 
-    //레스토랑
+    // 레스토랑
     private Restaurant restaurant;
-    //헤드쉐프
+
+    // 헤드쉐프
     private Chef headChef;
 
-    // 유연하게 새로운 레스토랑과 쉐프를 만들 수 있다.
     public Hotel(Restaurant restaurant, Chef headChef) {
         this.restaurant = restaurant;
         this.headChef = headChef;
     }
 
-    //호텔을 소개하는 기능
+    // 호텔을 소개하는 기능
     public void inform() {
-        System.out.printf("우리 호텔의 레스토랑은 %s입니다." + " 그리고 헤드쉐프는 %s 입니다. \n",
-                restaurant.getClass().getSimpleName(),
-                headChef.getClass().getSimpleName());
+        System.out.printf("우리 호텔의 레스토랑은 %s입니다. " +
+                        "그리고 헤드쉐프는 %s입니다.\n"
+                , restaurant.getClass().getSimpleName()
+                , headChef.getClass().getSimpleName());
 
         restaurant.order();
     }

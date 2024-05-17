@@ -17,6 +17,7 @@ public class Score {
     private double average;
     private Grade grade;
 
+    //data class, java beans 라고 부르기도 한다.
     public Score(ResultSet rs) throws SQLException {
         this.stuNum = rs.getLong("stu_num");
         this.stuName = rs.getString("stu_name");
