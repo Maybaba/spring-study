@@ -10,8 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
    /*
@@ -43,11 +45,22 @@ public class ScoreController {
 
     //get
     @GetMapping("/list")
-    public String list(Model model) {
+    public String list(@RequestParam(defaultValue = "num") String sort, Model model) {  //sort param이 없을경우 기본값 설정
         System.out.println("/score/list : GET");
 
         //저장된 db 조회하기
-        List<Score> scoreList = rp.findAll();
+        List<Score> scoreList = rp.findAll(sort);
+
+
+
+//        switch (sort) {
+//            case "avg":
+//                scoreList.stream()
+//                        .sorted(Comparator.comparing())...
+//        }
+
+
+
         //수송객체에 담아서 화면에 그릴 수 있도록 model 에 전달
         model.addAttribute("sList", scoreList);
 
@@ -71,10 +84,13 @@ public class ScoreController {
 
     }
     @GetMapping("/remove") // post -> get으로 변경
-    public String remove() {
-        System.out.println("/score/remove : POST");
-        return "";
+    public String remove(@RequestParam("sn") long stuNum) {
+        System.out.println("/score/remove : GET");
+        rp.delete(stuNum);
+        //리턴 결과에 따라 삭제가 끝나면 리스트 리다이렉트
+        return "redirect:/score/list";
     }
+
     @GetMapping("/detail")
     public String detail(long stuNum, Model model) {
         //1. 상세조회를 원하는 학번을 읽기

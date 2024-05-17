@@ -51,13 +51,14 @@ public class ScoreJdbcRepository implements ScoreRepository {
         }
 
     @Override
-    public List<Score> findAll() {
+    public List<Score> findAll(String sort) {
+        //학번순, 이른순, 평균점수순으로 정렬할 경우 sort 값을 받아와 설정한다.
 
         List<Score> scoreList = new ArrayList<>();
 
         try (Connection conn = connect()) {
 
-            String sql = "SELECT * FROM tbl_score";
+            String sql = "SELECT * FROM tbl_score "+ sortCondition(sort); //조건에 따라 정렬 테이블 생성
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
@@ -73,6 +74,23 @@ public class ScoreJdbcRepository implements ScoreRepository {
         }
         return scoreList;
     }
+    private String sortCondition(String sort) {
+
+        String sortSql = "ORDER BY ";
+        switch (sort) {
+            case "num":
+                sortSql += "stu_num";
+                break;
+            case "name":
+                sortSql += "stu_name";
+                break;
+            case "avg":
+                sortSql += "average DESC";
+                break;
+        }
+        return sortSql;
+    }
+
 
 
     @Override
@@ -128,30 +146,31 @@ public class ScoreJdbcRepository implements ScoreRepository {
         return null;
     }
 
+    //delete
     @Override
-    public List<Score> Delete(long stuNum) {
-        List<Score> scoreList = new ArrayList<>();
+    public boolean delete(long stuNum) {
+            try (Connection conn = connect()) {
 
-        try (Connection conn = connect()) {
+                String sql = "DELETE FROM tbl_score WHERE stu_num = ?";
 
-            String sql = "SELECT * FROM tbl_score where 삭제버튼을 누른 행의 스튜넘 리턴하기";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setLong(1, stuNum);
 
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+                int result = pstmt.executeUpdate();
 
-            ResultSet rs = pstmt.executeQuery();
+                if (result == 1) return true;
 
-            while (rs.next()) {
-                Score s = new Score(rs);
-                scoreList.add(s);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            return false;
         }
-        return scoreList; //-> 해당 열 삭제한 후 값을 반환해서 리다이렉트 list로 걸기
-    }
 
-    private Connection connect() throws SQLException {
+
+
+
+        private Connection connect() throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }
 }
