@@ -11,8 +11,8 @@ import java.util.List;
 
 
 // 구체적인 함수 설명해. 난 마리아 디비에 설정할거야.
-@Component //이제 스프링이 관리할겨.
-@Repository //스프링이 관리 -> 저장소를 관리
+//@Component //이제 스프링이 관리할겨.
+//@Repository //스프링이 관리 -> 저장소를 관리
 public class ScoreJdbcRepository implements ScoreRepository {
 
     private String url = "jdbc:mariadb://localhost:3306/spring5";
