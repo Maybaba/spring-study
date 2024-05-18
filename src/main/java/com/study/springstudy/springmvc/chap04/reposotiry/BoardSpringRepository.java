@@ -17,7 +17,7 @@ public class BoardSpringRepository implements BoardRepository {
     @Override
     public List<Board> findAll() {
         String sql = "SELECT * FROM tbl_board "; //+ sortStatement(sort);
-        return template.query(sql, (rs, n) -> new Board()); //새로운 내용 추가해서 리턴하기
+        return template.query(sql, (rs, n) -> new Board(rs)); //새로운 내용 추가해서 리턴하기
         }
 
     @Override
@@ -27,6 +27,8 @@ public class BoardSpringRepository implements BoardRepository {
 
     @Override
     public boolean save(Board board) { //저장 되는지 불린값으로 확인
+
+
             String sql = "INSERT INTO tbl_board " +
                     "(title, content, writer)" +
                     "VALUES(?,?,?)";

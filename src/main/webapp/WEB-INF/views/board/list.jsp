@@ -30,26 +30,27 @@
     <h1 class="main-title">꾸러기 게시판</h1>
     <button class="add-btn">새 글 쓰기</button>
   </div>
-
+<%--  리스트에 있는 걸 모두 해당 html로 감싼 뒤, 보여주기--%>
+  <c:forEach var="d" items="${boardList}">
   <div class="card-container">
 
     <div class="card-wrapper">
-      <section class="card" data-bno="1">
+      <section class="card" data-bno=${d.boardNo}>
         <div class="card-title-wrapper">
-          <h2 class="card-title">메롱메롱</h2>
+          <h2 class="card-title">${d.title}</h2>
           <div class="time-view-wrapper">
             <div class="time">
               <i class="far fa-clock"></i>
-              2023-03-31</div>
+                ${d.regDateTime}</div>
             <div class="view">
               <i class="fas fa-eye"></i>
-              <span class="view-count">0</span>
+              <span class="view-count">${d.viewCount}</span>
             </div>
           </div>
         </div>
         <div class="card-content">
 
-          djsfldjsfsdf
+         ${d.content}
 
         </div>
       </section>
@@ -60,10 +61,11 @@
       </div>
     </div>
 
-
   </div>
+  </c:forEach>
 
 </div>
+
 
 <!-- 모달 창 -->
 <div class="modal" id="modal">
@@ -127,53 +129,53 @@
 
   //========== 게시물 목록 스크립트 ============//
 
+  // 아래 함수는 마우스 다운 이벤트 발생 시 카드의 아이디를 제거합니다.
   function removeDown(e) {
-    if (!e.target.matches('.card-container *')) return;
-    const $targetCard = e.target.closest('.card-wrapper');
-    $targetCard?.removeAttribute('id', 'card-down');
+    if (!e.target.matches('.card-container *')) return; // 이벤트가 카드 내부에서 발생하지 않으면 종료합니다.
+    const $targetCard = e.target.closest('.card-wrapper'); // 클릭된 카드 요소를 찾습니다.
+    $targetCard?.removeAttribute('id', 'card-down'); // 카드의 아이디 속성을 제거합니다.
   }
 
+  // 아래 함수는 호버 이벤트 발생 시 카드의 호버 클래스와 삭제 버튼의 투명도를 조절합니다.
   function removeHover(e) {
-    if (!e.target.matches('.card-container *')) return;
-    const $targetCard = e.target.closest('.card');
-    $targetCard?.classList.remove('card-hover');
+    if (!e.target.matches('.card-container *')) return; // 이벤트가 카드 내부에서 발생하지 않으면 종료합니다.
+    const $targetCard = e.target.closest('.card'); // 호버 이벤트가 발생한 카드 요소를 찾습니다.
+    $targetCard?.classList.remove('card-hover'); // 카드의 호버 클래스를 제거합니다.
 
+    // 삭제 버튼을 찾아 투명도를 0으로 조절합니다.
     const $delBtn = e.target.closest('.card-wrapper')?.querySelector('.del-btn');
     $delBtn.style.opacity = '0';
   }
 
-
-
+  // 카드 컨테이너에 마우스 오버 이벤트를 추가합니다.
   $cardContainer.onmouseover = e => {
+    if (!e.target.matches('.card-container *')) return; // 이벤트가 카드 내부에서 발생하지 않으면 종료합니다.
+    const $targetCard = e.target.closest('.card'); // 호버 이벤트가 발생한 카드 요소를 찾습니다.
+    $targetCard?.classList.add('card-hover'); // 카드에 호버 클래스를 추가합니다.
 
-    if (!e.target.matches('.card-container *')) return;
-
-    const $targetCard = e.target.closest('.card');
-    $targetCard?.classList.add('card-hover');
-
+    // 삭제 버튼을 찾아 투명도를 1로 조절합니다.
     const $delBtn = e.target.closest('.card-wrapper')?.querySelector('.del-btn');
     $delBtn.style.opacity = '1';
   }
 
+  // 카드 컨테이너에 마우스 다운 이벤트를 추가합니다.
   $cardContainer.onmousedown = e => {
-
-    if (e.target.matches('.card-container .card-btn-group *')) return;
-
-    const $targetCard = e.target.closest('.card-wrapper');
-    $targetCard?.setAttribute('id', 'card-down');
+    if (e.target.matches('.card-container .card-btn-group *')) return; // 삭제 버튼을 클릭한 경우 종료합니다.
+    const $targetCard = e.target.closest('.card-wrapper'); // 마우스 다운 이벤트가 발생한 카드 요소를 찾습니다.
+    $targetCard?.setAttribute('id', 'card-down'); // 카드에 아이디를 추가합니다.
   };
 
+  // 카드 컨테이너에 마우스 업 이벤트를 추가하고, removeDown 함수를 호출합니다.
   $cardContainer.onmouseup = removeDown;
 
+  // 카드 컨테이너에 마우스 아웃 이벤트를 추가하고, removeDown과 removeHover 함수를 호출합니다.
   $cardContainer.addEventListener('mouseout', removeDown);
   $cardContainer.addEventListener('mouseout', removeHover);
 
-  // write button event
+  // 'write' 버튼에 클릭 이벤트를 추가하고, 페이지를 '/board/write'로 이동합니다.
   document.querySelector('.add-btn').onclick = e => {
     window.location.href = '/board/write';
   };
-
-
 
 </script>
 
