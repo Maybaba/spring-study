@@ -1,7 +1,7 @@
 package com.study.springstudy.webservlet.chap02.v4.controller;
 
 import com.study.springstudy.webservlet.MemberMemoryRepo;
-import com.study.springstudy.webservlet.Model;
+import com.study.springstudy.webservlet.MyModel;
 import com.study.springstudy.webservlet.entity.Member;
 
 import java.util.Map;
@@ -10,7 +10,7 @@ public class SaveController implements ControllerV4{
 
     MemberMemoryRepo repo = MemberMemoryRepo.getInstance();
     @Override
-    public String process(Map<String, String> paramMap, Model model) {
+    public String process(Map<String, String> paramMap, MyModel myModel) {
         //1. 회원가입 폼에서 넘어온 데이터 읽기 ( 계정명, 비밀번호, 이름 )
         String account = paramMap.get("account");
         String password = paramMap.get("password");
