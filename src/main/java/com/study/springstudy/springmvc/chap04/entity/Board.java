@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -23,12 +24,12 @@ public class Board {
 
     //data class, java beans 라고 부르기도 한다.
     public Board(ResultSet rs) throws SQLException {
-        this.boardNo = rs.getInt("boardNo");
+        this.boardNo = rs.getInt("board_no");
         this.title = rs.getString("title");
         this.content = rs.getString("content");
         this.writer = rs.getString("writer");
-        this.viewCount = rs.getInt("viewCount");
-        //regsate는 언제?
+        this.viewCount = rs.getInt("view_count");
+        this.regDateTime = rs.getTimestamp("reg_date_time").toLocalDateTime();
     }
     //wrap board
     public Board(BoardPostDto dto) {

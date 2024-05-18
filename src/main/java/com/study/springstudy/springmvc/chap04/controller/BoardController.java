@@ -25,6 +25,7 @@ public class BoardController {
     public String list(Model model) {  //@RequestParam(defaultValue = "num") String sort, Model model
         System.out.println("/board/list : GET");
         List<Board> boardList = rp.findAll();
+        boardList.forEach(System.out::println); // 추가된 로그 출력
         model.addAttribute("boardList", boardList);
         return "/board/list";
     }
@@ -48,6 +49,7 @@ public class BoardController {
         Board bd = new Board(dto);
         //db 저장 위임
         rp.save(bd);
+
         return "redirect:/board/list";
     }
 

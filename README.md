@@ -1,5 +1,5 @@
 # spring server settings 🎔
-1. build gragle code
+build gragle code
 
 ```
  plugins {
@@ -27,6 +27,16 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    
+      //jsp 라이브러리 추가 dependency 안에 있어야 함!
+    implementation 'javax.servlet:jstl'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+
+    //마리아디비 커넥터
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.3.3'
+
+    //SpringJDBC 모듈
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 }
 
 tasks.named('test') {
@@ -34,45 +44,7 @@ tasks.named('test') {
 }
 ```
 
-2. unit test - new test create... command + shosh + T
-```
-   package com.study.springstudy.core.chap03;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class HotelSpringDITest {
-@Test
-void diTest() {
-AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(HotelConfig.class);
-Hotel hotel = context.getBean(Hotel.class);
-hotel.inform();
-
-    }
-
-}
-```
-3. unit test- new create... HotelConfig 
-```angular2html
-package com.study.springstudy.core.chap04;
-
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
-@ComponentScan(basePackages = "com.study.springstudy.core")
-public class HotelConfig {
-}
-
-```
-4. 라이브러리 Spring JDBC 모듈 추가
-```angular2html
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-```
-
-**바로 톰캣 실행하면 아래와 같은 에러 발생**
+**톰캣 실행 - 아래와 같은 에러 발생**
 
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Failed to determine a suitable driver class
 2024-05-17 11:15:25.073  INFO 14822 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
@@ -104,18 +76,18 @@ Process finished with exit code 1
 
 **데이터베이스 기본설정 잡기**
 * application.properties에 setting code 추가
-* 포트번호, 호스트, 비밀번호 다시한번 확인
+* 포트번호, 스키마, 비밀번호 다시한번 확인
 ```angular2html
 # datasource setting
 # uri가 정확하지 않으면 (예를들어 db 이름이 없는 이름일 경우)
-spring.datasource.url=jdbc:mariadb://localhost:3306/spring
-spring.datasource.username=root
-spring.datasource.password=1234
+spring.datasource.url=jdbc:mariadb://localhost:3306??/spring??
+spring.datasource.username=??
+spring.datasource.password=??
 spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
 ```
 **unit test intelliJ Live template settings**
 ![img.png](img.png)
-editer -> live template -> select java -> add live template -> adjust template name -> add code
+editer -> live template -> select java -> add live template -> adjust template name -> add code -> **Define everywhere**
 ```angular2html
 
 @Test
