@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
@@ -21,7 +23,7 @@ class BoardSpringRepositoryTest {
     //각 테스트 전에 공통으로 실행할 코드
     @BeforeEach
     void bulkInsert() {
-        for (int i = 0; i <20 ; i++) {
+        for (int i = 0; i <5 ; i++) {
             Board board = new Board();
             board.setTitle("test " + i);
             board.setContent("content " + i);
@@ -45,6 +47,19 @@ class BoardSpringRepositoryTest {
 
         // then : 테스트 결과 단언
         assertEquals(true, result, "데이터 베이스에 입력한 게시글이 저장되었습니다.");
+    }
+
+    @Test
+    @DisplayName(" 데이터가 반드시 존재해야 한다. ")
+    void findAllTest () {
+        //given
+
+        //when
+        List<Board> boardList = boardSpringRepository.findAll();
+
+        //then
+        assertNotNull(boardList, "게시판 데이터 리스트가 null이 아닙니다.");
+        assertEquals(7, boardList.size(), "게시판 데이터 리스트의 크기가 7이어야 합니다. ");
     }
 
 }
