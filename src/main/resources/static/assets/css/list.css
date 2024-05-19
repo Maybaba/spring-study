@@ -43,6 +43,7 @@
     margin-bottom: 100px;
     cursor: pointer;
     transition: 0.5s;
+    position: relative;
 }
 
 .card-container .card {
