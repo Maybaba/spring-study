@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 
 @Controller
@@ -25,17 +27,21 @@ public class BoardController {
     public String list(Model model) {  //@RequestParam(defaultValue = "num") String sort, Model model
         System.out.println("/board/list : GET");
         List<Board> boardList = rp.findAll();
-        boardList.forEach(System.out::println); // 추가된 로그 출력
+        boardList.forEach(System.out::println); // 데이터 전달 로그 출력
         model.addAttribute("boardList", boardList);
         return "/board/list";
     }
+
+
     //2. 글쓰기 양식 화면 요청 (/board/write : GET)
     @GetMapping("/write")
     public String textView() {
         System.out.println("/board/write");
 
+
         return "/board/write";
     }
+
 
     //3. 게시글 등록 요청 (/board/write : POST)
     // -> 목록조회 요청 리다이렉션
@@ -46,22 +52,35 @@ public class BoardController {
         System.out.println("board = " + dto);
 
         //데이터베이스저장
-        Board bd = new Board(dto);
+        Board board = new Board(dto);
         //db 저장 위임
-        rp.save(bd);
+        rp.save(board);
 
         return "redirect:/board/list";
     }
 
+
     //4. 게시글 삭제요청 (/board/delete : GET)
     @GetMapping("/delete")
-    public String delete() {
-        return "redirect:/board/write";
+    public String delete(@RequestParam("bno") int bno) {
+        System.out.println("/board/delete : GET");
+
+        rp.delete(bno);
+
+        return "redirect:/board/list";
     }
+
 
     //5. 게시글 상세 조회 (/board/detail : GET)
     @GetMapping("/detail")
-    public String detail() {
+    public String detail(@RequestParam("bno") int bno, Model model) {
+        System.out.println("/board/detail : GET");
+
+        Board board = rp.findOne(bno);
+        System.out.println(board);
+
+        model.addAttribute("b", board);
+
         return "/board/detail";
     }
 }

@@ -22,12 +22,15 @@ public class BoardSpringRepository implements BoardRepository {
 
     @Override
     public Board findOne(int boardNo) {
-        return null;
+        String selectSql = "SELECT *, view_count + 1 AS updated_view_count FROM tbl_board WHERE board_no = ?";
+        String updateSql = "UPDATE tbl_board SET view_count = view_count + 1 WHERE board_no = ?";
+
+        template.update(updateSql, boardNo);
+        return template.queryForObject(selectSql, (rs, n) -> new Board(rs), boardNo);
     }
 
     @Override
     public boolean save(Board board) { //저장 되는지 불린값으로 확인
-
 
             String sql = "INSERT INTO tbl_board " +
                     "(title, content, writer)" +
@@ -39,6 +42,7 @@ public class BoardSpringRepository implements BoardRepository {
 
     @Override
     public boolean delete(int boardNo) {
-        return false;
+        String sql = "DELETE FROM tbl_board WHERE board_no = ?";
+        return template.update(sql, boardNo) == 1;
     }
 }
