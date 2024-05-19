@@ -107,13 +107,23 @@
   </style>
 </head>
 <body>
+<%--파라미터가 안읽어지는 문제 -> model에서 전달한 ${attributeName.parameter} 로 수정 --%>
+<%--기존 -> ${parameter}--%>
 <div id="wrap" class="form-container">
-  <h1>${d.boardNo}번 게시물 </h1>
-  <h2># 작성일자: ${d.regDateTime}</h2>
+  <h1>${b.boardNo}번 게시물 </h1>
+  <h2># 작성일자: ${b.regDateTime}</h2>
   <label for="title">제목</label>
-  <input type="text" id="title" name="title" value=${d.title} readonly>
+
+  <%-- 정상적으로 출력되지 않는 문제 : JSP input 에서 텍스트를 html특스문자로 처리하는 경우가 있음 ->
+   특수문자에 대한 escape 처리를 해주어야 함 -> <c:out>태그 사용해서--%>
+
+  <input type="text" id="title" name="title" value="<c:out value="${b.title}" />" readonly>
+
+<%--  ${b.title} &lt;%&ndash;정상적으로 출력&ndash;%&gt;--%>
+
+
   <label for="content">내용</label>
-  <div id="content">${d.content}</div>
+  <div id="content">${b.content}</div>
   <div class="buttons">
     <button class="list-btn" type="button" onclick="window.location.href='/board/list'">목록</button>
   </div>

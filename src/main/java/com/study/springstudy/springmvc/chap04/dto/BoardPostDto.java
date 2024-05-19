@@ -10,9 +10,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class BoardPostDto {
-    private int boardNo;
     private String title; //8글자 이상 함축
     private String content; //중간부터 가려짐
-    private int viewCount;
-    private int regDateTime;
+    private String writer;
 }

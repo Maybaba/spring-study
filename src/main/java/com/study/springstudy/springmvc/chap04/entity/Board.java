@@ -32,11 +32,10 @@ public class Board {
         this.regDateTime = rs.getTimestamp("reg_date_time").toLocalDateTime();
     }
     //wrap board
-    public Board(BoardPostDto dto) {
-        this.boardNo = dto.getBoardNo();
+    public Board(BoardPostDto dto){
         this.title = dto.getTitle();
         this.content = dto.getContent();
-        this.viewCount = dto.getViewCount();
+        this.writer = dto.getWriter();
     }
 
 }
