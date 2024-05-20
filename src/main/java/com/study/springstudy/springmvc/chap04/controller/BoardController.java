@@ -1,8 +1,10 @@
 package com.study.springstudy.springmvc.chap04.controller;
 
 import com.study.springstudy.springmvc.chap04.BoardRepository;
+import com.study.springstudy.springmvc.chap04.dto.BoardListResponseDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardPostDto;
 import com.study.springstudy.springmvc.chap04.entity.Board;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
@@ -11,10 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/board")
+
 public class BoardController {
     private BoardRepository rp;
     @Autowired
@@ -26,9 +31,24 @@ public class BoardController {
     @GetMapping("/list")
     public String list(Model model) {  //@RequestParam(defaultValue = "num") String sort, Model model
         System.out.println("/board/list : GET");
+
         List<Board> boardList = rp.findAll();
         boardList.forEach(System.out::println); // 데이터 전달 로그 출력
+
+        List<BoardListResponseDto> dtoList = new ArrayList<>();
+
+        for (Board b : boardList) {
+            BoardListResponseDto d = new BoardListResponseDto(b);
+            dtoList.add(d);
+        }
+//
+//        List<Object> dtoList = boardList.stream()
+//                .map(b -> new BoardListResponseDto(b))
+//                .collect(Collectors.toList());
+
+
         model.addAttribute("boardList", boardList);
+
         return "/board/list";
     }
 
@@ -52,9 +72,13 @@ public class BoardController {
         System.out.println("board = " + dto);
 
         //데이터베이스저장
-        Board board = new Board(dto);
+//        Board board = new Board(dto);
+        Board b = dto.toEntity();
+//        board.setBoardNo(dto.);
+
         //db 저장 위임
-        rp.save(board);
+//        rp.save(board);
+        rp.save(b);
 
         return "redirect:/board/list";
     }
