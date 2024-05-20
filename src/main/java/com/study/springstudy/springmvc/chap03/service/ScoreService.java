@@ -8,7 +8,9 @@ controller - service - repository
  */
 
 import com.study.springstudy.springmvc.chap03.ScoreRepository;
+import com.study.springstudy.springmvc.chap03.dto.ScoreDetailResponseDto;
 import com.study.springstudy.springmvc.chap03.dto.ScoreListResponseDto;
+import com.study.springstudy.springmvc.chap03.dto.ScoreModifyDto;
 import com.study.springstudy.springmvc.chap03.dto.ScorePostDto;
 import com.study.springstudy.springmvc.chap03.entity.Score;
 import lombok.RequiredArgsConstructor;
@@ -28,25 +30,40 @@ public class ScoreService {
     // 불필요한 정보까지 화면으로 넘어갈 수 있기 때문에
     //숨길건 숨기고 뺄건 빼는 데이터 가공을 처리한다.
 
-   public List<ScoreListResponseDto> getList(String sort) {
-        List<Score> scoreList = repo.findAll(sort); //정제되지 않은 레포지토리
-       return scoreList.stream()
-               .map(s -> new ScoreListResponseDto(s))
-               .collect(Collectors.toList());
-    }
-    //저장 중간처리
-    public boolean insert(ScorePostDto dto) {
-       return repo.save(new Score(dto));
+    public List<ScoreListResponseDto> getList(String sort) {
+        List<Score> scoreList = repo.findAll(sort);
+        return scoreList.stream()
+                .map(s -> new ScoreListResponseDto(s))
+                .collect(Collectors.toList());
     }
 
-    //삭제 중간처리
+    // 저장 중간처리
+    public boolean insert(ScorePostDto dto) {
+        return repo.save(new Score(dto));
+    }
+
+    // 삭제 중간처리
     public boolean deleteScore(long stuNum) {
-       return repo.delete(stuNum);
+        return repo.delete(stuNum);
     }
 
     // 개별조회 중간처리
-    public Score retrieve(long stuNum) {
-        return repo.findOne(stuNum);
+    public ScoreDetailResponseDto retrieve(long stuNum) {
+        Score score = repo.findOne(stuNum);
+
+        //2. DB 에 상세 조회 요청
+        System.out.println("/score/detail : GET");
+        int[] result = repo.findRankbyOne(stuNum);
+
+        ScoreDetailResponseDto sdto = new ScoreDetailResponseDto(score, result[0], result[1]);
+
+        return sdto;
     }
+    //modified date update
+    //dto transfer to entity
+    public void update(ScoreModifyDto dto) {
+        repo.updateScore(new Score(dto));
+    }
+
 
 }
