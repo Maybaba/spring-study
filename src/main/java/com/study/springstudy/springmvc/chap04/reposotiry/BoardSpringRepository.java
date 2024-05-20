@@ -54,4 +54,12 @@ public class BoardSpringRepository implements BoardRepository {
         String sql = "DELETE FROM tbl_board WHERE board_no = ?";
         return template.update(sql, boardNo) == 1;
     }
+
+//    @Override
+//    public Board updateView(int boardNo) { // 여기에서 메서드를 따로 만들어서 기능을 나눈다
+//        String sql = "UPDATE tbl_board " +
+//                "SET view_count = view_count + 1 " +
+//                "WHERE board_no = ?";
+//        template.update(sql, boardNo); //한 계정에 대해 조회수를 처리하는 것...
+//    }
 }

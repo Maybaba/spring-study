@@ -179,8 +179,6 @@
       $cardContainer.addEventListener('mouseout', removeHover);
     });
 
-
-
     // 전역 이벤트로 모달창 닫기
     window.addEventListener('click', e => {
       if (e.target === modal) {
@@ -205,17 +203,16 @@
       return colors[randomIndex];
     }
 
-    function getRandomMonotoneColor() {
-      const value = Math.floor(Math.random() * 256);
-      const color = `rgb(${value}, ${value}, ${value})`;
-      return color;
-    }
-
     //카드의 색상 지정하기
     document.querySelectorAll('.card-wrapper').forEach(card => {
       const cardTitleWrapper = card.querySelector('.card-title-wrapper');
       cardTitleWrapper.style.backgroundColor = getRandomColor();
     });
+    document.querySelectorAll('.card-hover.card').forEach(card => {
+      const cardTitleWrapper = card.querySelector('.card-wrapper');
+      cardTitleWrapper.style.backgroundColor = getRandomColor();
+    });
+
 
   });
 </script>

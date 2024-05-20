@@ -18,5 +18,8 @@ public interface BoardRepository {
     //게시글 삭제
     boolean delete(int boardNo);
 
+    //조회수 상승
+//    Board updateView(int boardNo);
+
 
 }

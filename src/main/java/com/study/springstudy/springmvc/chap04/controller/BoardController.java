@@ -1,6 +1,7 @@
 package com.study.springstudy.springmvc.chap04.controller;
 
 import com.study.springstudy.springmvc.chap04.BoardRepository;
+import com.study.springstudy.springmvc.chap04.dto.BoardDetailResponseDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardListResponseDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardPostDto;
 import com.study.springstudy.springmvc.chap04.entity.Board;
@@ -101,10 +102,16 @@ public class BoardController {
         System.out.println("/board/detail : GET");
 
         Board board = rp.findOne(bno);
+
         System.out.println(board);
 
-        model.addAttribute("b", board);
+        //여기도 상세조회하고싶은 글번호를 읽은 뒤 해당 데이터 글번호 조회하기
+
+        //조회한 데이터 보내기
+        model.addAttribute("b", new BoardDetailResponseDto(board));
 
         return "/board/detail";
     }
+
+
 }

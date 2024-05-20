@@ -19,6 +19,7 @@ public class BoardListResponseDto {
     ...
     }
      */
+    private int bno;
     private String shortTitle; //5글자 이상 줄임 처리된 제목 -> 클라이언트 개발자와 같이 정하는 필드명
     private String shortContent;//30글자 이상 줄임 처리된 내용
     private String date; //포맷팅된 날짜 문자열
@@ -26,6 +27,7 @@ public class BoardListResponseDto {
 
     //엔터티를 DTO로 변환하는 생성자
     public BoardListResponseDto(Board b) {
+        this.bno = b.getBoardNo();
         this.shortTitle = makeShortTitle(b.getTitle());
         this.shortContent = makeShortContent(b.getContent());
         this.view = b.getViewCount();
