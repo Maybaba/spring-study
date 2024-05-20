@@ -1,9 +1,12 @@
 package com.study.springstudy.springmvc.chap03.controller;
 
 import com.study.springstudy.springmvc.chap03.ScoreRepository;
+import com.study.springstudy.springmvc.chap03.dto.ScoreListResponseDto;
 import com.study.springstudy.springmvc.chap03.dto.ScorePostDto;
 import com.study.springstudy.springmvc.chap03.entity.Score;
 import com.study.springstudy.springmvc.chap03.repository.*;
+import com.study.springstudy.springmvc.chap03.service.ScoreService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
    /*
     # 요청 URL
@@ -32,12 +36,15 @@ import java.util.List;
  */
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/score") //score로 시작하는 요청
 public class ScoreController {
 
     //db 처리 전담하는 의존 객체 설정 ; 의존 시 추상적인 인터페이스에 의존한다.
     //그래서 인터페이스에 의존하도록 한다.
-    private ScoreRepository rp = new ScoreMemoryRepository();
+    private final ScoreRepository rp;
+    private final ScoreService service;
+
     @Autowired
     public ScoreController(ScoreRepository repository) {
         this.rp = repository;
@@ -45,25 +52,22 @@ public class ScoreController {
 
     //get
     @GetMapping("/list")
-    public String list(@RequestParam(defaultValue = "num") String sort, Model model) {  //sort param이 없을경우 기본값 설정
+    public String list(@RequestParam(defaultValue = "Num") String sort, Model model) {  //sort param이 없을경우 기본값 설정
         System.out.println("/score/list : GET");
 
         //저장된 db 조회하기
         List<Score> scoreList = rp.findAll(sort);
 
+        List<ScoreListResponseDto> dtos = scoreList.stream()
+                .map(s -> new ScoreListResponseDto(s))
+                        .collect(Collectors.toList());
 
-
+        model.addAttribute("sList", dtos);
 //        switch (sort) {
 //            case "avg":
 //                scoreList.stream()
 //                        .sorted(Comparator.comparing())...
 //        }
-
-
-
-        //수송객체에 담아서 화면에 그릴 수 있도록 model 에 전달
-        model.addAttribute("sList", scoreList);
-
         return "/score/score-list";
     }
 
