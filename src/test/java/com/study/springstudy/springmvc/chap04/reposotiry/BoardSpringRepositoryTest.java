@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Rollback //(false)테스트이후에도 트랜잭션을 메모리 유지되도록 설정하기
 class BoardSpringRepositoryTest {
 
-    @Autowired
+    @Autowired //생성자 주입이 안되므로 필드 주입으로 ㄱ ㄱ
     BoardSpringRepository boardSpringRepository;
 
     //각 테스트 전에 공통으로 실행할 코드
@@ -32,21 +32,24 @@ class BoardSpringRepositoryTest {
             boardSpringRepository.save(board);
         }
     }
+
+
     @Test
     @DisplayName("게시판 데이터를 입력하면 데이터베이스에 반드시 저장되어야 한다.")
     void saveTest() {
         // gwt 패턴
         // given : 테스트에 주어질 데이터
         Board board = new Board();
-        board.setTitle("new title");
-        board.setContent("new content");
-        board.setWriter("new writer");
+        board.setTitle("new new title");
+        board.setContent("new new content");
+        board.setWriter("new new writer");
 
         // when : 테스트 상황
         boolean result = boardSpringRepository.save(board);
 
         // then : 테스트 결과 단언
-        assertEquals(true, result, "데이터 베이스에 입력한 게시글이 저장되었습니다.");
+        assertTrue(result);
+        assertEquals(8, boardSpringRepository.findAll().size(), "데이터 베이스에 입력한 게시글이 저장되었습니다.");
     }
 
     @Test
@@ -58,6 +61,7 @@ class BoardSpringRepositoryTest {
         List<Board> boardList = boardSpringRepository.findAll();
 
         //then
+        boardList.forEach(System.out::println);
         assertNotNull(boardList, "게시판 데이터 리스트가 null이 아닙니다.");
         assertEquals(7, boardList.size(), "게시판 데이터 리스트의 크기가 7이어야 합니다. ");
     }
@@ -78,12 +82,14 @@ class BoardSpringRepositoryTest {
     @DisplayName("특정 boardNo 키값의 value를 삭제해야한다. ")
     void deleteTsst() {
         //given
+        int boardNo = boardSpringRepository.findAll().get(0).getBoardNo();
 
         //when
-        boolean board = boardSpringRepository.delete(1);
+        boolean flag = boardSpringRepository.delete(boardNo);
 
         //then
-        assertEquals(true, board);
+        assertTrue(flag);
+        assertEquals(6,boardSpringRepository.findAll().size());
     }
 
 }

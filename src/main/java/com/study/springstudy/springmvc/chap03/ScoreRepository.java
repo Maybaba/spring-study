@@ -26,6 +26,10 @@ public interface ScoreRepository {
         return false;
     }; //걍 우선 만들어. 딜리트.
 
+    //저장소에서 국영수 점수 수정하기
+    default boolean updateScore(Score s) {
+        return false;
+    }
 
 
 

@@ -29,7 +29,9 @@
   <div class="main-title-wrapper">
     <h1 class="main-title">꾸러기 게시판</h1>
     <button class="add-btn">새 글 쓰기</button>
+
   </div>
+
 <%--  리스트에 있는 걸 모두 해당 html로 감싼 뒤, 보여주기--%>
   <c:forEach var="d" items="${boardList}">
   <div class="card-container">
@@ -83,9 +85,14 @@
 <%--2. 버튼 누르는 이벤트리스너 함수 forEach($cardContainer =>) 로 nodeList 형식에 맞게 배열순회 적용하여 이벤트 추가--%>
 
 <%--하나의 동일한 카드 디자인이 세로로 추가되는 문제해결--%>
-1.
 
 <script>
+
+  // 'write' 버튼에 클릭 이벤트를 추가하고, 페이지를 '/board/write'로 이동합니다.
+  document.querySelector('.add-btn').onclick = e => {
+    window.location.href = '/board/write';
+  };
+
   document.addEventListener('DOMContentLoaded', () => {
     const $cardContainers = document.querySelectorAll('.card-container');
 
@@ -172,11 +179,6 @@
       $cardContainer.addEventListener('mouseout', removeHover);
     });
 
-    // 'write' 버튼에 클릭 이벤트를 추가하고, 페이지를 '/board/write'로 이동합니다.
-    document.querySelector('.add-btn').onclick = e => {
-      window.location.href = '/board/write';
-    };
-
     // 전역 이벤트로 모달창 닫기
     window.addEventListener('click', e => {
       if (e.target === modal) {
@@ -201,17 +203,16 @@
       return colors[randomIndex];
     }
 
-    function getRandomMonotoneColor() {
-      const value = Math.floor(Math.random() * 256);
-      const color = `rgb(${value}, ${value}, ${value})`;
-      return color;
-    }
-
     //카드의 색상 지정하기
     document.querySelectorAll('.card-wrapper').forEach(card => {
       const cardTitleWrapper = card.querySelector('.card-title-wrapper');
       cardTitleWrapper.style.backgroundColor = getRandomColor();
     });
+    document.querySelectorAll('.card-hover.card').forEach(card => {
+      const cardTitleWrapper = card.querySelector('.card-wrapper');
+      cardTitleWrapper.style.backgroundColor = getRandomColor();
+    });
+
 
   });
 </script>

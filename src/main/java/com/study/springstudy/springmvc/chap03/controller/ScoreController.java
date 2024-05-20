@@ -1,9 +1,14 @@
 package com.study.springstudy.springmvc.chap03.controller;
 
 import com.study.springstudy.springmvc.chap03.ScoreRepository;
+import com.study.springstudy.springmvc.chap03.dto.ScoreDetailResponseDto;
+import com.study.springstudy.springmvc.chap03.dto.ScoreListResponseDto;
+import com.study.springstudy.springmvc.chap03.dto.ScoreModifyDto;
 import com.study.springstudy.springmvc.chap03.dto.ScorePostDto;
 import com.study.springstudy.springmvc.chap03.entity.Score;
 import com.study.springstudy.springmvc.chap03.repository.*;
+import com.study.springstudy.springmvc.chap03.service.ScoreService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
    /*
     # 요청 URL
@@ -32,39 +38,27 @@ import java.util.List;
  */
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/score") //score로 시작하는 요청
 public class ScoreController {
 
-    //db 처리 전담하는 의존 객체 설정 ; 의존 시 추상적인 인터페이스에 의존한다.
-    //그래서 인터페이스에 의존하도록 한다.
-    private ScoreRepository rp = new ScoreMemoryRepository();
-    @Autowired
-    public ScoreController(ScoreRepository repository) {
-        this.rp = repository;
-    }
+    private final ScoreSpringJdbcRepository rp;
+    private final ScoreService service;
 
     //get
     @GetMapping("/list")
     public String list(@RequestParam(defaultValue = "num") String sort, Model model) {  //sort param이 없을경우 기본값 설정
         System.out.println("/score/list : GET");
 
-        //저장된 db 조회하기
-        List<Score> scoreList = rp.findAll(sort);
 
+//        List<Score> scoreList = rp.findAll(sort);
 
+        //저장된 dto db 조회하기
+        List<ScoreListResponseDto> dtos = service.getList(sort);
+        model.addAttribute("sList", dtos);
 
-//        switch (sort) {
-//            case "avg":
-//                scoreList.stream()
-//                        .sorted(Comparator.comparing())...
-//        }
+        return "score/score-list";
 
-
-
-        //수송객체에 담아서 화면에 그릴 수 있도록 model 에 전달
-        model.addAttribute("sList", scoreList);
-
-        return "/score/score-list";
     }
 
     //POST
@@ -78,8 +72,6 @@ public class ScoreController {
         //db 저장 위임
         rp.save(score);
 
-        //다시 조회로 돌아가야 저장된 데이터를 볼 수 있음
-        //포워딩이 아닌 리다이렉트로 재요청을 넣어야 새롭게 디비 조회 가능
         return "redirect:/score/list";
 
     }
@@ -94,17 +86,41 @@ public class ScoreController {
     @GetMapping("/detail")
     public String detail(long stuNum, Model model) {
         //1. 상세조회를 원하는 학번을 읽기
-        Score scoreDetail = rp.findOne(stuNum);
+        Score score = rp.findOne(stuNum);
 
         //2. DB 에 상세 조회 요청
-        model.addAttribute("s", scoreDetail);
+        model.addAttribute("s", score);
         System.out.println("/score/detail : GET");
         int[] result = rp.findRankbyOne(stuNum);
-        model.addAttribute("rank", result[0]);
-        model.addAttribute("count", result[1]);
+//        model.addAttribute("rank", result[0]);
+//        model.addAttribute("count", result[1]);
+
+        ScoreDetailResponseDto sdto = service.retrieve(stuNum);
+
+        model.addAttribute("s",sdto);
 
         //4 . DB 에서 조회한 회원정보 JSP에게 전달
         return "score/score-detail";
+    }
+
+    //수정 화면 열기 요청
+    @GetMapping("/modify")
+    public String modify(long stuNum, Model model) {
+        ScoreDetailResponseDto dto = service.retrieve(stuNum);
+        model.addAttribute("s", dto);
+        return "score/score-modify";
+    }
+
+
+    //수정 데이터 반영 요청
+    @PostMapping("/modify")
+    public String modifySave(ScoreModifyDto dto) {
+        //수정을 원하는 새로운 데이터 읽기
+        System.out.println("dto = " + dto);
+        //서비스에게 수정 위임
+        service.update(dto);
+
+        return "redirect:/score/detail?stuNum=" + dto.getStuNum();
     }
 
 
