@@ -1,4 +1,4 @@
-package com.study.springstudy.springmvc.chap03;
+package com.study.springstudy.springmvc.chap03.repository;
 
 import com.study.springstudy.springmvc.chap03.entity.Score;
 

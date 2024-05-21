@@ -1,42 +1,59 @@
-package com.study.springstudy.springmvc.chap04.reposotiry;
+package com.study.springstudy.springmvc.chap04.repository;
 
-import com.study.springstudy.springmvc.chap04.BoardRepository;
 import com.study.springstudy.springmvc.chap04.entity.Board;
+import com.study.springstudy.springmvc.chap04.reposotiry.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
-@Repository //spring이 관리하는 클래스
-@RequiredArgsConstructor //값 final 선언
-public class BoardSpringRepository implements BoardRepository {
+@Repository
+@RequiredArgsConstructor
+public class BoardRepositoryImpl implements BoardRepository {
 
-    //templete : 데이터베이스에 추가할 객체 생성
     private final JdbcTemplate template;
+
     @Override
     public List<Board> findAll() {
-        String sql = "SELECT * FROM tbl_board "; //+ sortStatement(sort);
-        return template.query(sql, (rs, n) -> new Board()); //새로운 내용 추가해서 리턴하기
-        }
-
-    @Override
-    public Board findOne(int boardNo) {
-        return null;
+        String sql = "SELECT * FROM tbl_board";
+        return template.query(sql, (rs, rowNum) -> new Board(rs));
     }
 
     @Override
-    public boolean save(Board board) { //저장 되는지 불린값으로 확인
-            String sql = "INSERT INTO tbl_board " +
-                    "(title, content, writer)" +
-                    "VALUES(?,?,?)";
+    public Board findOne(int boardNo) {
+        String sql = "SELECT * FROM tbl_board WHERE board_no = ?";
+        return template.queryForObject(sql,
+                (rs, rowNum) -> new Board(rs),
+                boardNo
+        );
+    }
 
-            return template.update(sql, board.getTitle(), board.getContent(),
-                    board.getWriter()) == 1;
-        }
+    @Override
+    public boolean save(Board board) {
+        String sql = "INSERT INTO tbl_board " +
+                "(title, content, writer) " +
+                "VALUES (?,?,?)";
+        return template.update(sql,
+                board.getTitle(),
+                board.getContent(),
+                board.getWriter()) == 1;
+    }
 
     @Override
     public boolean delete(int boardNo) {
-        return false;
+        String sql = "DELETE FROM tbl_board WHERE board_no = ?";
+        return template.update(sql, boardNo) == 1;
+    }
+
+    @Override
+    public void viewCount(int boardNo) {
+        String sql = "UPDATE tbl_board " +
+                "SET view_count = view_count + 1 " +
+                "WHERE board_no = ?";
+        template.update(sql, boardNo);
     }
 }

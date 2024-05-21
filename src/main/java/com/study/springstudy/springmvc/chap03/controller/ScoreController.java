@@ -1,9 +1,9 @@
 package com.study.springstudy.springmvc.chap03.controller;
 
-import com.study.springstudy.springmvc.chap03.ScoreRepository;
+import com.study.springstudy.springmvc.chap03.repository.ScoreRepository;
 import com.study.springstudy.springmvc.chap03.dto.ScorePostDto;
 import com.study.springstudy.springmvc.chap03.entity.Score;
-import com.study.springstudy.springmvc.chap03.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
    /*
@@ -33,11 +31,15 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/score") //score로 시작하는 요청
+@RequiredArgsConstructor
 public class ScoreController {
 
     //db 처리 전담하는 의존 객체 설정 ; 의존 시 추상적인 인터페이스에 의존한다.
     //그래서 인터페이스에 의존하도록 한다.
-    private ScoreRepository rp = new ScoreMemoryRepository();
+
+    // 의존객체 설정
+//    private final ScoreService service;
+    private ScoreRepository rp;
     @Autowired
     public ScoreController(ScoreRepository repository) {
         this.rp = repository;

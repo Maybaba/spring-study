@@ -1,15 +1,18 @@
 package com.study.springstudy.springmvc.chap03.entity;
 
+import com.study.springstudy.springmvc.chap03.dto.ScoreModifyRequestDto;
 import com.study.springstudy.springmvc.chap03.dto.ScorePostDto;
+import lombok.AllArgsConstructor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-//데이터베이스의 테이블의 컬럼과 1:1로 매칭 되는 필드를 가진 객체 -> dto
+// 역할: 데이터베이스의 테이블의 컬럼과 1대1로 매칭되는 필드를 가진 객체
+@AllArgsConstructor
 public class Score {
 
     private long stuNum;
-    private String  stuName;
+    private String stuName;
     private int kor;
     private int eng;
     private int math;
@@ -17,7 +20,6 @@ public class Score {
     private double average;
     private Grade grade;
 
-    //data class, java beans 라고 부르기도 한다.
     public Score(ResultSet rs) throws SQLException {
         this.stuNum = rs.getLong("stu_num");
         this.stuName = rs.getString("stu_name");
@@ -26,16 +28,30 @@ public class Score {
         this.math = rs.getInt("math");
         this.total = rs.getInt("total");
         this.average = rs.getDouble("average");
-        this.grade = calcGrade();
+        this.grade = Grade.valueOf(rs.getString("grade"));
     }
 
-    //wrap score
+
     public Score(ScorePostDto dto) {
         this.stuName = dto.getName();
         this.kor = dto.getKor();
         this.eng = dto.getEng();
         this.math = dto.getMath();
-        this.total = kor+eng+math;
+        calculate();
+    }
+
+    public Score(ScoreModifyRequestDto dto) {
+        this.stuNum = dto.getStuNum();
+        this.kor = dto.getKor();
+        this.eng = dto.getEng();
+        this.math = dto.getMath();
+        calculate();
+    }
+
+
+
+    private void calculate() {
+        this.total = kor + eng + math;
         this.average = total / 3.0;
         this.grade = calcGrade();
     }
@@ -49,8 +65,11 @@ public class Score {
             return Grade.C;
         } else if (average >= 60) {
             return Grade.D;
-        } else return Grade.F;
+        } else {
+            return Grade.F;
+        }
     }
+
 
     public long getStuNum() {
         return stuNum;

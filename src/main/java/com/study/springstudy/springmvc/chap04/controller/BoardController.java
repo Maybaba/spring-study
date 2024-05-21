@@ -1,6 +1,6 @@
 package com.study.springstudy.springmvc.chap04.controller;
 
-import com.study.springstudy.springmvc.chap04.BoardRepository;
+import com.study.springstudy.springmvc.chap04.reposotiry.BoardRepository;
 import com.study.springstudy.springmvc.chap04.dto.BoardPostDto;
 import com.study.springstudy.springmvc.chap04.entity.Board;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
+
+//    private final BoardService service;
     private BoardRepository rp;
     @Autowired
     public BoardController (BoardRepository repo) {

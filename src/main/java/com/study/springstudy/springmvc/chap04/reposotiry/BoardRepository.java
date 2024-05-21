@@ -1,4 +1,4 @@
-package com.study.springstudy.springmvc.chap04;
+package com.study.springstudy.springmvc.chap04.reposotiry;
 
 import com.study.springstudy.springmvc.chap04.entity.Board;
 
