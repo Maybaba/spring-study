@@ -8,11 +8,9 @@ controller - service - repository
  */
 
 import com.study.springstudy.springmvc.chap03.ScoreRepository;
-import com.study.springstudy.springmvc.chap03.dto.ScoreDetailResponseDto;
-import com.study.springstudy.springmvc.chap03.dto.ScoreListResponseDto;
-import com.study.springstudy.springmvc.chap03.dto.ScoreModifyDto;
-import com.study.springstudy.springmvc.chap03.dto.ScorePostDto;
+import com.study.springstudy.springmvc.chap03.dto.*;
 import com.study.springstudy.springmvc.chap03.entity.Score;
+import com.study.springstudy.springmvc.chap03.mapper.ScoreMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +21,7 @@ import java.util.stream.Collectors;
 @Service //중간처리도 스프링에서 관리하는 객체가 된다.
 public class ScoreService {
 
-    private final ScoreRepository repo;
+    private final ScoreMapper repo;
 
     //목록 조회 중간 처리
     //DB에서 조회한  성적정보는 민감한 정보를 모두 포함하고 있는데 이를 컨트롤러에 직접 넘기면
@@ -48,16 +46,17 @@ public class ScoreService {
     }
 
     // 개별조회 중간처리
+    // 개별조회 중간처리
     public ScoreDetailResponseDto retrieve(long stuNum) {
+
         Score score = repo.findOne(stuNum);
+        RankDto result = repo.findRankByStuNum(stuNum);
 
-        //2. DB 에 상세 조회 요청
-        System.out.println("/score/detail : GET");
-        int[] result = repo.findRankbyOne(stuNum);
+        ScoreDetailResponseDto dto
+                = new ScoreDetailResponseDto(score,
+                result.getRank(), result.getCnt());
 
-        ScoreDetailResponseDto sdto = new ScoreDetailResponseDto(score, result[0], result[1]);
-
-        return sdto;
+        return dto;
     }
     //modified date update
     //dto transfer to entity
