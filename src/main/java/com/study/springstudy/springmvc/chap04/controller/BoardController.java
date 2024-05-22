@@ -3,6 +3,7 @@ package com.study.springstudy.springmvc.chap04.controller;
 
 import com.study.springstudy.springmvc.chap04.common.Page;
 import com.study.springstudy.springmvc.chap04.common.PageMaker;
+import com.study.springstudy.springmvc.chap04.common.Search;
 import com.study.springstudy.springmvc.chap04.dto.BoardDetailResponseDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardListResponseDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardPostDto;
@@ -27,7 +28,8 @@ private final BoardService service;
 
     //1. 목록조회요청(/board/list : GET)
     @GetMapping("/list")
-    public String list(Page page, Model model) {  //@RequestParam(defaultValue = "num") String sort, Model model
+
+    public String list(Search page, Model model) { //상속으로 한번에 네개의 파라미터 받을 수 있음
         System.out.println("/board/list : GET");
 
         // 서비스에게 조회 요청 위임

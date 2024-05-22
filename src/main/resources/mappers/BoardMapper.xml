@@ -7,6 +7,7 @@
 
     <select id="findAll" resultType="board">
         SELECT * FROM tbl_board
+        WHERE title LIKE CONCAT('%',#{keyword},'%')
         ORDER BY board_no DESC
         LIMIT #{pageStart}, #{amount}
     </select>
@@ -41,6 +42,7 @@
         SELECT COUNT(*)
         FROM tbl_board
     </select>
+
 
 
 </mapper>

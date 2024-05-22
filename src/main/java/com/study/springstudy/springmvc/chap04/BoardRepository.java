@@ -1,5 +1,6 @@
 package com.study.springstudy.springmvc.chap04;
 
+import com.study.springstudy.springmvc.chap04.common.Search;
 import com.study.springstudy.springmvc.chap04.entity.Board;
 
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.List;
 //게시판 CRUD 기능
 public interface BoardRepository {
     //게시물 목록 조회
+    List<Board> findAll(Search page);
+
     List<Board> findAll();
 
     //게시글 상세 조회
