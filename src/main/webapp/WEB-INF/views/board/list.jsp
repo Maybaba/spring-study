@@ -92,21 +92,20 @@
     <nav aria-label="Page navigation example">
       <ul class="pagination pagination-lg pagination-custom">
 
-        <c:if test="maker.pageInfo.pageNo != 1">
+        <c:if test="${maker.pageInfo.pageNo != 1}">
         <li class="page-item">
-          <a class="page-link" href="/board/list?pageNo=1"> <<<< </a>
+          <a class="page-link" href="/board/list?pageNo=1"> 처음 </a>
         </c:if>
 
 
-<%--        10페이지 단위로 넘어가기--%>
+<%--        1, 10페이지 단위로 넘어가기--%>
 
       <c:if test="${maker.prev}">
-          <li class="page-item">
-            <a class="page-link" href="/board/list?pageNo=${page.pageNo - 1}"> << </a>
-          </li>
-
         <li class="page-item">
-           <a class="page-link" href="/board/list?pageNo=${maker.begin - 1}">prev</a>
+           <a class="page-link" href="/board/list?pageNo=${maker.begin - 1}"> << </a>
+          <li class="page-item">
+            <a class="page-link" href="/board/list?pageNo=${page.pageNo - 1}"> prev </a>
+          </li>
       </c:if>
 
         <c:forEach var="i" begin="${maker.begin}" end="${maker.end}">
@@ -116,17 +115,16 @@
         </c:forEach>
 
     <c:if test="${maker.next}">
-        <li class="page-item">
-          <a class="page-link" href="/board/list?pageNo=${maker.end + 1}">next</a>
-
           <li class="page-item">
-      <a class="page-link" href="/board/list?pageNo=${page.pageNo + 1}"> >> </a>
+      <a class="page-link" href="/board/list?pageNo=${page.pageNo + 1}"> next </a>
+        <li class="page-item">
+          <a class="page-link" href="/board/list?pageNo=${maker.end + 1}"> >> </a>
         </li>
     </c:if>
 
-          <c:if test="maker.pageInfo.pageNo != maker.finalPage">
+          <c:if test="${maker.pageInfo.pageNo != maker.finalPage}">
           <li class="page-item">
-            <a class="page-link" href="/board/list?pageNo=${maker.finalPage}"> >>>> </a>
+            <a class="page-link" href="/board/list?pageNo=${maker.finalPage}"> 끝 </a>
             </c:if>
 
       </ul>
