@@ -36,6 +36,7 @@ private final BoardService service;
         PageMaker maker = new PageMaker(page, service.getCount());
 
         // 3. JSP파일에 해당 목록데이터를 보냄
+        model.addAttribute("page", page);
         model.addAttribute( "bList", bList);
         model.addAttribute( "maker", maker);
 

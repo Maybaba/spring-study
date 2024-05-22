@@ -93,9 +93,13 @@
       <ul class="pagination pagination-lg pagination-custom">
 
 <%--        10페이지 단위로 넘어가기--%>
+
       <c:if test="${maker.prev}">
         <li class="page-item">
-          <a class="page-link" href="/board/list?pageNo=${maker.begin - 1}">prev</a>
+           <a class="page-link" href="/board/list?pageNo=${maker.begin - 1}">prev</a>
+
+        <li class="page-item">
+          <a class="page-link" href="/board/list?pageNo=${page.pageNo - 1}"> << </a>
         </li>
       </c:if>
 
@@ -108,6 +112,9 @@
     <c:if test="${maker.next}">
         <li class="page-item">
           <a class="page-link" href="/board/list?pageNo=${maker.end + 1}">next</a>
+
+          <li class="page-item">
+      <a class="page-link" href="/board/list?pageNo=${page.pageNo + 1}"> >> </a>
         </li>
     </c:if>
 
@@ -143,6 +150,8 @@
   const confirmDelete = document.getElementById('confirmDelete'); // 모달 삭제 확인버튼
   const cancelDelete = document.getElementById('cancelDelete'); // 모달 삭제 취소 버튼
 
+
+
   $cardContainer.addEventListener('click', e => {
     // 삭제 버튼을 눌렀다면~
     if (e.target.matches('.card-btn-group *')) {
@@ -175,6 +184,7 @@
       window.location.href = '/board/detail?bno=' + bno;
     }
   });
+
 
   // 전역 이벤트로 모달창 닫기
   window.addEventListener('click', e => {
@@ -236,6 +246,19 @@
           const randomIndex = Math.floor(Math.random() * colors.length);
           return colors[randomIndex];}
   };
+
+  const currentPage = ${page.pageNo};
+  //currentPage = li의 data-pageNum
+  $pageLinks = document.querySelectorAll('.page-item');
+
+  $pageLinks.forEach(pageLink => {
+    const pageNum = pageLink.dataset.pageNum; // data-page-num 속성의 값 가져오기
+
+    if (currentPage === parseInt(pageNum)) { // currentPage와 pageNum을 비교하려면 형변환 필요
+      pageLink.classList.add('active'); // 활성화 클래스 추가
+    }
+  });
+
 </script>
 
 </body>
