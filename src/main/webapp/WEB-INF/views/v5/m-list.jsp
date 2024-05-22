@@ -17,16 +17,15 @@
 
 <ul>
 
-  <h1>프론트컨트롤러 V5 목록보기</h1>
+  <h1>프론트컨트롤러V5 목록보기</h1>
 
-<c:forEach var="m" items="${memberList}">   <%-- 서버에서 보낸 값을 그대로 item으로 받는다--%>
+  <c:forEach var="m" items="${memberList}">
     <li>
-      # 아이디: ${m.account},<%-- 원래는 get 해야 하는데 굳이 하지 않아도 알아서 getter를 호출한다. --%>
-<%--      <a href="/chap02/v5/detail/account???????????????????????">--%>
-      <a href="#">
+      # 아이디: ${m.account},
+      <a href="/chap02/v5/detail?account=${m.account}">
         이름: ${m.userName}
       </a>
-<%--      &nbsp;&nbsp;&nbsp;삭제를 누른 계정명을 해당 클래스로 전달--%>
+      &nbsp;&nbsp;&nbsp;
       <a id="rm-btn" href="/chap02/v5/delete?account=${m.account}">[delete]</a>
 
     </li>
@@ -35,6 +34,9 @@
 </ul>
 
 <a href="/chap02/v5/join">새로운 회원가입하기</a>
+
+
+
 
 </body>
 </html>

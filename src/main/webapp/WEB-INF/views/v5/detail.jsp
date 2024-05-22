@@ -14,7 +14,7 @@
   <li>- 비밀번호 : ${mem.password}</li>
   <li>- 회원이름 : ${mem.userName}</li>
 
-  <a href="/chap02/v5/show"> 돌아가기 </a>
+  <a href="/chap02/v4/show"> 돌아가기 </a>
 </ul>
 
 </body>
