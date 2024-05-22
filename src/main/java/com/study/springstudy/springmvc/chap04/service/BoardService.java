@@ -49,4 +49,8 @@ public class BoardService {
         return new BoardDetailResponseDto(b);
     }
 
+    public int getCount() {
+        //db
+        return mapper.count();
+    }
 }
