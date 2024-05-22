@@ -38,12 +38,10 @@ private final BoardService service;
         return "board/list";
     }
 
-
     //2. 글쓰기 양식 화면 요청 (/board/write : GET)
     @GetMapping("/write")
     public String textView() {
         System.out.println("/board/write");
-
 
         return "/board/write";
     }
