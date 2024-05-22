@@ -24,6 +24,7 @@ public class PageMaker {
 
     //현재 페이지 정보
     private Page pageInfo;
+    private int finalPage, beginPage;
 
     public PageMaker(Page page, int totalCount) {
         this.pageInfo = page;
@@ -73,7 +74,7 @@ public class PageMaker {
        올림 ( 총 게시물 수 / 한페이지당 배치할 게시물 수 )
 
          */
-        int finalPage = (int) Math.ceil((double)totalCount/pageInfo.getAmount());
+        this.finalPage = (int) Math.ceil((double)totalCount/pageInfo.getAmount());
 
         //마지막 구간에서 end값을 final page로 보정 : 마지막 페이지로 출력
         if(finalPage < this.end) {
