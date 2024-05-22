@@ -23,7 +23,7 @@ public class BasicController {
     //URL에 붙어있거나 form 태그에서 전송된 데이터
     @RequestMapping("/person")
     public String person(HttpServlet request) {
-        System.out.println("/person 요청됨!!!!!!!!!!!1");
+        System.out.println("/person 요청됨!!!!!!!!!");
 
         String name = request.getInitParameter("name");
         String age = request.getInitParameter("age");

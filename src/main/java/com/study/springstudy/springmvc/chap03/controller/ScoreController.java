@@ -67,10 +67,7 @@ public class ScoreController {
         System.out.println("/score/register : POST");
         System.out.println("dto = " + dto);
 
-        //데이터베이스저장 (score 에 점수계산 및 wrap 위임)
-        Score score = new Score(dto);
-        //db 저장 위임
-        rp.save(score);
+        service.insert(dto);
 
         return "redirect:/score/list";
 
@@ -78,7 +75,7 @@ public class ScoreController {
     @GetMapping("/remove") // post -> get으로 변경
     public String remove(@RequestParam("sn") long stuNum) {
         System.out.println("/score/remove : GET");
-        rp.delete(stuNum);
+        service.deleteScore(stuNum);
         //리턴 결과에 따라 삭제가 끝나면 리스트 리다이렉트
         return "redirect:/score/list";
     }
@@ -91,6 +88,7 @@ public class ScoreController {
         //2. DB 에 상세 조회 요청
         model.addAttribute("s", score);
         System.out.println("/score/detail : GET");
+        /*
         int[] result = rp.findRankbyOne(stuNum);
 //        model.addAttribute("rank", result[0]);
 //        model.addAttribute("count", result[1]);
@@ -99,7 +97,16 @@ public class ScoreController {
 
         model.addAttribute("s",sdto);
 
-        //4 . DB 에서 조회한 회원정보 JSP에게 전달
+         */
+
+        // 1. 상세조회를 원하는 학번을 읽기
+        // 2. DB에 상세조회 요청
+        // 3. DB에서 조회한 회원정보 JSP에게 전달
+        // 4. rank 조회
+        ScoreDetailResponseDto dto = service.retrieve(stuNum);
+
+        model.addAttribute("s", dto);
+
         return "score/score-detail";
     }
 

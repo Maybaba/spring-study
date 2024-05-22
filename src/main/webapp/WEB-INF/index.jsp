@@ -7,7 +7,7 @@
     <title>Web Study</title>
     <style>
         body {
-            background: url('assets/img/2..jpeg') no-repeat;
+            background: url('assets/img/1.jpeg') no-repeat;
             background-size: cover; /* 이미지가 화면을 덮도록 설정 */
             background-position: center; /* 이미지가 가운데에 위치하도록 설정 */
         }

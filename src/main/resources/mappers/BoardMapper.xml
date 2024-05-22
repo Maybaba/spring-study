@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.springstudy.springmvc.chap04.mapper.BoardMapper">
+
+    <select id="findAll" resultType="board">
+        SELECT * FROM tbl_board
+        ORDER BY board_no DESC
+        LIMIT #{pageStart}, #{amount}
+    </select>
+
+<!--    LIMIT 0,6은 페이지에  LIMIT 정보 순서, 보여줄 게시물 개수 임 첫부분 페이지 개수는 파라미터로 만들기-->
+<!--    getter 를 파라미터로 읽어오는것임, 필드값 없이도 page 클래스에서 getter를 만들어서 사용할 수 있다.  -->
+
+    <select id="findOne" resultType="board">
+        SELECT * FROM tbl_board
+        WHERE board_no = #{boardNo}
+    </select>
+
+    <insert id="save">
+        INSERT INTO tbl_board
+        (writer, content, title)
+        VALUES
+        (#{writer}, #{content}, #{title})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM tbl_board
+        WHERE board_no = #{boardNo}
+    </delete>
+
+    <update id="upViewCount">
+        UPDATE tbl_board
+        SET view_count = view_count + 1
+        WHERE board_no = #{boardNo}
+    </update>
+
+    <select id="count" resultType="int">
+        SELECT COUNT(*)
+        FROM tbl_board
+    </select>
+
+
+</mapper>
