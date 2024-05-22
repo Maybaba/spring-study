@@ -19,6 +19,7 @@ public class BoardListResponseDto {
     ...
     }
      */
+
     private int bno;
     private String shortTitle; //5글자 이상 줄임 처리된 제목 -> 클라이언트 개발자와 같이 정하는 필드명
     private String shortContent;//30글자 이상 줄임 처리된 내용

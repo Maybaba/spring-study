@@ -45,13 +45,13 @@
   <div class="card-container">
 
     <div class="card-wrapper">
-      <section class="card" data-bno=${d.boardNo}>
+      <section class="card" data-bno=${d.bno}>
         <div class="card-title-wrapper">
-          <h2 class="card-title">${d.title}</h2>
+          <h2 class="card-title">${d.shortTitle}</h2>
           <div class="time-view-wrapper">
             <div class="time">
               <i class="far fa-clock"></i>
-                ${d.regDateTime}</div>
+                ${d.date}</div>
 
             <c:if test="${b.hit}">
               <div class="hit">HIT</div>
@@ -63,18 +63,18 @@
 
             <div class="view">
               <i class="fas fa-eye"></i>
-              <span class="view-count">${d.viewCount}</span>
+              <span class="view-count">${d.view}</span>
             </div>
           </div>
         </div>
         <div class="card-content">
 
-         ${d.content}
+         ${d.shortContent}
 
         </div>
       </section>
       <div class="card-btn-group">
-        <button class="del-btn" data-href="/board/delete?bno=${d.boardNo}">
+        <button class="del-btn" data-href="/board/delete?bno=${d.bno}">
           <i class="fas fa-times"></i>
         </button>
       </div>
@@ -102,6 +102,7 @@
 <%--2. 버튼 누르는 이벤트리스너 함수 forEach($cardContainer =>) 로 nodeList 형식에 맞게 배열순회 적용하여 이벤트 추가--%>
 
 <%--하나의 동일한 카드 디자인이 세로로 추가되는 문제해결--%>
+
 
 <script>
 

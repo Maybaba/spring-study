@@ -8,7 +8,11 @@
     <select id="findAll" resultType="board">
         SELECT * FROM tbl_board
         ORDER BY board_no DESC
+        LIMIT #{pageStart}, #{amount}
     </select>
+
+<!--    LIMIT 0,6은 페이지에  LIMIT 정보 순서, 보여줄 게시물 개수 임 첫부분 페이지 개수는 파라미터로 만들기-->
+<!--    getter 를 파라미터로 읽어오는것임, 필드값 없이도 page 클래스에서 getter를 만들어서 사용할 수 있다.  -->
 
     <select id="findOne" resultType="board">
         SELECT * FROM tbl_board
