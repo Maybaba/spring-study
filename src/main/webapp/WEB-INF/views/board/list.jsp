@@ -16,9 +16,13 @@
 
   <!-- fontawesome css: https://fontawesome.com -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+  <!-- bootstrap css -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <link rel="stylesheet" href="/assets/css/main.css">
   <link rel="stylesheet" href="/assets/css/list.css">
+
+
 
   <style>
     .card-container .card .card-title-wrapper .time-view-wrapper>div.hit {
@@ -81,9 +85,31 @@
     </div>
 
   </div>
+    <%-- end div.card-wrapper--%>
   </c:forEach>
 
+  <!-- 게시글 목록 하단 영역 -->
+  <div class="bottom-section">
+
+    <!-- 페이지 버튼 영역 -->
+    <nav aria-label="Page navigation example">
+
+      <ul class="pagination pagination-lg pagination-custom">
+
+        <c:forEach var ="i" begin="${maker.begin}" end="${maker.end}">
+        <li data-page-num="${i}" class="page-item">
+          <a class="page-link" href="/board/list?pageNo=${i}">${i}</a>
+        </li>
+        </c:forEach>
+      </ul>
+
+    </nav>
+
+  </div>
+<%--  <!— end div.bottom-section —>--%>
+
 </div>
+<%-- end div.wrap--%>
 
 
 <!-- 모달 창 -->
@@ -102,7 +128,6 @@
 <%--2. 버튼 누르는 이벤트리스너 함수 forEach($cardContainer =>) 로 nodeList 형식에 맞게 배열순회 적용하여 이벤트 추가--%>
 
 <%--하나의 동일한 카드 디자인이 세로로 추가되는 문제해결--%>
-
 
 <script>
 

@@ -2,6 +2,7 @@ package com.study.springstudy.springmvc.chap04.controller;
 
 
 import com.study.springstudy.springmvc.chap04.common.Page;
+import com.study.springstudy.springmvc.chap04.common.PageMaker;
 import com.study.springstudy.springmvc.chap04.dto.BoardDetailResponseDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardListResponseDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardPostDto;
@@ -31,9 +32,12 @@ private final BoardService service;
 
         // 서비스에게 조회 요청 위임
         List<BoardListResponseDto> bList = service.findList(page);
+        //페이지 정보를 생성하여 JSP에게 전송 (다음으로 넘어가는 버튼 구현하려고.)
+        PageMaker maker = new PageMaker(page);
 
         // 3. JSP파일에 해당 목록데이터를 보냄
-        model.addAttribute("bList", bList);
+        model.addAttribute( "bList", bList);
+        model.addAttribute( "maker", maker);
 
         return "board/list";
     }
@@ -45,7 +49,6 @@ private final BoardService service;
 
         return "/board/write";
     }
-
 
     //3. 게시글 등록 요청 (/board/write : POST)
     // -> 목록조회 요청 리다이렉션
@@ -60,7 +63,6 @@ private final BoardService service;
 
         return "redirect:/board/list";
     }
-
 
     //4. 게시글 삭제요청 (/board/delete : GET)
     @GetMapping("/delete")
