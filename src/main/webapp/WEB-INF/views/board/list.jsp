@@ -41,7 +41,7 @@
   </div>
 
 <%--  리스트에 있는 걸 모두 해당 html로 감싼 뒤, 보여주기--%>
-  <c:forEach var="d" items="${boardList}">
+  <c:forEach var="d" items="${bList}">
   <div class="card-container">
 
     <div class="card-wrapper">
@@ -53,13 +53,13 @@
               <i class="far fa-clock"></i>
                 ${d.regDateTime}</div>
 
-<%--            <c:if test="${b.hit}">--%>
-<%--              <div class="hit">HIT</div>--%>
-<%--            </c:if>--%>
+            <c:if test="${b.hit}">
+              <div class="hit">HIT</div>
+            </c:if>
 
-<%--            <c:if test="${b.newArticle}">--%>
-<%--              <div class="hit">NEW</div>--%>
-<%--            </c:if>--%>
+            <c:if test="${b.newArticle}">
+              <div class="hit">NEW</div>
+            </c:if>
 
             <div class="view">
               <i class="fas fa-eye"></i>
@@ -97,11 +97,11 @@
   </div>
 </div>
 
-하나의 카드에만 script 적용되는 문제해결
-1. 카드 전체에 eventListener 함수 적용되도록 변경
-2. 버튼 누르는 이벤트리스너 함수 forEach($cardContainer =>) 로 nodeList 형식에 맞게 배열순회 적용하여 이벤트 추가
+<%--하나의 카드에만 script 적용되는 문제해결--%>
+<%--1. 카드 전체에 eventListener 함수 적용되도록 변경--%>
+<%--2. 버튼 누르는 이벤트리스너 함수 forEach($cardContainer =>) 로 nodeList 형식에 맞게 배열순회 적용하여 이벤트 추가--%>
 
-하나의 동일한 카드 디자인이 세로로 추가되는 문제해결
+<%--하나의 동일한 카드 디자인이 세로로 추가되는 문제해결--%>
 
 <script>
 
@@ -109,6 +109,9 @@
   document.querySelector('.add-btn').onclick = e => {
     window.location.href = '/board/write';
   };
+
+  const $delBtn = e.target.closest('.del-btn');
+  const deleteLocation = $delBtn.dataset.href;
 
   document.addEventListener('DOMContentLoaded', () => {
     const $cardContainers = document.querySelectorAll('.card-container');
@@ -127,8 +130,7 @@
           console.log('삭제버튼 클릭');
           modal.style.display = 'flex'; // 모달 창 띄움
 
-          const $delBtn = e.target.closest('.del-btn');
-          const deleteLocation = $delBtn.dataset.href;
+
 
           // 확인 버튼 이벤트
           confirmDelete.onclick = e => {
