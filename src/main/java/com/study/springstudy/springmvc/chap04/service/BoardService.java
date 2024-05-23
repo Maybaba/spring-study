@@ -50,9 +50,9 @@ public class BoardService {
         return new BoardDetailResponseDto(b);
     }
 
-    public int getCount() {
+    public int getCount(Search search) {
         //db
-        return mapper.count();
+        return mapper.count(search);
     }
 
 

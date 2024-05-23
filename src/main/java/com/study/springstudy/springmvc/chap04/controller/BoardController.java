@@ -12,11 +12,9 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -28,16 +26,16 @@ private final BoardService service;
     //1. 목록조회요청(/board/list : GET)
     @GetMapping("/list")
 
-    public String list(Search page, Model model) { //상속으로 한번에 네개의 파라미터 받을 수 있음
+    public String list( Model model, @ModelAttribute("s") Search page) { //상속으로 한번에 네개의 파라미터 받을 수 있음
         System.out.println("/board/list : GET");
 
         // 서비스에게 조회 요청 위임
         List<BoardListResponseDto> bList = service.findList(page);
         //페이지 정보를 생성하여 JSP에게 전송 (다음으로 넘어가는 버튼 구현하려고.)
-        PageMaker maker = new PageMaker(page, service.getCount());
+        PageMaker maker = new PageMaker(page, service.getCount(page));
 
         // 3. JSP파일에 해당 목록데이터를 보냄
-        model.addAttribute("page", page);
+//        model.addAttribute("s", page); -> search 매개변수에 어노테이션을 붙여서 생략할 수 있다.
         model.addAttribute( "bList", bList);
         model.addAttribute( "maker", maker);
 
@@ -79,7 +77,10 @@ private final BoardService service;
 
     //5. 게시글 상세 조회 (/board/detail : GET)
     @GetMapping("/detail")
-    public String detail(@RequestParam("bno") int bno, Model model) {
+    public String detail(@RequestParam("bno") int bno,
+//                         @ModelAttribute("s") Search search,
+                         Model model,
+                        HttpServletRequest request) {
         System.out.println("/board/detail : GET");
 
         // 1. 상세조회하고 싶은 글번호를 읽기
@@ -90,6 +91,10 @@ private final BoardService service;
 
         // 3. JSP파일에 조회한 데이터 보내기
         model.addAttribute("bbb", dto);
+
+        //4. 요청 헤더를 파싱하여 이전 페이지의 주소를 얻어낸다.
+        String ref = request.getHeader("Referer");
+        model.addAttribute("ref", ref);
 
         return "/board/detail";
     }
