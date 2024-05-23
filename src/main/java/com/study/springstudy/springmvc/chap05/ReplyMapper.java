@@ -20,7 +20,7 @@ public interface ReplyMapper {
     //특정 댓글 목록 조회
     List<Reply> findAll(long boardNo);
 
-    //총 댓글 수 조회
+    //총 댓글 수 조회 : 데이터수를 최대한 크게 잡는다.
     int count(long boardNo);
 
 }

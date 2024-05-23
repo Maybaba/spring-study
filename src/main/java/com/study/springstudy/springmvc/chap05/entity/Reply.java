@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Reply {
 
     private long replyNo;
@@ -18,8 +19,4 @@ public class Reply {
     private String replyWriter;
     private LocalDateTime replyDate;
     private Long boardNo;
-
-
-
-
 }

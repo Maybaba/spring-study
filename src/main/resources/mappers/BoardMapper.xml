@@ -26,9 +26,20 @@
 
 <!--동적 sql-->
 <!--    검색을 눌렀을 때만 검색 알고리즘이 나타나고 아니라면 안나타나는 절-->
-    <select id="findAll" resultType="board">
-        SELECT * FROM tbl_board
+    <select id="findAll" resultType="com.study.springstudy.springmvc.chap04.dto.BoardFindAllDto">
+        SELECT
+        B.board_no,
+        B.title,
+        B.content,
+        B.writer,
+        B.reg_date_time,
+        B.view_count,
+        COUNT(R.reply_no) AS reply_count
+        FROM tbl_board B
+        LEFT JOIN tbl_reply R
+        ON B.board_no = R.board_no
         <include refid="searchQuery"/>
+        GROUP BY B.board_no
         ORDER BY board_no DESC
         LIMIT #{pageStart}, #{amount}
     </select>
