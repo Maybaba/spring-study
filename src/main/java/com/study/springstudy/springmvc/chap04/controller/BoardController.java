@@ -1,7 +1,6 @@
 package com.study.springstudy.springmvc.chap04.controller;
 
 
-import com.study.springstudy.springmvc.chap04.common.Page;
 import com.study.springstudy.springmvc.chap04.common.PageMaker;
 import com.study.springstudy.springmvc.chap04.common.Search;
 import com.study.springstudy.springmvc.chap04.dto.BoardDetailResponseDto;
@@ -94,6 +93,7 @@ private final BoardService service;
 
         return "/board/detail";
     }
+
 
 
 }

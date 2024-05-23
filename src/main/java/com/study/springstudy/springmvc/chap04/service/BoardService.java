@@ -1,10 +1,9 @@
 package com.study.springstudy.springmvc.chap04.service;
-
-import com.study.springstudy.springmvc.chap04.common.Page;
 import com.study.springstudy.springmvc.chap04.common.Search;
 import com.study.springstudy.springmvc.chap04.dto.BoardDetailResponseDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardListResponseDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardPostDto;
+import com.study.springstudy.springmvc.chap04.dto.BoardSearchDto;
 import com.study.springstudy.springmvc.chap04.entity.Board;
 import com.study.springstudy.springmvc.chap04.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +22,12 @@ public class BoardService {
     public List<BoardListResponseDto> findList(Search page) {
         List<Board> boardList = mapper.findAll(page);
 
-        // 조회해온 게시물 리스트에서 각 게시물들의 조회수를 확인하여
-        // 조회수가 5이상인 게시물에 특정 마킹
         List<BoardListResponseDto> dtoList = boardList.stream()
                 .map(b -> new BoardListResponseDto(b))
                 .collect(Collectors.toList());
+
+        //검색 요청 중간 처리 게시물 리스트에서 각 게시물들의type을 확인하여
+        //쿼리실행
 
         return dtoList;
     }
@@ -43,7 +43,7 @@ public class BoardService {
         return mapper.delete(boardNo);
     }
 
-    // 상세 조회 요청 중간처리
+    // 상세 조회 요청 중간처리 : 상세페이지 보이지 않음
     public BoardDetailResponseDto detail(int bno) {
         Board b = mapper.findOne(bno);
         if (b != null) mapper.upViewCount(bno);
@@ -54,4 +54,7 @@ public class BoardService {
         //db
         return mapper.count();
     }
+
+
+
 }
