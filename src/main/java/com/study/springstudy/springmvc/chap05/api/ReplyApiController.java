@@ -1,15 +1,13 @@
 package com.study.springstudy.springmvc.chap05.api;
 
 import com.study.springstudy.springmvc.chap05.dto.ReplyDetailDto;
+import com.study.springstudy.springmvc.chap05.dto.repuest.ReplyPostDto;
 import com.study.springstudy.springmvc.chap05.entity.Reply;
 import com.study.springstudy.springmvc.chap05.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -51,5 +49,20 @@ public class ReplyApiController {
         return ResponseEntity
                 .ok()
                 .body(replies);
+    }
+
+    //댓글 생성 요청
+    @PostMapping
+    public ResponseEntity<?> posts(@RequestBody ReplyPostDto dto) { //@RequestBody : 통일된 데이터 양식을 JSON으로 받아서 파싱한다.
+        log.info("/api/v1/replies : POST");
+        log.debug("parameter: {}", dto);
+
+        boolean flag = replyService.register(dto);
+
+        if(!flag) return ResponseEntity.internalServerError().body(" !!! 댓글 등록 실패 👻");
+
+        return ResponseEntity
+                .ok()
+                .body(replyService.getReplies(dto.getBno()));
     }
 }
