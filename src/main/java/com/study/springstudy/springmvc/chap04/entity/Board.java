@@ -2,16 +2,18 @@ package com.study.springstudy.springmvc.chap04.entity;
 
 import com.study.springstudy.springmvc.chap04.dto.BoardPostDto;
 import lombok.*;
+//import lombok.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Setter @Getter //세터게터
+@Setter
+@Getter //세터게터
 @NoArgsConstructor //빈 생성자
+@AllArgsConstructor
 @ToString
+@Builder
 public class Board {
     private int boardNo;
     private String title;

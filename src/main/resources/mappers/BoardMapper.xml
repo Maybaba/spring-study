@@ -5,13 +5,46 @@
 
 <mapper namespace="com.study.springstudy.springmvc.chap04.mapper.BoardMapper">
 
-    <select id="findAll" resultType="board">
-        SELECT * FROM tbl_board
+<!--    동적 sql 조건 분리 -->
+    <sql id="searchQuery">
+        <if test="type == 'title'">
+            WHERE title LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        <if test="type == 'writer'">
+            WHERE writer LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        <if test="type == 'content'">
+            WHERE content LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        <if test="type == 'tc'">
+            WHERE content LIKE CONCAT('%',#{keyword},'%')
+            OR content LIKE CONCAT('%',#{keyword},'%')
+        </if>
+
+    </sql>
+
+
+<!--동적 sql-->
+<!--    검색을 눌렀을 때만 검색 알고리즘이 나타나고 아니라면 안나타나는 절-->
+    <select id="findAll" resultType="com.study.springstudy.springmvc.chap04.dto.BoardFindAllDto">
+        SELECT
+        B.board_no,
+        B.title,
+        B.content,
+        B.writer,
+        B.reg_date_time,
+        B.view_count,
+        COUNT(R.reply_no) AS reply_count
+        FROM tbl_board B
+        LEFT JOIN tbl_reply R
+        ON B.board_no = R.board_no
+        <include refid="searchQuery"/>
+        GROUP BY B.board_no
         ORDER BY board_no DESC
         LIMIT #{pageStart}, #{amount}
     </select>
 
-<!--    LIMIT 0,6은 페이지에  LIMIT 정보 순서, 보여줄 게시물 개수 임 첫부분 페이지 개수는 파라미터로 만들기-->
+<!--    LIMIT 0,6은 페이지에  LIMIT 정보 순서, 보여줄 게시물 개수 임 첫부분 페이지 개수는 파라미터로 만들기  -->
 <!--    getter 를 파라미터로 읽어오는것임, 필드값 없이도 page 클래스에서 getter를 만들어서 사용할 수 있다.  -->
 
     <select id="findOne" resultType="board">
@@ -36,11 +69,9 @@
         SET view_count = view_count + 1
         WHERE board_no = #{boardNo}
     </update>
-
+<!--    전체 게시물 수 조회만 하고있다. 여기에서도 조건에 따른 카운트가 필요하다. -->
     <select id="count" resultType="int">
-        SELECT COUNT(*)
-        FROM tbl_board
+        SELECT COUNT(*) FROM tbl_board
+        <include refid="searchQuery"/>
     </select>
-
-
 </mapper>
