@@ -1,15 +1,20 @@
 package com.study.springstudy.springmvc.chap05.api;
 
-import com.study.springstudy.springmvc.chap05.dto.ReplyDetailDto;
+import com.study.springstudy.springmvc.chap05.dto.response.ReplyDetailDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.ReplyPostDto;
-import com.study.springstudy.springmvc.chap05.entity.Reply;
 import com.study.springstudy.springmvc.chap05.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -39,23 +44,36 @@ public class ReplyApiController {
 
         List<ReplyDetailDto> replies = replyService.getReplies(bno);
         log.debug("first reply : {}", replies.get(0));
-
 //        try {
 //
 //        } catch (Exception e) {
 //
 //        }
-
         return ResponseEntity
                 .ok()
                 .body(replies);
     }
 
     //댓글 생성 요청
+    //@Validated 검증 요청 자카르타에서 진행
     @PostMapping
-    public ResponseEntity<?> posts(@RequestBody ReplyPostDto dto) { //@RequestBody : 통일된 데이터 양식을 JSON으로 받아서 파싱한다.
+    public ResponseEntity<?> posts(@Validated @RequestBody ReplyPostDto dto //@RequestBody : 통일된 데이터 양식을 JSON으로 받아서 파싱한다.
+    , BindingResult result //입력값 검증 결과 데이터를 갖고 있는 객체
+    ) {
+
         log.info("/api/v1/replies : POST");
         log.debug("parameter: {}", dto);
+
+        log.debug(result.toString());
+
+        if(result.hasErrors()) {
+
+            Map<String, String> errors = makeValidationMessageMap(result);
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(errors);
+        }
 
         boolean flag = replyService.register(dto);
 
@@ -64,5 +82,19 @@ public class ReplyApiController {
         return ResponseEntity
                 .ok()
                 .body(replyService.getReplies(dto.getBno()));
+    }
+
+    private Map<String, String> makeValidationMessageMap(BindingResult result) {
+
+        Map<String, String> errors = new HashMap<>();
+
+        // 에러정보가 모여있는 리스트
+        List<FieldError> fieldErrors = result.getFieldErrors();
+
+        for (FieldError error : fieldErrors) {
+            errors.put(error.getField(), error.getDefaultMessage());
+        }
+
+        return errors;
     }
 }

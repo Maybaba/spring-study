@@ -1,4 +1,4 @@
-package com.study.springstudy.springmvc.chap05.dto;
+package com.study.springstudy.springmvc.chap05.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.study.springstudy.springmvc.chap05.entity.Reply;

@@ -8,7 +8,6 @@ import java.sql.SQLException;
 @Getter
 @Setter
 @NoArgsConstructor
-//@RArgsConstructor
 @AllArgsConstructor
 public class Person {
 

@@ -1,6 +1,6 @@
 package com.study.springstudy.springmvc.chap05.service;
 
-import com.study.springstudy.springmvc.chap05.dto.ReplyDetailDto;
+import com.study.springstudy.springmvc.chap05.dto.response.ReplyDetailDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.ReplyPostDto;
 import com.study.springstudy.springmvc.chap05.entity.Reply;
 import com.study.springstudy.springmvc.chap05.mapper.ReplyMapper;
