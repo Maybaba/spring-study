@@ -23,5 +23,8 @@ public interface ReplyMapper {
     //총 댓글 수 조회 : 데이터수를 최대한 크게 잡는다.
     int count(long boardNo);
 
+    //댓글 번호로 원본글번호 찾기
+    long findBno(long rno);
+
 }
 

@@ -20,13 +20,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/replies")
 @Slf4j
+@CrossOrigin //CORS 정책 허용범위 설정
 public class ReplyApiController {
 
     private final ReplyService replyService;
 
     //댓글 목록 조회 요청        /?bno=원본글번호
     //URL : /api/v1/replies/원본글번호 - GET -> 목록조회
-    // @PathVariable : URL에 붙어있는 변수 값을 읽는 어노테이션
+    // @PathVariable : URL에 붙어있는 변수 값을 읽는 어노테이션!!!!!!
     @GetMapping("/{bno}")
     public ResponseEntity<?> list(@PathVariable("bno") long bno) {
 
@@ -96,5 +97,15 @@ public class ReplyApiController {
         }
 
         return errors;
+    }
+    //삭제 처리 요청 restAPI : DELETE http 요청 메시지로 구분할 수 있다 .
+    @DeleteMapping("/{rno}")
+    public ResponseEntity<?> delete(@PathVariable long rno) {
+
+        List<ReplyDetailDto> dtoList = replyService.remove(rno);
+
+        return ResponseEntity
+                .ok()
+                .body(dtoList); //삭제 성공했으면 삭제 성공 매시지로 삭제된 리스트 리턴
     }
 }
