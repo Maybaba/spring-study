@@ -129,6 +129,8 @@
 <c:forEach var="r" items="${bbb.replies}">
   <div style="font-size: 24px;">${r}</div>
 </c:forEach>
+  <c:out value="${bbb}"/>
+  <c:out value="${bbb.replies}"/>
 </div>
 
 </body>

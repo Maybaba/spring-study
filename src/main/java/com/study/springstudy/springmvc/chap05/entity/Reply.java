@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 public class Reply {
 
     private long replyNo;
-//    @Setter
+    @Setter
     private String replyText;
     private String replyWriter;
     private LocalDateTime replyDate;
-    private Long boardNo;
+    private long boardNo;
 }

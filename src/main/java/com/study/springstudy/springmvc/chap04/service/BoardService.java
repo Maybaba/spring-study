@@ -44,24 +44,21 @@ public class BoardService {
         return boardMapper.delete(boardNo);
     }
 
-    // 상세 조회 요청 중간처리 -> 댓글정보까지 같이 불러와서 jsp에 넣기
+    // 상세 조회 요청 중간처리
     public BoardDetailResponseDto detail(int bno) {
         Board b = boardMapper.findOne(bno);
         if (b != null) boardMapper.upViewCount(bno);
-        //댓글 목록 조회
+
+        // 댓글 목록 조회
         List<Reply> replies = replyMapper.findAll(bno);
 
-        BoardDetailResponseDto rsd = new BoardDetailResponseDto(b);
-        rsd.setReplies(replies);
+        BoardDetailResponseDto responseDto = new BoardDetailResponseDto(b);
+        responseDto.setReplies(replies);
 
-        return new BoardDetailResponseDto(b);
+        return responseDto;
     }
 
     public int getCount(Search search) {
-        //db
         return boardMapper.count(search);
     }
-
-
-
 }

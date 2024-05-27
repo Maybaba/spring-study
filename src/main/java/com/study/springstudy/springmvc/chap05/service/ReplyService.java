@@ -24,9 +24,10 @@ public class ReplyService {
     //댓글 목록 전체조회
     public List<ReplyDetailDto> getReplies(long boardNo) {
         List<Reply> replies = replyMapper.findAll(boardNo);
+
         return replies
                 .stream()
-                .map(reply -> new ReplyDetailDto(reply))
+                .map(r -> new ReplyDetailDto(r))
                 .collect(Collectors.toList());
 
     }
