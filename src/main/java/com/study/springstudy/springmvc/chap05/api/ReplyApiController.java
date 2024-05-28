@@ -1,6 +1,7 @@
 package com.study.springstudy.springmvc.chap05.api;
 
 import com.study.springstudy.springmvc.chap04.common.Page;
+import com.study.springstudy.springmvc.chap05.dto.ReplyListDto;
 import com.study.springstudy.springmvc.chap05.dto.response.ReplyDetailDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.ReplyPostDto;
 import com.study.springstudy.springmvc.chap05.service.ReplyService;
@@ -46,7 +47,7 @@ public class ReplyApiController {
 
         log.info("/api/v1/replies/{} : GET", bno);
 
-        List<ReplyDetailDto> replies = replyService.getReplies(bno, new Page(1, 10));
+        ReplyListDto replies = replyService.getReplies(bno, new Page(pageNo, 5));
 //        log.debug("first reply : {}", replies.get(0)); 목록 조회 요청 - 댓글 없는 경우 에러나기때무네...
 //        try {
 //
@@ -85,7 +86,7 @@ public class ReplyApiController {
 
         return ResponseEntity
                 .ok()
-                .body(replyService.getReplies(dto.getBno(), new Page(1, 10)));
+                .body(replyService.getReplies(dto.getBno(), new Page(1, 5)));
     }
 
     private Map<String, String> makeValidationMessageMap(BindingResult result) {
@@ -105,7 +106,7 @@ public class ReplyApiController {
     @DeleteMapping("/{rno}")
     public ResponseEntity<?> delete(@PathVariable long rno) {
 
-        List<ReplyDetailDto> dtoList = replyService.remove(rno);
+        ReplyListDto dtoList = replyService.remove(rno);
 
         return ResponseEntity
                 .ok()

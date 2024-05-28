@@ -34,10 +34,11 @@ function getRelativeTime(createAt) {
     }
 }
 
-export function renderReplies(replies) {
+export function renderReplies({pageInfo, replies}) { //기존 replies 디스트럭쳐링
+
 
     // 댓글 수 렌더링
-    document.getElementById('replyCnt').textContent = replies.length;
+    document.getElementById('replyCnt').textContent = pageInfo.totalCount;
 
     // 댓글 목록 렌더링
     let tag = '';
@@ -76,8 +77,9 @@ export async function fetchReplies(pageNo=1) {
     const bno = document.getElementById('wrap').dataset.bno; // 게시물 글번호
 
     const res = await fetch(`${BASE_URL}/${bno}/page/${pageNo}`);
-    const replies = await res.json();
+    const replyResponse = await res.json();
+    // {  replies[ {} {} {} ]  }
 
     // 댓글 목록 렌더링
-    renderReplies(replies);
+    renderReplies(replyResponse);
 }
