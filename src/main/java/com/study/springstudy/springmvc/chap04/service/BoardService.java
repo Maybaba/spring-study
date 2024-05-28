@@ -49,11 +49,11 @@ public class BoardService {
         Board b = boardMapper.findOne(bno);
         if (b != null) boardMapper.upViewCount(bno);
 
-        // 댓글 목록 조회
-        List<Reply> replies = replyMapper.findAll(bno);
+        // 댓글 목록 조회 : 서버사이드렌더링으로 동시에 댓글목록 조회하고, 목록조회는 비동기 요청으로 실시간으로 조회
+//        List<Reply> replies = replyMapper.findAll(bno);
 
         BoardDetailResponseDto responseDto = new BoardDetailResponseDto(b);
-        responseDto.setReplies(replies);
+//        responseDto.setReplies(replies);
 
         return responseDto;
     }
