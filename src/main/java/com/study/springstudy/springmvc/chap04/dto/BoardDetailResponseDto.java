@@ -12,23 +12,23 @@ import java.util.List;
 public class BoardDetailResponseDto {
 
     private int boardNo;
-    private  String writer;
-    private  String title;
-    private  String content;
+    private String writer;
+    private String title;
+    private String content;
     private String regDateTime;
 
     @Setter
     private List<Reply> replies;
 
-    public BoardDetailResponseDto(Board board) {
-        this.boardNo = board.getBoardNo();
-        this.title = board.getTitle();
-        this.writer = board.getWriter();
-        this.content = board.getContent();
+    public BoardDetailResponseDto(Board b) {
+        this.boardNo = b.getBoardNo();
+        this.title = b.getTitle();
+        this.writer = b.getWriter();
+        this.content = b.getContent();
 
         DateTimeFormatter pattern
                 = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 a hh시 mm분 ss초");
-        this.regDateTime = pattern.format(board.getRegDateTime());
-
+        this.regDateTime = pattern.format(b.getRegDateTime());
     }
+
 }

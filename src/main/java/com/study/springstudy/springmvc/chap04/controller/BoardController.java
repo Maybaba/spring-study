@@ -76,12 +76,12 @@ private final BoardService service;
 
 
     //5. 게시글 상세 조회 (/board/detail : GET)
+    // 5. 게시글 상세 조회 요청 (/board/detail : GET)
     @GetMapping("/detail")
-    public String detail(@RequestParam("bno") int bno,
-//                         @ModelAttribute("s") Search search,
+    public String detail(int bno,
                          Model model,
-                        HttpServletRequest request) {
-        System.out.println("/board/detail : GET");
+                         HttpServletRequest request) {
+        System.out.println("/board/detail GET");
 
         // 1. 상세조회하고 싶은 글번호를 읽기
         System.out.println("bno = " + bno);
@@ -92,12 +92,36 @@ private final BoardService service;
         // 3. JSP파일에 조회한 데이터 보내기
         model.addAttribute("bbb", dto);
 
-        //4. 요청 헤더를 파싱하여 이전 페이지의 주소를 얻어낸다.
+        // 4. 요청 헤더를 파싱하여 이전 페이지의 주소를 얻어냄
         String ref = request.getHeader("Referer");
         model.addAttribute("ref", ref);
 
-        return "/board/detail";
+        return "board/detail";
     }
+
+
+//    @GetMapping("/detail")
+//    public String detail(@RequestParam("bno") int bno,
+////                         @ModelAttribute("s") Search search,
+//                         Model model,
+//                        HttpServletRequest request) {
+//        System.out.println("/board/detail : GET");
+//
+//        // 1. 상세조회하고 싶은 글번호를 읽기
+//        System.out.println("bno = " + bno);
+//
+//        // 2. 데이터베이스로부터 해당 글번호 데이터 조회하기
+//        BoardDetailResponseDto dto = service.detail(bno);
+//
+//        // 3. JSP파일에 조회한 데이터 보내기
+//        model.addAttribute("bbb", dto);
+//
+//        //4. 요청 헤더를 파싱하여 이전 페이지의 주소를 얻어낸다.
+//        String ref = request.getHeader("Referer");
+//        model.addAttribute("ref", ref);
+//
+//        return "/board/detail";
+//    }
 
 
 
