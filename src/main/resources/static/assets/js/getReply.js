@@ -33,6 +33,8 @@ function getRelativeTime(createAt) {
         return `${years}년 전`;
     }
 }
+
+/*
 // 디스트럭쳐링으로 배열객체 안의 키밸류 뿌셔~!!! pageinfo -> 키 하나하나하나하나
 function renderPage({ begin, end, pageInfo, prev, next }) {
     let tag = '';
@@ -59,6 +61,8 @@ function renderPage({ begin, end, pageInfo, prev, next }) {
     const $pageUl = document.querySelector('.pagination');
     $pageUl.innerHTML = tag;
 }
+
+ */
 
 export function renderReplies({pageInfo, replies}) { //기존 replies 디스트럭쳐링
 
@@ -96,11 +100,10 @@ export function renderReplies({pageInfo, replies}) { //기존 replies 디스트�
     document.getElementById('replyData').innerHTML = tag;
 
     //페이지 태그 렌더링
-    renderPage(pageInfo);
+    // renderPage(pageInfo);
 }
 
-
-// 서버에서 댓글 목록 가져오는 비동기 요청 함수
+// 서버에서 댓글 목록 가져오는 비동기 요청 함수, 초반
 export async function fetchReplies(pageNo=1) {
 
     const bno = document.getElementById('wrap').dataset.bno; // 게시물 글번호
@@ -109,10 +112,29 @@ export async function fetchReplies(pageNo=1) {
     const replyResponse = await res.json();
     // {  replies : [ {} {} {} ]  }
 
+    console.log(pageNo); //잘 가져와 짐
+
     // 댓글 목록 렌더링
     renderReplies(replyResponse);
 }
 
+// 스크롤 이벤트 핸들러 함수
+function handleScroll(pageNo=1) {
+    console.log(pageNo);
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+        //댓글 목록 렌더링
+        fetchReplies(pageNo + 1);
+    }
+}
+
+// 스크롤 이벤트 리스너 설정 함수
+export function InfiniteScroll() {
+    window.addEventListener('scroll', handleScroll);
+}
+
+
+
+/*
 //페이징 버튼 클릭 이벤트 생성 함수 : 클릭하면 비동기로 페치처리 할 수 있도록 처리
 export function replyPageClickEvent(e) {
 
@@ -123,7 +145,7 @@ export function replyPageClickEvent(e) {
         //현재 페이지 값을 서버로 보내기
         fetchReplies($thisPage);
 
-        //비동기코드이므로 순서 상관 없다잉... 순서 보장하려면 페치 안에서 then으로 설정해부쟈.
+        //비동기코드이므로 순서 상관 없다잉?... 이해가 잘 안간다. 어쨋든 순서 보장하려면 페치 안에서 then으로 설정해부쟈.
 
         //현재페이지 - href값 받아온 후 그 값의 부모 태그 잡아서 p-active 클래스 추가하기 :
         // const $parentElement = e.target.parentElement;
@@ -132,6 +154,7 @@ export function replyPageClickEvent(e) {
         // console.log($parentElement)
     });
 
+ */
 
 
-}
+

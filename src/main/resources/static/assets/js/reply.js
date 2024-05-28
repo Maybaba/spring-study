@@ -1,6 +1,8 @@
 
-import {fetchReplies, replyPageClickEvent} from "./getReply.js";
+// import {fetchReplies, replyPageClickEvent} from "./getReply.js";
 import {fetchReplyPost} from "./postReply.js";
+import {fetchReplies, InfiniteScroll} from "./getReply.js";
+
 
 
 // ====== 전역 변수 ========
@@ -20,7 +22,10 @@ document.getElementById('replyAddBtn').addEventListener('click', e => {
 })
 
 //댓글페이지클릭
-replyPageClickEvent();
+// replyPageClickEvent();
+
+//뎃글 무한로딩 페이징
+InfiniteScroll();
 
 
 
