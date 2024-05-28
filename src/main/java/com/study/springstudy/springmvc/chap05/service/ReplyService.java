@@ -1,5 +1,6 @@
 package com.study.springstudy.springmvc.chap05.service;
 
+import com.study.springstudy.springmvc.chap04.common.Page;
 import com.study.springstudy.springmvc.chap05.dto.response.ReplyDetailDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.ReplyPostDto;
 import com.study.springstudy.springmvc.chap05.entity.Reply;
@@ -22,8 +23,8 @@ public class ReplyService {
     private final ReplyMapper replyMapper;
 
     //댓글 목록 전체조회
-    public List<ReplyDetailDto> getReplies(long boardNo) {
-        List<Reply> replies = replyMapper.findAll(boardNo);
+    public List<ReplyDetailDto> getReplies(long boardNo, Page page) {
+        List<Reply> replies = replyMapper.findAll(boardNo, page);
 
         return replies
                 .stream()
@@ -66,6 +67,6 @@ public class ReplyService {
         //삭제 후 삭제된 목록을 리턴
         boolean flag = replyMapper.delete(rno);
         //댓글 번호로 원본 글번호 찾아서 bno에 할당하기
-        return flag ? getReplies(bno) : Collections.emptyList();
+        return flag ? getReplies(bno, new Page(1, 10)) : Collections.emptyList();
     }
 }
