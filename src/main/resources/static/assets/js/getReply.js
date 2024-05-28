@@ -5,12 +5,12 @@ import {BASE_URL} from "./reply.js";
 function getRelativeTime(createAt) {
     //현재시간 구하기 (밀리초)
     const now = new Date();
-    console.log(now);
+    // console.log(now);
     const past = new Date(createAt);
 
     //몇시간 전
     const diff = now - past;
-    console.log(diff);
+    // console.log(diff);
 
     const seconds = Math.floor(diff / 1000);
     const minutes = Math.floor(diff / 1000 / 60);
@@ -33,9 +33,34 @@ function getRelativeTime(createAt) {
         return `${years}년 전`;
     }
 }
+// 디스트럭쳐링으로 배열객체 안의 키밸류 뿌셔~!!! pageinfo -> 키 하나하나하나하나
+function renderPage({ begin, end, pageInfo, prev, next }) {
+    let tag = '';
+
+    // prev 만들기
+    if (prev) tag += `<li class='page-item'><a class='page-link page-active' href='${begin - 1}'>이전</a></li>`;
+
+    // 페이지 번호 태그 만들기
+    for (let i = begin; i <= end; i++) {
+
+        let active = '';
+        if (pageInfo.pageNo === i) active = 'p-active';
+
+        tag += `
+      <li class='page-item ${active}'>
+        <a class='page-link page-custom' href='${i}'>${i}</a>
+      </li>`;
+    }
+
+    // next 만들기
+    if (next) tag += `<li class='page-item'><a class='page-link page-active' href='${end + 1}'>다음</a></li>`;
+
+    // 페이지 태그 ul에 붙이기
+    const $pageUl = document.querySelector('.pagination');
+    $pageUl.innerHTML = tag;
+}
 
 export function renderReplies({pageInfo, replies}) { //기존 replies 디스트럭쳐링
-
 
     // 댓글 수 렌더링
     document.getElementById('replyCnt').textContent = pageInfo.totalCount;
@@ -70,16 +95,43 @@ export function renderReplies({pageInfo, replies}) { //기존 replies 디스트�
 
     document.getElementById('replyData').innerHTML = tag;
 
+    //페이지 태그 렌더링
+    renderPage(pageInfo);
 }
 
+
+// 서버에서 댓글 목록 가져오는 비동기 요청 함수
 export async function fetchReplies(pageNo=1) {
 
     const bno = document.getElementById('wrap').dataset.bno; // 게시물 글번호
 
     const res = await fetch(`${BASE_URL}/${bno}/page/${pageNo}`);
     const replyResponse = await res.json();
-    // {  replies[ {} {} {} ]  }
+    // {  replies : [ {} {} {} ]  }
 
     // 댓글 목록 렌더링
     renderReplies(replyResponse);
+}
+
+//페이징 버튼 클릭 이벤트 생성 함수 : 클릭하면 비동기로 페치처리 할 수 있도록 처리
+export function replyPageClickEvent(e) {
+
+    document.querySelector('.pagination').addEventListener('click', e => {
+        e.preventDefault();
+        // getAttribute로 속성값 가져오기
+        const $thisPage = e.target.getAttribute('href');
+        //현재 페이지 값을 서버로 보내기
+        fetchReplies($thisPage);
+
+        //비동기코드이므로 순서 상관 없다잉... 순서 보장하려면 페치 안에서 then으로 설정해부쟈.
+
+        //현재페이지 - href값 받아온 후 그 값의 부모 태그 잡아서 p-active 클래스 추가하기 :
+        // const $parentElement = e.target.parentElement;
+        // console.log('$parentElement : ',e.target);
+        // $parentElement.classList.add('p-active');
+        // console.log($parentElement)
+    });
+
+
+
 }
