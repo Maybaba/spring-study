@@ -1,5 +1,6 @@
 package com.study.springstudy.springmvc.chap05.api;
 
+import com.study.springstudy.springmvc.chap04.common.Page;
 import com.study.springstudy.springmvc.chap05.dto.response.ReplyDetailDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.ReplyPostDto;
 import com.study.springstudy.springmvc.chap05.service.ReplyService;
@@ -26,10 +27,12 @@ public class ReplyApiController {
     private final ReplyService replyService;
 
     //댓글 목록 조회 요청        /?bno=원본글번호
-    //URL : /api/v1/replies/원본글번호 - GET -> 목록조회
+    //URL : /api/v1/replies/원본글번호/page/페이지번호 - GET -> 목록조회
     // @PathVariable : URL에 붙어있는 변수 값을 읽는 어노테이션!!!!!!
-    @GetMapping("/{bno}")
-    public ResponseEntity<?> list(@PathVariable("bno") long bno) {
+    @GetMapping("/{bno}/page/{pageNo}")
+    public ResponseEntity<?> list(
+            @PathVariable int pageNo,
+            @PathVariable("bno") long bno) {
 
         if(bno == 0) {
             String message = "글 번호는 0번이 될 수 없습니다 !!!!! warn!!!! ";
@@ -43,8 +46,8 @@ public class ReplyApiController {
 
         log.info("/api/v1/replies/{} : GET", bno);
 
-        List<ReplyDetailDto> replies = replyService.getReplies(bno);
-        log.debug("first reply : {}", replies.get(0));
+        List<ReplyDetailDto> replies = replyService.getReplies(bno, new Page(1, 10));
+//        log.debug("first reply : {}", replies.get(0)); 목록 조회 요청 - 댓글 없는 경우 에러나기때무네...
 //        try {
 //
 //        } catch (Exception e) {
@@ -82,7 +85,7 @@ public class ReplyApiController {
 
         return ResponseEntity
                 .ok()
-                .body(replyService.getReplies(dto.getBno()));
+                .body(replyService.getReplies(dto.getBno(), new Page(1, 10)));
     }
 
     private Map<String, String> makeValidationMessageMap(BindingResult result) {

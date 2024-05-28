@@ -136,7 +136,9 @@
   <label for="title">제목</label>
   <input type="text" id="title" name="title" value="${bbb.title}" readonly>
   <label for="content">내용</label>
-  <div id="content">${bbb.content}</div>
+  <div id="content">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/1BU34QxeCqs?si=9hkndpUIRK21458D&amp;start=1407" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+    ${bbb.content}
   <div class="buttons">
     <button class="list-btn" type="button" onclick="window.location.href='${ref}'">목록</button>
   </div>
@@ -245,7 +247,7 @@
 
 <%--자바코드는 %로 감싸야 하고 jsp는 ! 로 써야한다. 안그러면 에러남 ㅠ --%>
 
-<script src="/assets/js/reply.js"></script>
+<script type="module" src="/assets/js/reply.js"></script>
 
 </body>
 </html>
