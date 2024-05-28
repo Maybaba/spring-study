@@ -112,24 +112,22 @@ export async function fetchReplies(pageNo=1) {
     const replyResponse = await res.json();
     // {  replies : [ {} {} {} ]  }
 
-    console.log(pageNo); //잘 가져와 짐
+    console.log('초기댓글비동기요청함수:',pageNo); //잘 가져와 짐 처음 설정했으니까
 
     // 댓글 목록 렌더링
     renderReplies(replyResponse);
 }
-
-// 스크롤 이벤트 핸들러 함수
-function handleScroll(pageNo=1) {
-    console.log(pageNo);
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
-        //댓글 목록 렌더링
-        fetchReplies(pageNo + 1);
-    }
-}
-
-// 스크롤 이벤트 리스너 설정 함수
-export function InfiniteScroll() {
-    window.addEventListener('scroll', handleScroll);
+//무한스크롤 함수
+export function InfiniteScroll(pageInfo) {
+    // 스크롤 이벤트 감지 및 무한 스크롤 로딩
+    window.addEventListener('scroll', () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+            // 현재 페이지 번호 가져와서 다음 페이지 번호로 할당
+            const pageNo = pageInfo.pageNo + 1;
+            // 다음 페이지의 댓글 가져오기
+            fetchReplies(pageNo);
+        }
+    });
 }
 
 
@@ -142,10 +140,10 @@ export function replyPageClickEvent(e) {
         e.preventDefault();
         // getAttribute로 속성값 가져오기
         const $thisPage = e.target.getAttribute('href');
-        //현재 페이지 값을 서버로 보내기
+        //선택한 페이지 값을 재랜더링하기
         fetchReplies($thisPage);
 
-        //비동기코드이므로 순서 상관 없다잉?... 이해가 잘 안간다. 어쨋든 순서 보장하려면 페치 안에서 then으로 설정해부쟈.
+        //비동기코드이므로 순서 상관 없다잉?... 이해가 잘 안간다. -> 기능을 구현하는데에 있어서 모든 기능을 한번에 넣지 말라는 뜻
 
         //현재페이지 - href값 받아온 후 그 값의 부모 태그 잡아서 p-active 클래스 추가하기 :
         // const $parentElement = e.target.parentElement;
