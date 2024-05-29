@@ -2,7 +2,6 @@
 import { BASE_URL } from "./reply.js";
 import {fetchInfScrollReplies} from "./getReply.js";
 
-
 // const fetchModifyReply = async (rno) => {
 //     const res = await fetch(`${BASE_URL}/${rno}`, {
 //         method: 'MODIFY'
