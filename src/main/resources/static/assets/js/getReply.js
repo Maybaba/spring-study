@@ -8,7 +8,6 @@ function getRelativeTime(createAt) {
     const now = new Date();
     // console.log(now);
     const past = new Date(createAt);
-
     //몇시간 전
     const diff = now - past;
     // console.log(diff);
@@ -72,7 +71,7 @@ export function renderReplies({pageInfo, replies}) { //기존 replies 디스트�
     // 댓글 목록 렌더링
     let tag = '';
     if (replies && replies.length > 0) {
-        replies.forEach(({ reply_no: rno, writer, text, createAt }) => {
+        replies.forEach(({ rno, writer, text, createAt }) => {
             tag += `
         <div id='replyContent' class='card-body' data-reply-id='${rno}'>
             <div class='row user-block'>
@@ -155,7 +154,7 @@ function appendReplies({ replies }) {
     // 댓글 목록 렌더링
     let tag = '';
     if (replies && replies.length > 0) {
-        replies.forEach(({ reply_no: rno, writer, text, createAt }) => {
+        replies.forEach(({ rno, writer, text, createAt }) => {
             tag += `
         <div id='replyContent' class='card-body' data-reply-id='${rno}'>
             <div class='row user-block'>
@@ -205,6 +204,7 @@ export async function fetchInfScrollReplies(pageNo=1) {
         document.getElementById('replyCnt').textContent = totalReplies;
         // 초기 댓글 reset
         document.getElementById('replyData').innerHTML = '';
+        setupInfiniteScroll(); //뎃글 무한로딩 페이징
     }
 
     // 댓글 목록 렌더링

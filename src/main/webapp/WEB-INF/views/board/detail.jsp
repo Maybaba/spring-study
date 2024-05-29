@@ -228,8 +228,8 @@
         <div class="modal-body">
           <div class="form-group">
             <input id="modReplyId" type="hidden">
-            <label for="modReplyText" hidden>댓글내용</label>
-            <textarea id="modReplyText" class="form-control" placeholder="수정할 댓글 내용을 입력하세요."
+            <label for="modReplyText" hidden></label>
+            <textarea id="modReplyText" class="form-control" placeholder="내내냉"
                       rows="3"></textarea>
           </div>
         </div>
