@@ -47,7 +47,7 @@ public class ReplyApiController {
 
         log.info("/api/v1/replies/{} : GET", bno);
 
-        ReplyListDto replies = replyService.getReplies(bno, new Page(pageNo, 5));
+        ReplyListDto replies = replyService.getReplies(bno, new Page(pageNo, 10));
 //        log.debug("first reply : {}", replies.get(0)); 목록 조회 요청 - 댓글 없는 경우 에러나기때무네...
 //        try {
 //
