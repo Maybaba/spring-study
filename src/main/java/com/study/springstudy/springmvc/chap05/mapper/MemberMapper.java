@@ -2,6 +2,7 @@ package com.study.springstudy.springmvc.chap05.mapper;
 
 import com.study.springstudy.springmvc.chap05.entity.Member;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface MemberMapper {
@@ -20,6 +21,8 @@ public interface MemberMapper {
      */
 
     //중복확인(아이디, 이메일)
-    boolean existById(String type, String keyword);
+    boolean existsById(      @Param("type") String type,
+                            @Param("keyword") String keyword);
+
 
 }

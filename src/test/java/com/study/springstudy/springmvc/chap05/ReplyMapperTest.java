@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+
+
 @SpringBootTest
 class ReplyMapperTest {
 
@@ -48,7 +50,7 @@ class ReplyMapperTest {
         long boardNo = 1;
 
         //when
-        List<Reply> replies = replyMapper.findAll(boardNo);
+        List<Reply> replies = replyMapper.findAll(boardNo, null);
 
         //then
         replies.forEach(System.out::println);
