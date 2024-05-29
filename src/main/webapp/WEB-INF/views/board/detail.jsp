@@ -123,6 +123,19 @@
       background: #888 !important;
       color: #fff !important;
     }
+    .spinner-container {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1050;
+    }
+
 
   </style>
 </head>
@@ -137,7 +150,7 @@
   <input type="text" id="title" name="title" value="${bbb.title}" readonly>
   <label for="content">내용</label>
   <div id="content">
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/1BU34QxeCqs?si=9hkndpUIRK21458D&amp;start=1407" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/35AgDDPQE48?si=l3jMFyL-16PetUN_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     ${bbb.content}
   <div class="buttons">
     <button class="list-btn" type="button" onclick="window.location.href='${ref}'">목록</button>
@@ -188,16 +201,17 @@
         -->
           </div>
 
-          <!-- 댓글 페이징 영역 -->
-          <ul class="pagination justify-content-center">
-            <!--
-            < JS로 댓글 페이징 DIV삽입 >
-        -->
-          </ul>
-        </div>
-      </div> <!-- end reply content -->
-    </div>
-  </div> <!-- end replies row -->
+
+<%--          <!-- 댓글 페이징 영역 -->--%>
+<%--          <ul class="pagination justify-content-center">--%>
+<%--            <!----%>
+<%--            < JS로 댓글 페이징 DIV삽입 >--%>
+<%--        -->--%>
+<%--          </ul>--%>
+<%--        </div>--%>
+<%--      </div> <!-- end reply content -->--%>
+<%--    </div>--%>
+<%--  </div> <!-- end replies row -->--%>
 
   <!-- 댓글 수정 모달 -->
   <div class="modal fade bd-example-modal-lg" id="replyModifyModal">
@@ -214,8 +228,8 @@
         <div class="modal-body">
           <div class="form-group">
             <input id="modReplyId" type="hidden">
-            <label for="modReplyText" hidden>댓글내용</label>
-            <textarea id="modReplyText" class="form-control" placeholder="수정할 댓글 내용을 입력하세요."
+            <label for="modReplyText" hidden></label>
+            <textarea id="modReplyText" class="form-control" placeholder="내내냉"
                       rows="3"></textarea>
           </div>
         </div>
@@ -234,6 +248,12 @@
 <%-- end replyModifyModal --%>
 
 </div>
+        <!-- 로딩 스피너 -->
+        <div class="spinner-container" id="loadingSpinner">
+          <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
 
 <!-- 0.댓글 영역 -->
 

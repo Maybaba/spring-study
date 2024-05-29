@@ -1,5 +1,5 @@
 import {BASE_URL} from "./reply.js";
-import {renderReplies} from "./getReply.js"
+import {fetchInfScrollReplies} from "./getReply.js"
 
 const textInput = document.getElementById('newReplyText');
 const writerInput = document.getElementById('newReplyWriter');
@@ -26,7 +26,9 @@ export const fetchReplyPost = async () => {
     const replies = await resp.json();
     console.log(replies);
 
-    // textInput = '';
-    // writerInput = '';
-    renderReplies(replies);
+    textInput.value = '';
+    writerInput.value = '';
+    // renderReplies(replies);
+    fetchInfScrollReplies();
+    window.scrollTo(0,0); //입력 끝나고 화면 상단으로 이동
 }
