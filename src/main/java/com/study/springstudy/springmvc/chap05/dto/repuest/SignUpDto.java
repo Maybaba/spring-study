@@ -2,10 +2,11 @@ package com.study.springstudy.springmvc.chap05.dto.repuest;
 
 import com.study.springstudy.springmvc.chap05.entity.Member;
 import lombok.*;
-import org.checkerframework.checker.units.qual.A;
+
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Getter @Setter
@@ -16,8 +17,9 @@ import javax.validation.constraints.Size;
 @Builder
 public class SignUpDto {
 
-    @NotBlank
+    @NotBlank(message = "아이디는 필수 값입니다. ")
     @Size(min = 4, max = 14)
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "아이디는 영문과 숫자만 포함해야 합니다.")
     private String account;
     @NotBlank
 //    @Size(min = 2, max = 6)
