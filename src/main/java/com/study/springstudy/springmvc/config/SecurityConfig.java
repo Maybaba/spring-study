@@ -16,6 +16,7 @@ public class SecurityConfig {
     //@Baen : 은 내가 안만든 클래스에 의존성 주입해 달라는 것 : autoWired
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf().disable() //csrf 토큰공격방지 기능 off
                 .authorizeRequests()
                 .antMatchers("/**")//모든 요청에 대해 인증하기 않겠다.
                 .permitAll();

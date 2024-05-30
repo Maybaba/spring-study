@@ -11,6 +11,12 @@
       margin-top: 200px;
       margin-bottom: 200px;
     }
+
+    /*#signup-btn:disabled {*/
+    /*  background-color: black;*/
+    /*  opacity: 0.5; !* 비활성화 시 약간의 투명도 추가 *!*/
+    /*}*/
+
   </style>
 
 </head>
@@ -70,6 +76,7 @@
               <tr>
                 <td><input type="password" size="17" maxlength="20" id="password_check"
                            name="pw_check" class="form-control tooltipstered" maxlength="20"
+                           name="pw_check" class="form-control tooltipstered" maxlength="20"
                            required="required" aria-required="true"
                            style="ime-mode: inactive; margin-bottom: 25px; height: 40px; border: 1px solid #d9d9de"
                            placeholder="비밀번호가 일치해야합니다."></td>
@@ -109,7 +116,7 @@
               </tr>
               <tr>
                 <td style="width: 100%; text-align: center; colspan: 2;">
-                  <input type="button" value="회원가입" class="btn form-control tooltipstered"
+                  <input type="submit" value="회원가입" class="btn form-control tooltipstered"
                          id="signup-btn"
                          style="background: gray; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">
                 </td>
@@ -123,6 +130,7 @@
   </div>
 </div>
 
+  <script src="/assets/js/validation.js"></script>
 
 </body>
 </html>

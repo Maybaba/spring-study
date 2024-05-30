@@ -60,7 +60,11 @@ public class MemberService {
         log.info("{}님 로그인 성공 짝짝짝", foundMember.getName());
 
         return SUCCESS;
+    }
 
+    //아이디, 이메일 중복검사
+    public boolean checkIdentifier(String type, String keyword) {
+        return memberMapper.existsById(type, keyword);
     }
 
 
