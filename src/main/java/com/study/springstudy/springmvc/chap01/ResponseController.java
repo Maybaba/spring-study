@@ -23,7 +23,7 @@ public class ResponseController {
         return "mvc/hobbies";
     }
 
-    //2, ModelAndView 객체 사용하기
+    //2. ModelAndView 객체 사용하기
     @RequestMapping("/hobbies2")
     public ModelAndView hobbies2() {
         ModelAndView mv = new ModelAndView("mvc/hobbies");
