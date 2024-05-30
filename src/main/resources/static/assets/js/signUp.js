@@ -6,6 +6,8 @@ import {debounce} from "./util.js";
 // 폼과 회원가입 버튼 요소를 가져옴
 const form = document.getElementById('signUpForm');
 const signupButton = document.getElementById('signup-btn');
+const $password = document.getElementById('password');
+const $password_check = document.getElementById('password_check');
 
 // 각 필드에 대한 정보 배열 (id, 유효성 검증 함수, 에러 메시지 표시 요소, 초기 유효 상태)
 const fields = [
@@ -47,6 +49,29 @@ fields.forEach(field => {
         updateButtonState(); // 각 입력 유효성 검사 후 버튼 상태 업데이트
     }, 500));
 });
+
+// 비밀번호 유효성 검사 재확인 이벤트
+$password.addEventListener('keyup', async (e) => {
+    const value = $password_check.value; // 비밀번호 확인 필드의 값 가져오기
+    const passwordValue = $password.value; // 비밀번호 필드의 값 가져오기
+
+    const isValidPasswordCheck = await validateInput.passwordCheck(value, passwordValue);
+    const $pwCheckErrorSpan = document.getElementById('pwChk2'); // 비밀번호 확인 에러 메시지 표시 요소 가져오기
+
+    if (isValidPasswordCheck.valid) { // 유효한 경우
+        $password_check.style.borderColor = 'skyblue'; // 입력 요소의 테두리 색 변경
+        $pwCheckErrorSpan.innerHTML = '<b class="success">[일치합니다.]</b>'; // 성공 메시지 표시
+        fields[2].valid = true; // 필드의 유효 상태를 true로 설정 (비밀번호 확인 필드)
+    } else { // 유효하지 않은 경우
+        $password_check.style.borderColor = 'red'; // 입력 요소의 테두리 색 변경
+        $pwCheckErrorSpan.innerHTML = `<b class="warning">[${isValidPasswordCheck.message}]</b>`; // 에러 메시지 표시
+        fields[2].valid = false; // 필드의 유효 상태를 false로 설정 (비밀번호 확인 필드)
+    }
+    updateButtonState(); // 각 입력 유효성 검사 후 버튼 상태 업데이트
+});
+
+
+
 
 // 회원가입 버튼 클릭 이벤트 리스너 추가
 signupButton.addEventListener('click', (e) => {

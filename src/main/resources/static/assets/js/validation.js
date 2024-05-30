@@ -141,7 +141,6 @@ function validatePassword() {
         $pwChk.innerHTML = '<b class="success">유효한 비밀번호입니다.</b>';
         return true;
     }
-
     checkAllFieldsValid();
 }
 

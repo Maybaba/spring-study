@@ -53,7 +53,13 @@ export const validateInput = {
         // 유효한 경우
         return { valid: true };
     },
-    // 이름 유효성 검사 함수
+    // // 비밀번호 입력 필드 이벤트 리스너
+    // $pwInput.addEventListener('keyup', () => {
+    //     password();
+    //     passwordCheck(); // 비밀번호가 변경될 때마다 비밀번호 확인 필드의 유효성을 재검사
+    // });
+
+// 이름 유효성 검사 함수
     name: (value) => {
         // 빈 값 검사
         if (!value.trim()) return { valid: false, message: '이름은 필수정보입니다!' };
