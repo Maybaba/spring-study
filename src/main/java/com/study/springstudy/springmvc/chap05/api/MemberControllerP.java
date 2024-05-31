@@ -2,6 +2,7 @@ package com.study.springstudy.springmvc.chap05.api;
 
 import com.study.springstudy.springmvc.chap05.dto.repuest.LoginDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.SignUpDto;
+import com.study.springstudy.springmvc.chap05.dto.response.LoginUserInfoDto;
 import com.study.springstudy.springmvc.chap05.service.LoginResult;
 import com.study.springstudy.springmvc.chap05.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -58,9 +59,19 @@ public class MemberControllerP {
 
     // 로그인 양식 열기
     @GetMapping("/sign-in")
-    public void signIn() {
+    public String signIn(HttpSession session) {
+        //로그인을 한 사람이 이 요청을 보내면 돌려보낸다
+//        LoginUserInfoDto login = (LoginUserInfoDto) session.getAttribute("login");
+
+        //로그인 한 사람이면 객체에 데이터가 담긴 경우이고, 아니라면 담기지 않을 것이다.
+//        if (LoginUtil.isLoggedIn(session)) {
+//            return "redirect:/";
+//        }
+
         log.info("/members/sign-in GET : forwarding to sign-in.jsp");
+        return "members/sign-in";
     }
+
 
     // 로그인 요청 처리
     @PostMapping("/sign-in")
