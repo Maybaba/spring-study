@@ -2,7 +2,7 @@ package com.study.springstudy.springmvc.chap05.dto.repuest;
 
 import lombok.*;
 
-@Getter
+@Getter @Setter
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
