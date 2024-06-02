@@ -1,9 +1,8 @@
-package com.study.springstudy.interseptor;
+package com.study.springstudy.springmvc.interseptor;
 
 import com.study.springstudy.springmvc.LoginUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,15 +14,18 @@ import javax.servlet.http.HttpServletResponse;
 public class AfterLoginInterceptor implements HandlerInterceptor {
 
     //클라이언트의 요청이 컨트롤러에 들어가기 전에 해야할 일을 명시
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        return HandlerInterceptor.super.preHandle(request, response, handler);
+
         log.debug("after login interceptor execute : ) ");
-        if(LoginUtil.isLoggedIn(request.getSession())){
+
+        if(LoginUtil.isLoggedIn(request.getSession())) {
+
             response.sendRedirect("/"); //go home
-            return false;//true 일 경우 컨트롤러 진입 허용, false 진입 차단
+            return false;
         }
-        return true;
+        return true; //true 일 경우 컨트롤러 진입 허용, false 진입 차단
     }
 }
 

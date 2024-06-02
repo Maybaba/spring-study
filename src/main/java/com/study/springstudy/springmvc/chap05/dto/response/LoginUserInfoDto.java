@@ -19,6 +19,7 @@ public class LoginUserInfoDto {
         this.account = member.getAccount();
         this.nickName = member.getName();
         this.email = member.getEmail();
-        this.auth = member.getAuth().toString();
+        this.auth = member.getAuth().name(); //.name은 이늄 대문자만 나타낸다 DB 에 저장되어 있는 문자와 비교하기
+        System.out.println(this);
     }
 }

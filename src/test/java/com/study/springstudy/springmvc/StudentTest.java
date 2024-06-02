@@ -12,7 +12,7 @@ class StudentTest {
         s.setAge(20);
         s.setGrade(1);
 
-        System.out.println("################################# \n s = " + s);
+        System.out.println("\n s = " + s);
     }
 
 }

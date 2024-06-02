@@ -83,7 +83,8 @@
   <h1>꾸러기 게시판 글쓰기</h1>
   <form action="/board/write" method="post">
     <label for="title">작성자</label>
-    <input type="text" id="writer" name="writer" required>
+<%--    disabled : can't post param, readonly : post param--%>
+      <input type="text" id="writer" name="writer" value="${login.nickName}" readonly>
     <label for="title">제목</label>
     <input type="text" id="title" name="title" required>
     <label for="content">내용</label>

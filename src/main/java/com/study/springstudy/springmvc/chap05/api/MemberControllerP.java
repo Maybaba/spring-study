@@ -2,19 +2,14 @@ package com.study.springstudy.springmvc.chap05.api;
 
 import com.study.springstudy.springmvc.chap05.dto.repuest.LoginDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.SignUpDto;
-import com.study.springstudy.springmvc.chap05.dto.response.LoginUserInfoDto;
 import com.study.springstudy.springmvc.chap05.service.LoginResult;
 import com.study.springstudy.springmvc.chap05.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,7 +54,8 @@ public class MemberControllerP {
 
     // 로그인 양식 열기
     @GetMapping("/sign-in")
-    public String signIn(HttpSession session) {
+    public String signIn(HttpSession session
+    , @RequestParam(required = false) String redirect) {
         //로그인을 한 사람이 이 요청을 보내면 돌려보낸다
 //        LoginUserInfoDto login = (LoginUserInfoDto) session.getAttribute("login");
 
@@ -68,10 +64,11 @@ public class MemberControllerP {
 //            return "redirect:/";
 //        }
 
+        session.setAttribute("redirect", redirect);
+
         log.info("/members/sign-in GET : forwarding to sign-in.jsp");
         return "members/sign-in";
     }
-
 
     // 로그인 요청 처리
     @PostMapping("/sign-in")
@@ -97,6 +94,14 @@ public class MemberControllerP {
         ra.addFlashAttribute("result", result);
 
         if (result == LoginResult.SUCCESS) {
+
+            //세션에 리다이렉트 URL이 있다면
+            String redirect = (String) session.getAttribute("redirect");
+            if(redirect != null) {
+                session.removeAttribute("redirect");
+                return "redirect" + redirect;
+            }
+
             return "redirect:/index"; // 로그인 성공시
         }
 

@@ -1,5 +1,6 @@
 package com.study.springstudy.springmvc.chap05.service;
 
+import com.study.springstudy.springmvc.LoginUtil;
 import com.study.springstudy.springmvc.chap05.dto.repuest.LoginDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.SignUpDto;
 import com.study.springstudy.springmvc.chap05.dto.response.LoginUserInfoDto;
@@ -9,10 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 
+import static com.study.springstudy.springmvc.LoginUtil.*;
 import static com.study.springstudy.springmvc.chap05.service.LoginResult.*;
 
 @Service //스프링에 객체생성등록
@@ -68,7 +69,7 @@ public class MemberService {
         session.setMaxInactiveInterval(60*60);
         log.debug("session time : {}", maxInactiveInterval);
 
-        session.setAttribute("login",new LoginUserInfoDto(foundMember));
+        session.setAttribute(LOGIN,new LoginUserInfoDto(foundMember));
 
         return SUCCESS;
     }

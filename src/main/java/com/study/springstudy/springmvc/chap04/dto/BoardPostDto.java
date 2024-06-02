@@ -13,10 +13,9 @@ import lombok.ToString;
 public class BoardPostDto {
 
     // 필드명은 반드시 html form 태그의 입력태그는 jsp name 속성과 같아야 함.
-
     private String title; //8글자 이상 함축
     private String content; //중간부터 가려짐
-    private String writer;
+    private String writer; //글쓴이
 
     public Board toEntity() {
         Board b = new Board();
