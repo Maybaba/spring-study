@@ -59,9 +59,9 @@ public class UserInterceptor implements HandlerInterceptor {
         }
 
         // 보드의 작성자 계정과 로그인된 사용자 계정을 비교
-        if (!loggedInUserAccount.equals(boardDetail.getAccount())) {
+        if (!loggedInUserAccount.equals(boardDetail.getAccount()) && !(loggedInUserAccount.equals("admin"))) {
 
-            log.debug("You are trying to delete OTHER'S board or you are not log-in state");
+            log.debug(" NO_AUTH : You are trying to delete OTHER'S board or you are not log-in state!! ");
 
             //delete 더 이전 단계는 없을까?
 
