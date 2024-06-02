@@ -44,7 +44,7 @@ public class ReplyService {
 
         Reply reply = Reply.builder()
                 .replyText(dto.getText())
-                .replyWriter(dto.getAuthor())
+//                .replyWriter(dto.getAuthor())
                 .boardNo(dto.getBno())
                 .build();
 

@@ -9,7 +9,7 @@
         INSERT INTO tbl_reply
         (reply_text, reply_writer, board_no)
         VALUES
-        (#{replyText}, #{replyWriter}, #{boardNo})
+        (#{replyText}, #{account.name}, #{boardNo})
     </insert>
 
     <update id="modify">
@@ -23,7 +23,7 @@
         WHERE reply_no = #{replyNo}
     </delete>
 
-    <select id="findAll" resultType="reply">
+    <select id="findAll" resultType="com.study.springstudy.springmvc.chap05.entity.Reply">
         SELECT * FROM tbl_reply
         WHERE board_no = #{bno}
         ORDER BY reply_no
