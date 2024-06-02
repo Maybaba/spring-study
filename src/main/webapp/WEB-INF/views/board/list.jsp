@@ -307,6 +307,23 @@
     appendActivePage();
     fixSearchOption();
 
+    // 비회원인 상태로 접근제한 페이지에 들어갔다 온 경우
+    // 이 경우에는 쿼리스트링에 message 파라미터가 붙어있음
+    const params = new URLSearchParams(window.location.search);
+    const message = params.get('message');
+
+    if (message === 'authorize-required') {
+        alert('본인의 게시글만 삭제할 수 있습니다.');
+
+        // 쿼리 파라미터를 제거한 새로운 URL 생성
+        // window.location.origin -> http://localhost:8181
+        // window.location.pathname -> /members/sign-in
+        const newUrl = window.location.origin + window.location.pathname;
+
+        // history.replaceState(state, title, url) : 브라우저 조작
+        history.replaceState(null, null, newUrl);
+    }
+
 
 
 

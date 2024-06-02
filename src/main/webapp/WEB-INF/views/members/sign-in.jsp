@@ -94,6 +94,7 @@
 </div>
 
 <script>
+
   //서버에서 전송된 로그인 검증 메시지
   const result = '${result}';
   console.log('result : ' , result);

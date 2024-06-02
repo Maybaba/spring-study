@@ -65,10 +65,11 @@ public class UserInterceptor implements HandlerInterceptor {
 
             //delete 더 이전 단계는 없을까?
 
-            response.sendRedirect("/board/list");
+            response.sendRedirect("/board/list?message=authorize-required");
 
             return false; // 일치하지 않을 경우 진입 차단
         }
+        log.info("well deleted board no {}", boardNo);
         return true; //일치할 경우 컨트롤러 허용
     }
 }
