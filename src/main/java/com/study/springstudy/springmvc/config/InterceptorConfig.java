@@ -2,6 +2,7 @@ package com.study.springstudy.springmvc.config;
 
 import com.study.springstudy.springmvc.interseptor.AfterLoginInterceptor;
 import com.study.springstudy.springmvc.interseptor.BoardInterceptor;
+import com.study.springstudy.springmvc.interseptor.UserInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -14,8 +15,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     private final AfterLoginInterceptor afterLoginInterceptor;
     private final BoardInterceptor boardInterceptor;
+    private final UserInterceptor userInterceptor;
 
-    //설정 메서드
+    //인터셉터 설정 메서드
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
@@ -29,7 +31,11 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/board/*")
                 .excludePathPatterns("/board/list", "board/detail");
 
-        //로그인 후 원래 화면으로 돌아가기 인터셉터 등록
+
+        //다른 사람의 게시판 번호로 권한 없이 삭제 방지 인터셉터 등록
+        registry
+                .addInterceptor(userInterceptor)
+                .addPathPatterns("/board/delete");
     }
 
 

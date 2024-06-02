@@ -5,7 +5,7 @@
         //     console.log(`입력값: ${value}`);
         // };
 
-            // 디바운싱 함수 정의
+            // 디바운싱 함수 정의 : 서버 공격 방지를 위한 보호
            export function debounce(callback, wait) {
             let timer;
 

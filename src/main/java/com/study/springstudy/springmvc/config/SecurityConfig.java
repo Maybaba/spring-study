@@ -21,7 +21,6 @@ public class SecurityConfig {
                 .antMatchers("/**")//모든 요청에 대해 인증하기 않겠다.
                 .permitAll();
 
-
               return  http.build();
     }
 

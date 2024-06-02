@@ -19,15 +19,13 @@ public class BoardInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
 
-        //로그인을 했다면
-        //클라이언트 측에 저장된 세션을 가져와서
-        //작업하던 곳으로 돌아간다.
-        if (!LoginUtil.isLoggedIn(request.getSession())) {
 
-            String redirectUri = request.getRequestURI();
+        if (!LoginUtil.isLoggedIn(request.getSession())) {  //로그인을 안했을 때
+
+            String redirectUri = request.getRequestURI();  //클라이언트 측에 저장된 세션을 가져와서 로그인을 한다면 해당 uri로 리턴
 
             log.info("origin: {}", redirectUri);
-            response.sendRedirect("/members/sign-in?message=login-required&redirect=" + redirectUri);
+            response.sendRedirect("/members/sign-in?message=login-required&redirect=" + redirectUri);  //작업하던 uri로 리턴
             return false;
         }
         return true;

@@ -20,12 +20,13 @@ public class AfterLoginInterceptor implements HandlerInterceptor {
 
         log.debug("after login interceptor execute : ) ");
 
+        //로그인한 상태의 세션 얻기
         if(LoginUtil.isLoggedIn(request.getSession())) {
-
+            //로그인 세션인 경우 로그인 및 회원가입 uri 요청시
             response.sendRedirect("/"); //go home
             return false;
         }
-        return true; //true 일 경우 컨트롤러 진입 허용, false 진입 차단
+        return true; //true 일 경우 로그인 및 회원가입 컨트롤러 진입 허용
     }
 }
 

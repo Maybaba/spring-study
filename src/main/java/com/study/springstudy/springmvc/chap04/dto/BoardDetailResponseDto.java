@@ -4,10 +4,12 @@ import com.study.springstudy.springmvc.chap04.entity.Board;
 import com.study.springstudy.springmvc.chap05.entity.Reply;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@ToString
 @Getter
 public class BoardDetailResponseDto {
 
@@ -16,6 +18,7 @@ public class BoardDetailResponseDto {
     private String title;
     private String content;
     private String regDateTime;
+    private String account;
 
     @Setter
     private List<Reply> replies;
@@ -25,6 +28,7 @@ public class BoardDetailResponseDto {
         this.title = b.getTitle();
         this.writer = b.getWriter();
         this.content = b.getContent();
+        this.account = b.getAccount();
 
         DateTimeFormatter pattern
                 = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 a hh시 mm분 ss초");
