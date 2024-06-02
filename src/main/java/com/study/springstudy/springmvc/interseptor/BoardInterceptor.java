@@ -7,6 +7,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 //prehandle 구현해서
 //로그인을 안하면 글쓰기, 글수정, 글삭제 요청을 거부할 것
@@ -20,12 +22,11 @@ public class BoardInterceptor implements HandlerInterceptor {
 
 
 
-        if (!LoginUtil.isLoggedIn(request.getSession())) {  //로그인을 안했을 때
-
-            String redirectUri = request.getRequestURI();  //클라이언트 측에 저장된 세션을 가져와서 로그인을 한다면 해당 uri로 리턴
-
+        if (!LoginUtil.isLoggedIn(request.getSession())) {  // 로그인을 안 했을 때
+            String redirectUri = request.getRequestURI();
+            String encodedRedirectUri = URLEncoder.encode(redirectUri, StandardCharsets.UTF_8.toString());
             log.info("origin: {}", redirectUri);
-            response.sendRedirect("/members/sign-in?message=login-required&redirect=/" + redirectUri);  //작업하던 uri로 리턴
+            response.sendRedirect("/members/sign-in?message=login-required&redirect=" + encodedRedirectUri);  // 작업하던 uri로 리턴
             return false;
         }
         return true;

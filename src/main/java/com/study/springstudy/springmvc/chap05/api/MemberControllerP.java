@@ -32,6 +32,7 @@ public class MemberControllerP {
         //return "members/sign-up";
     }
 
+    //회원가입 정보 post
     @PostMapping("/sign-up")
     public String signUp(@Validated SignUpDto dto) { //클라이언트에서 뚫리면 서버에서도 막아야 한다.
         log.info("/members/sign-up POST ");
@@ -72,41 +73,33 @@ public class MemberControllerP {
 
     // 로그인 요청 처리
     @PostMapping("/sign-in")
-    public String signIn(LoginDto dto,
-                         RedirectAttributes ra,
-                         HttpServletRequest request) {
-        log.info("/members/sign-in POST");
-        log.debug("parameter: {}", dto);
-
         // 세션 얻기
-        HttpSession session = request.getSession();
+        public String signIn (LoginDto dto,
+                RedirectAttributes ra,
+                HttpServletRequest request){
+            log.info("/members/sign-in POST");
+            log.debug("parameter: {}", dto);
 
-        LoginResult result = memberService.authenticate(dto, session);
+            // 세션 얻기
+            HttpSession session = request.getSession();
 
-        // 로그인 검증 결과를 JSP에게 보내기
-        // Redirect시에 Redirect된 페이지에 데이터를 보낼 때는
-        // Model객체를 사용할 수 없음
-        // 왜냐면 Model객체는 request객체를 사용하는데 해당 객체는
-        // 한번의 요청이 끝나면 메모리에서 제거된다. 그러나 redirect는
-        // 요청이 2번 발생하므로 다른 request객체를 jsp가 사용하게 됨
+            LoginResult result = memberService.authenticate(dto, session);
 
-//        model.addAttribute("result", result); // (X)
-        ra.addFlashAttribute("result", result);
+            // 로그인 검증 결과를 JSP에게 보내기
+            ra.addFlashAttribute("result", result);
 
-        if (result == LoginResult.SUCCESS) {
-
-            //세션에 리다이렉트 URL이 있다면
-            String redirect = (String) session.getAttribute("redirect");
-            if(redirect != null) {
-                session.removeAttribute("redirect");
-                return "redirect" + redirect;
+            if (result == LoginResult.SUCCESS) {
+                // 세션에 리다이렉트 URL이 있다면
+                String redirect = (String) session.getAttribute("redirect");
+                if (redirect != null) {
+                    session.removeAttribute("redirect");
+                    return "redirect:" + redirect;
+                }
+                return "redirect:/index"; // 로그인 성공 시
             }
-
-            return "redirect:/index"; // 로그인 성공시
+            return "redirect:/members/sign-in";
         }
 
-        return "redirect:/members/sign-in";
-    }
 
     @GetMapping("/sign-out")
     public String signOut(HttpSession session
