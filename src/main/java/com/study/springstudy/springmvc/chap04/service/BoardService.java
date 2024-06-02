@@ -1,4 +1,5 @@
 package com.study.springstudy.springmvc.chap04.service;
+import com.study.springstudy.springmvc.LoginUtil;
 import com.study.springstudy.springmvc.chap04.common.Search;
 import com.study.springstudy.springmvc.chap04.dto.*;
 import com.study.springstudy.springmvc.chap04.entity.Board;
@@ -8,6 +9,7 @@ import com.study.springstudy.springmvc.chap05.mapper.ReplyMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +19,6 @@ public class BoardService {
 
     //service는 여러개의 매퍼를 사용해도 됨 : 여러 개의 의존을 주입 할 수 있음
     private final BoardMapper boardMapper;
-    private final ReplyMapper replyMapper;
 
     // 목록 조회 요청 중간처리
     public List<BoardListResponseDto> findList(Search page) {
@@ -27,15 +28,16 @@ public class BoardService {
                 .map(b -> new BoardListResponseDto(b))
                 .collect(Collectors.toList());
 
-        //검색 요청 중간 처리 게시물 리스트에서 각 게시물들의type을 확인하여
+        //검색 요청 중간 처리 게시물 리스트에서 각 게시물들의 type을 확인하여
         //쿼리실행
-
         return dtoList;
     }
 
     // 등록 요청 중간처리
-    public boolean insert(BoardPostDto dto) {
+    public boolean insert(BoardPostDto dto, HttpSession session) {
         Board b = dto.toEntity();
+        b.setAccount(LoginUtil.getLoggedInUserAccount(session));
+
         return boardMapper.save(b);
     }
 
@@ -51,10 +53,7 @@ public class BoardService {
 
         // 댓글 목록 조회 : 서버사이드렌더링으로 동시에 댓글목록 조회하고, 목록조회는 비동기 요청으로 실시간으로 조회
 //        List<Reply> replies = replyMapper.findAll(bno);
-
         BoardDetailResponseDto responseDto = new BoardDetailResponseDto(b);
-//        responseDto.setReplies(replies);
-
         return responseDto;
     }
 

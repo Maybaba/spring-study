@@ -1,7 +1,9 @@
 package com.study.springstudy.springmvc.chap05.service;
 
+import com.study.springstudy.springmvc.LoginUtil;
 import com.study.springstudy.springmvc.chap05.dto.repuest.LoginDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.SignUpDto;
+import com.study.springstudy.springmvc.chap05.dto.response.LoginUserInfoDto;
 import com.study.springstudy.springmvc.chap05.entity.Member;
 import com.study.springstudy.springmvc.chap05.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
+
+import static com.study.springstudy.springmvc.LoginUtil.*;
 import static com.study.springstudy.springmvc.chap05.service.LoginResult.*;
 
 @Service //스프링에 객체생성등록
@@ -35,7 +40,7 @@ public class MemberService {
     }
 
     //로그인 검증 처리 1. 문자데이터를 주는 방법 2. 오류 에러 서버번호를 내리는 법
-    public LoginResult authenticate(LoginDto dto) {
+    public LoginResult authenticate(LoginDto dto, HttpSession session) {
 
         //회원가입 여부 확인
         String account = dto.getAccount();
@@ -58,6 +63,13 @@ public class MemberService {
             return NO_PW;
         }
         log.info("{}님 로그인 성공 짝짝짝", foundMember.getName());
+
+        //세션의 수명 (지속시간) 조작하기 : 설정된 시간 OR 브라우저를 닫기 전까지
+        int maxInactiveInterval = session.getMaxInactiveInterval();
+        session.setMaxInactiveInterval(60*60);
+        log.debug("session time : {}", maxInactiveInterval);
+
+        session.setAttribute(LOGIN,new LoginUserInfoDto(foundMember));
 
         return SUCCESS;
     }
