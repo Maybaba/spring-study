@@ -1,6 +1,7 @@
 package com.study.springstudy.springmvc.chap05.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.study.springstudy.springmvc.chap05.entity.Reply;
 import lombok.*;
 
@@ -13,6 +14,8 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @Builder
 public class ReplyDetailDto {
+
+    //@JsonProperty("reply_no") //이름을 바꿔서 적용할 수 있음
     private long rno;
     private String text;
     private String writer;

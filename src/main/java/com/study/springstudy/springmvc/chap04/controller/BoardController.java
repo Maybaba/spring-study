@@ -8,19 +8,24 @@ import com.study.springstudy.springmvc.chap04.dto.BoardListResponseDto;
 import com.study.springstudy.springmvc.chap04.dto.BoardPostDto;
 
 import com.study.springstudy.springmvc.chap04.service.BoardService;
+import com.study.springstudy.springmvc.chap05.service.LoginResult;
+import com.study.springstudy.springmvc.chap05.service.MemberService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
 public class BoardController {
+
 private final BoardService service;
 
     //1. 목록조회요청(/board/list : GET)
@@ -44,7 +49,7 @@ private final BoardService service;
 
     //2. 글쓰기 양식 화면 요청 (/board/write : GET)
     @GetMapping("/write")
-    public String textView() {
+    public String textView(HttpSession session) {
         System.out.println("/board/write");
 
         return "/board/write";
@@ -52,17 +57,20 @@ private final BoardService service;
 
     //3. 게시글 등록 요청 (/board/write : POST)
     // -> 목록조회 요청 리다이렉션
+    // 3. 게시글 등록 요청 (/board/write : POST)
+    // -> 목록조회 요청 리다이렉션
     @PostMapping("/write")
-    public String write(BoardPostDto dto) {
+    public String write(BoardPostDto dto, HttpSession session) {
         System.out.println("/board/write POST! ");
 
         // 1. 브라우저가 전달한 게시글 내용 읽기
         System.out.println("dto = " + dto);
 
-        service.insert(dto);
+        service.insert(dto, session);
 
         return "redirect:/board/list";
     }
+
 
     //4. 게시글 삭제요청 (/board/delete : GET)
     @GetMapping("/delete")

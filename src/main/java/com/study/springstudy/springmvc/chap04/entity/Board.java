@@ -21,6 +21,7 @@ public class Board {
     private String writer;
     private int viewCount;
     private LocalDateTime regDateTime;
+    private String account; //글쓴이 계정명
 
 
     //data class, java beans 라고 부르기도 한다.

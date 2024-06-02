@@ -3,6 +3,7 @@ package com.study.springstudy.springmvc.chap05.service;
 import com.study.springstudy.springmvc.chap04.common.Page;
 import com.study.springstudy.springmvc.chap04.common.PageMaker;
 import com.study.springstudy.springmvc.chap05.dto.ReplyListDto;
+import com.study.springstudy.springmvc.chap05.dto.repuest.ReplyModifyDto;
 import com.study.springstudy.springmvc.chap05.dto.response.ReplyDetailDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.ReplyPostDto;
 import com.study.springstudy.springmvc.chap05.entity.Reply;
@@ -60,9 +61,12 @@ public class ReplyService {
     }
 
 
-    //댓글 수정
-    public void modify() {
+    // 댓글 수정
+    public ReplyListDto modify(ReplyModifyDto dto) {
 
+        replyMapper.modify(dto.toEntity());
+
+        return getReplies(dto.getBno(), new Page(1, 10));
     }
 
     //댓글 삭제
