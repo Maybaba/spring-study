@@ -6,23 +6,24 @@
 <mapper namespace="com.study.springstudy.springmvc.chap05.mapper.ReactionMapper">
 
 <!--    리액션 계정 삽입-->
-    <insert id="insertReaction">
+    <insert id="saveReaction">
         INSERT INTO tbl_reaction
-        (board_no, account, reaction_type )
+        (board_no, account, reaction_type)
         VALUES
         (#{boardNo}, #{account}, #{reactionType})
     </insert>
 
     <update id="updateReaction">
-        UPDATE view_log
-        SET view_time = #{viewTime}
+        UPDATE tbl_reaction
+        SET reaction_type = #{reactionType}
         WHERE account = #{account}
         AND board_no = #{boardNo}
     </update>
 
     <delete id="removeReaction">
         DELETE FROM tbl_reaction
-        WHERE reply_no = #{replyNo}
+        WHERE account = #{account}
+        AND board_no = #{boardNo}
     </delete>
 
 </mapper>

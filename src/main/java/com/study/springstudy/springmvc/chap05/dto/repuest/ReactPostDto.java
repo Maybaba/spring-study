@@ -1,4 +1,4 @@
-package com.study.springstudy.springmvc.chap05.dto.response;
+package com.study.springstudy.springmvc.chap05.dto.repuest;
 
 import com.study.springstudy.springmvc.chap05.entity.ReactionType;
 import lombok.*;

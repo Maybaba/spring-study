@@ -9,7 +9,6 @@ import java.util.List;
 
 @Mapper
 public interface ReplyMapper {
-
     //댓글 등록
     boolean save(Reply reply);
 

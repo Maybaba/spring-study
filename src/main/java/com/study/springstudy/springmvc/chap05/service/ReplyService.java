@@ -2,7 +2,7 @@ package com.study.springstudy.springmvc.chap05.service;
 
 import com.study.springstudy.springmvc.chap04.common.Page;
 import com.study.springstudy.springmvc.chap04.common.PageMaker;
-import com.study.springstudy.springmvc.chap05.dto.ReplyListDto;
+import com.study.springstudy.springmvc.chap05.dto.response.ReplyListDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.ReplyModifyDto;
 import com.study.springstudy.springmvc.chap05.dto.response.ReplyDetailDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.ReplyPostDto;
@@ -13,8 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,7 +44,8 @@ public class ReplyService {
                 .replyText(dto.getText())
                 .replyWriter(dto.getAuthor())
                 .boardNo(dto.getBno())
-                .build();
+                .build()
+                ;
 
         //Reply r = new Reply();
         //r.set ... 이 과정을 위의 코드로 간략화 시킴
