@@ -1,5 +1,6 @@
 package com.study.springstudy.springmvc.interseptor;
 
+import com.study.springstudy.springmvc.LoginUtil;
 import com.study.springstudy.springmvc.chap04.entity.Board;
 import com.study.springstudy.springmvc.chap04.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,6 +27,7 @@ import static com.study.springstudy.springmvc.LoginUtil.*;
 public class BoardInterceptor implements HandlerInterceptor {
 
     private final BoardMapper boardMapper;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
@@ -37,7 +40,7 @@ public class BoardInterceptor implements HandlerInterceptor {
         String redirectUri = request.getRequestURI();
 
         if (!isLoggedIn(request.getSession())) {  // 로그인을 안 했을 때
-            String encodedRedirectUri = URLEncoder.encode(redirectUri, StandardCharsets.UTF_8.toString());
+            String encodedRedirectUri = URLEncoder.encode(redirectUri, StandardCharsets.UTF_8);
 //            log.info("origin: {}", redirectUri);
             request.getSession().setAttribute("redirect", encodedRedirectUri);  // 세션에 리다이렉트 URI 저장
             response.sendRedirect("/members/sign-in?message=login-required");
@@ -45,11 +48,11 @@ public class BoardInterceptor implements HandlerInterceptor {
         }
 
         //삭제요청인가에 대한 관리자인가?
-        if(isAdmin(session)) {
+        if (isAdmin(session)) {
             return true; //네, 통과
         }
         //내가 쓴 글인지 아닌지 확인하기
-        if(redirectUri.equals("/board/delete")) {
+        if (redirectUri.equals("/board/delete")) {
             //내가 쓴 글이 아닌지?
             //현재 삭제하려는 글의 글쓴이 계정명과
             // DB에서 bno 조회해보면 됨 -> 글번호 구하기
@@ -62,7 +65,7 @@ public class BoardInterceptor implements HandlerInterceptor {
             //현재 로그인한 회원의 계정명을 구해서
 
             //대조해보는 작업이 필요함
-            if(!isMine(boardAccount, loggedInUserAccount) ) {
+            if (!isMine(boardAccount, loggedInUserAccount)) {
                 response.setStatus(403); //권한이 없음 : forbidden
                 response.sendRedirect("/access-deny?message=authorization");
                 return false;
@@ -70,6 +73,5 @@ public class BoardInterceptor implements HandlerInterceptor {
         }
 
         return true;
-
     }
 }

@@ -136,5 +136,6 @@ public class MemberService {
                         .account(LoginUtil.getLoggedInUserAccount(request.getSession()))
                         .build()
         );
+
     }
 }

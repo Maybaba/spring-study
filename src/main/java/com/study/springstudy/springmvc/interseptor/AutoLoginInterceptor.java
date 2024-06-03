@@ -54,12 +54,10 @@ public class AutoLoginInterceptor implements HandlerInterceptor {
             // 사이트 로그인 처리(세션에 DTO 세팅)을 수행
             if (foundMember != null
                     && LocalDateTime.now().isBefore(foundMember.getLimitTime())) {
-
                 MemberService.maintainLoginState(request.getSession(), foundMember);
-                return true;
             }
         }
-        return false;
+        return true;
     }
 }
 

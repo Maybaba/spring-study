@@ -138,6 +138,19 @@
     <button class="list-btn" type="button" onclick="window.location.href='${ref}'">목록</button>
   </div>
 
+    <!-- 좋아요 버튼 영역-->
+
+    <div class="buttons">
+      <!-- 좋아요 버튼 -->
+      <button id="likeBtn" class="like-btn" type="button" onclick="like()">
+        <!-- 하트 아이콘 -->
+        <i class="fas fa-heart"></i>
+        <!-- 좋아요 텍스트 -->
+      </button>
+      <!-- 좋아요 수 표시 -->
+<%--      <span id="likeCount">${bbb.likeCount}</span/>--%>
+    </div>
+
   <!-- 댓글 영역 -->
 
   <div id="replies" class="row">
@@ -250,6 +263,26 @@
 <%--자바코드는 %로 감싸야 하고 jsp는 ! 로 써야한다. 안그러면 에러남 ㅠ --%>
 
 <script type="module" src="/assets/js/reply.js"></script>
+        <script>
+          // 좋아요 버튼 클릭 시 호출되는 함수
+          function like() {
+            // 여기에는 실제로 서버로 요청을 보내서 DB를 업데이트하는 로직이 들어갑니다.
+
+            // 여기서는 단순히 버튼의 스타일을 변경하여 하트를 채우는 예시를 보여줍니다.
+            let likeBtn = document.getElementById("likeBtn");
+            // var likeCount = document.getElementById("likeCount");
+
+            // 버튼 색상과 아이콘 변경
+            likeBtn.style.backgroundColor = "#e61e8c"; // 분홍색
+
+            // 좋아요 수 증가
+            // likeCount.innerText = parseInt(likeCount.innerText) + 1;
+          }
+        </script>
+
+
+
+
 
 </body>
 </html>

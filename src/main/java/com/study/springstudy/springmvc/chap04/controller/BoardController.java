@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -83,19 +84,20 @@ private final BoardService service;
     }
 
 
+
     //5. 게시글 상세 조회 (/board/detail : GET)
-    // 5. 게시글 상세 조회 요청 (/board/detail : GET)
     @GetMapping("/detail")
     public String detail(int bno,
                          Model model,
-                         HttpServletRequest request) {
+                         HttpServletRequest request,
+                         HttpServletResponse response) {
         System.out.println("/board/detail GET");
 
         // 1. 상세조회하고 싶은 글번호를 읽기
         System.out.println("bno = " + bno);
 
         // 2. 데이터베이스로부터 해당 글번호 데이터 조회하기
-        BoardDetailResponseDto dto = service.detail(bno);
+        BoardDetailResponseDto dto = service.detail(bno, request, response);
 
         // 3. JSP파일에 조회한 데이터 보내기
         model.addAttribute("bbb", dto);
