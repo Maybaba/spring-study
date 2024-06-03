@@ -4,7 +4,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>aceess-deny page</title>
+    <title>access-deny page</title>
 </head>
 <body>
 

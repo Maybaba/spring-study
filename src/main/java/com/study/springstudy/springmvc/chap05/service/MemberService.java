@@ -1,6 +1,7 @@
 package com.study.springstudy.springmvc.chap05.service;
 
 import com.study.springstudy.springmvc.LoginUtil;
+import com.study.springstudy.springmvc.chap05.dto.repuest.AutoLoginDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.LoginDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.SignUpDto;
 import com.study.springstudy.springmvc.chap05.dto.response.LoginUserInfoDto;
@@ -11,7 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import java.time.LocalDateTime;
 
 import static com.study.springstudy.springmvc.LoginUtil.*;
 import static com.study.springstudy.springmvc.chap05.service.LoginResult.*;
@@ -40,7 +45,7 @@ public class MemberService {
     }
 
     //로그인 검증 처리 1. 문자데이터를 주는 방법 2. 오류 에러 서버번호를 내리는 법
-    public LoginResult authenticate(LoginDto dto, HttpSession session) {
+    public LoginResult authenticate(LoginDto dto, HttpSession session, HttpServletResponse response) {
 
         //회원가입 여부 확인
         String account = dto.getAccount();
@@ -62,6 +67,32 @@ public class MemberService {
             log.info("비밀번호가 일치하지 않습니다 ");
             return NO_PW;
         }
+
+        //자동로그인 추가 처리
+        if (dto.isAutoLogin()) {
+            //1. 자동 로그인 쿠키 생성
+            // - 쿠키 내부에 절대로 중복되지 않는 유니크한 값을 저장
+            //(UUID, SessionID) 세션아이디같은 경우 절대절대 중복이 나지 않는다.
+            //쿠키이ㅡㅡ 이름은상수로 지정한다.
+            String sessionId = session.getId();
+            Cookie autoLoginCookie = new Cookie(AUTO_LOGIN_COOKIE, sessionId);
+
+            //쿠키 설정
+            autoLoginCookie.setPath("/"); //쿠키를 사용할 경로, 사이트 전체에서 쿠키를 사용하겠다
+            autoLoginCookie.setMaxAge(60*60*24*90); //90일로 자동로그인 기간 설정
+
+            //2. 쿠키를 클라이언트에 전송 - 응답 바디에 실어보내야 함
+            response.addCookie(autoLoginCookie);
+
+            //3. DB에도 해당 쿠키값을 저장
+            memberMapper.updateAutoLogin(AutoLoginDto.builder()
+                            .sessionId(sessionId)
+                            .limitTime(LocalDateTime.now().plusDays(90))
+                            .account(account)
+                    .build());
+
+        }
+
         log.info("{}님 로그인 성공 짝짝짝", foundMember.getName());
 
         //세션의 수명 (지속시간) 조작하기 : 설정된 시간 OR 브라우저를 닫기 전까지

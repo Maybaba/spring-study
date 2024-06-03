@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <!doctype html>
 <html lang="ko">
 <head>
@@ -59,9 +58,9 @@
             width: 150px;
             height: 150px;
             margin-bottom: 1em;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="16"/><line x1="12" y1="8" x2="12" y2="12"/></svg>') no-repeat center;
-            background-size: contain;
-        }
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><style>.cls-1{fill:#00c9ff;}.cls-2{fill:#92fe9d;}.cls-3{fill:url(#linear-gradient);}.cls-4{fill:#fff;}</style><linearGradient id="linear-gradient" x1="0.5" y1="1" x2="0.5" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#ff6a00"/><stop offset="1" stop-color="#ee0979"/></linearGradient></defs><circle class="cls-1" cx="32" cy="32" r="30"/><circle class="cls-2" cx="32" cy="32" r="24"/><circle class="cls-3" cx="32" cy="32" r="16"/><path class="cls-4" d="M32,20a1,1,0,0,0-1,1V31a1,1,0,0,0,2,0V21A1,1,0,0,0,32,20Z"/><circle class="cls-4" cx="32" cy="36" r="1.5"/></svg>') no-repeat center;
+    background-size: contain;
+    }
     </style>
 </head>
 <body>
@@ -73,4 +72,3 @@
 </div>
 </body>
 </html>
-
