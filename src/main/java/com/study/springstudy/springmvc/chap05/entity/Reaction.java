@@ -14,9 +14,10 @@ import java.time.LocalDateTime;
 public class Reaction {
 
     private int reactionId;
-    private int boardNo;
+    private long boardNo;
     private String account;
-    private String reactionType;
+    @Setter
+    private ReactionType reactionType;
     private LocalDateTime reactionDate;
 
 }

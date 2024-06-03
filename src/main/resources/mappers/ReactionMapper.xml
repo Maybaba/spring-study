@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.springstudy.springmvc.chap05.mapper.ReactionMapper">
+
+<!--    리액션 계정 삽입-->
+    <insert id="insertReaction">
+        INSERT INTO tbl_reaction
+        (board_no, account, reaction_type )
+        VALUES
+        (#{boardNo}, #{account}, #{reactionType})
+    </insert>
+
+    <update id="updateReaction">
+        UPDATE view_log
+        SET view_time = #{viewTime}
+        WHERE account = #{account}
+        AND board_no = #{boardNo}
+    </update>
+
+    <delete id="removeReaction">
+        DELETE FROM tbl_reaction
+        WHERE reply_no = #{replyNo}
+    </delete>
+
+</mapper>

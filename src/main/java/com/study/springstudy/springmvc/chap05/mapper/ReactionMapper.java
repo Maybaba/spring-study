@@ -10,12 +10,16 @@ import org.apache.ibatis.annotations.Param;
 public interface ReactionMapper {
     // CRUD
 
-    // 좋아요 (기록) 추가 (Insert)
-    void insertViewLog(Reaction reaction);
+    // 리액션 (기록) 추가 (Insert)
+    void insertReaction(Reaction reaction);
 
-    // 조회수 기록 시간 삭제(delete
-    void updateViewLog(ViewLog viewLog);
+    // 리액션 이늄 수정 (update)
+    void UpdateReaction(Reaction reaction);
 
-    // 조회수 기록 조회
-    ViewLog findOne(@Param("account") String account, @Param("bno") long bno);
+    // 리액션 (기록) 삭제(delete)
+    void removeReaction(ViewLog viewLog);
+
+    // 리액션 기록 조회 (bno로 조회해서 reaction list findAll 해버리기)
+    Reaction findOne(@Param("reactionType") String reactionType, @Param("bno") long bno);
+
 }
