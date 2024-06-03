@@ -2,7 +2,10 @@ package com.study.springstudy.springmvc;
 
 import com.study.springstudy.springmvc.chap05.dto.response.LoginUserInfoDto;
 import com.study.springstudy.springmvc.chap05.entity.Auth;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class LoginUtil {
@@ -35,5 +38,10 @@ public class LoginUtil {
     }
     public static boolean isMine(String boardAccount, String loggedInUserAccount) {
         return boardAccount.equals(loggedInUserAccount);
+    }
+
+    public static boolean isAutoLogin(HttpServletRequest request) {
+        Cookie autoLoginCookie = WebUtils.getCookie(request, AUTO_LOGIN_COOKIE);
+        return autoLoginCookie!=null;
     }
 }

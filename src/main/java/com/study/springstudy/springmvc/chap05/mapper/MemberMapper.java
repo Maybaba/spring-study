@@ -29,4 +29,7 @@ public interface MemberMapper {
     //자동로그인 쿠키값
     void updateAutoLogin(AutoLoginDto dto);
 
+    //세션 아이디로 회원정보 조회
+    Member findMemberBySessionId(String sessionId);
+
 }

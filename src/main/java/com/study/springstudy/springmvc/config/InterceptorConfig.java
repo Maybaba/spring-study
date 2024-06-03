@@ -1,6 +1,7 @@
 package com.study.springstudy.springmvc.config;
 
 import com.study.springstudy.springmvc.interseptor.AfterLoginInterceptor;
+import com.study.springstudy.springmvc.interseptor.AutoLoginInterceptor;
 import com.study.springstudy.springmvc.interseptor.BoardInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     private final AfterLoginInterceptor afterLoginInterceptor;
     private final BoardInterceptor boardInterceptor;
+    private final AutoLoginInterceptor autoLoginInterceptor;
 
     //설정 메서드
     @Override
@@ -29,7 +31,10 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/board/*")
                 .excludePathPatterns("/board/list", "board/detail");
 
-        //로그인 후 원래 화면으로 돌아가기 인터셉터 등록
+        //자동로그인 인터셉터 등록
+        registry
+                .addInterceptor(autoLoginInterceptor)
+                .addPathPatterns("/**"); //어디로 들어오든지 진입페이지가 index가 아닐수도 있음
     }
 
 

@@ -24,11 +24,13 @@ import java.time.LocalDateTime;
 public class Member {
 
     private String account;
-
     @Setter //필요에 의해서만 setter를 만드는 게 좋다. 비밀번호 암호화하여 저장할때가 그 예시이다.
     private String password;
     private String name;
     private String email;
     private Auth auth;
     private LocalDateTime regDate;
+    private String sessionId;
+    private LocalDateTime limitTime;
+
 }

@@ -1,5 +1,6 @@
 package com.study.springstudy.springmvc.chap05.api;
 
+import com.study.springstudy.springmvc.LoginUtil;
 import com.study.springstudy.springmvc.chap05.dto.repuest.LoginDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.SignUpDto;
 import com.study.springstudy.springmvc.chap05.service.LoginResult;
@@ -111,11 +112,19 @@ public class MemberControllerP {
     }
 
     @GetMapping("/sign-out")
-    public String signOut(HttpSession session
-//                       ,HttpServletRequest request
-                          ) {
+    public String signOut(HttpServletRequest request, HttpServletResponse response) {
+
+        //세션 구하기
+        HttpSession session = request.getSession();
+
+        //자동로그인 상태인지 확인
+        if(LoginUtil.isAutoLogin(request)) {
+            //쿠키 제거하고 Db 자동로그인 관련 데이터 원래대로 해놓기
+            memberService.autoLoginClear(request, response);
+
+        }
+
         //세션에서 로그인 기록 삭제
-//        HttpSession session = request.getSession();
         session.removeAttribute("login");
         //세션을 초기화(reset)
         session.invalidate();
