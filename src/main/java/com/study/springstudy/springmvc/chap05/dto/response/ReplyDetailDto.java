@@ -19,6 +19,7 @@ public class ReplyDetailDto {
     private long rno;
     private String text;
     private String writer;
+    private String account;
 
     //@JsonFormat(pattern = "yyyy년 MM월 dd일 HH:mm")
     private LocalDateTime createAt;
@@ -27,7 +28,8 @@ public class ReplyDetailDto {
     public ReplyDetailDto(Reply r) {
         this.rno = r.getReplyNo();
         this.text = r.getReplyText();
-        this.writer = r.getReplyWriter();
+        this.writer = r.getWriter();
         this.createAt = r.getReplyDate();
+        this.account = r.getAccount();
     }
 }

@@ -1,4 +1,3 @@
-
 import {BASE_URL} from "./reply.js";
 import {showSpinner, hideSpinner} from "./spinner.js";
 
@@ -63,6 +62,7 @@ function renderPage({ begin, end, pageInfo, prev, next }) {
 }
  */
 
+
 export function renderReplies({pageInfo, replies}) { //기존 replies 디스트럭쳐링
 
     // 댓글 수 렌더링
@@ -116,6 +116,8 @@ export async function fetchReplies(pageNo=1) {
     // 댓글 목록 렌더링
     renderReplies(replyResponse);
 }
+
+
 
 /*
 //페이징 버튼 클릭 이벤트 생성 함수 : 클릭하면 비동기로 페치처리 할 수 있도록 처리

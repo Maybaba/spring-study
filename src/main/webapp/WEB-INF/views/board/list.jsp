@@ -307,9 +307,6 @@
     appendActivePage();
     fixSearchOption();
 
-
-
-
 </script>
 
 </body>

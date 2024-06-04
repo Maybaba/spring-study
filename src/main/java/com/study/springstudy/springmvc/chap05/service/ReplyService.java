@@ -42,7 +42,7 @@ public class ReplyService {
 
         Reply reply = Reply.builder()
                 .replyText(dto.getText())
-                .replyWriter(dto.getAuthor())
+                .writer(dto.getAuthor())
                 .boardNo(dto.getBno())
                 .build()
                 ;

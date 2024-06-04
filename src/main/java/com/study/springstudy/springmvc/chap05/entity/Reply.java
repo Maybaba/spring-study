@@ -18,8 +18,9 @@ public class Reply {
     private long replyNo;
     @Setter
     private String replyText;
-    private String replyWriter;
+    private String writer;
     private LocalDateTime replyDate;
     private long boardNo;
+    private String account;
 
 }

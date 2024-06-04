@@ -5,8 +5,6 @@ import {removeReplyClickEvent} from "./deleteReply.js";
 import {fetchInfScrollReplies} from "./getReply.js";
 import {modifyReplyClickEvent} from "./modifyReply.js";
 
-
-
 // ====== 전역 변수 ========
 export const BASE_URL = 'http://localhost:8181/api/v1/replies';
 

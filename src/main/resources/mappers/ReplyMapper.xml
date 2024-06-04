@@ -24,9 +24,11 @@
     </delete>
 
     <select id="findAll" resultType="reply">
-        SELECT * FROM tbl_reply
-        WHERE board_no = #{bno}
-        ORDER BY reply_no
+        SELECT b.*, m.name AS writer
+        FROM tbl_reply b
+        JOIN tbl_member m ON b.account = m.account
+        WHERE b.board_no = #{bno}
+        ORDER BY b.reply_no
         LIMIT #{p.pageStart}, #{p.amount}
     </select>
 
