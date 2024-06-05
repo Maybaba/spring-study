@@ -1,5 +1,6 @@
 package com.study.springstudy.springmvc.chap05.api;
 
+import com.study.springstudy.springmvc.LoginUtil;
 import com.study.springstudy.springmvc.chap04.common.Page;
 import com.study.springstudy.springmvc.chap05.dto.response.ReplyListDto;
 import com.study.springstudy.springmvc.chap05.dto.repuest.ReplyModifyDto;
@@ -13,6 +14,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,14 +28,15 @@ import java.util.Map;
 public class ReplyApiController {
 
     private final ReplyService replyService;
-
     //댓글 목록 조회 요청        /?bno=원본글번호
     //URL : /api/v1/replies/원본글번호/page/페이지번호 - GET -> 목록조회
     // @PathVariable : URL에 붙어있는 변수 값을 읽는 어노테이션!!!!!!
+
     @GetMapping("/{bno}/page/{pageNo}")
     public ResponseEntity<?> list(
+            long bno,
             @PathVariable int pageNo,
-            @PathVariable("bno") long bno) {
+            HttpSession session) {
 
         if(bno == 0) {
             String message = "글 번호는 0번이 될 수 없습니다 !!!!! warn!!!! ";
@@ -48,12 +51,15 @@ public class ReplyApiController {
         log.info("/api/v1/replies/{} : GET", bno);
 
         ReplyListDto replies = replyService.getReplies(bno, new Page(pageNo, 10));
+        replies.setLoginUser(LoginUtil.getLoggedInUser(session));
+
 //        log.debug("first reply : {}", replies.get(0)); 목록 조회 요청 - 댓글 없는 경우 에러나기때무네...
 //        try {
 //
 //        } catch (Exception e) {
 //
 //        }
+
         return ResponseEntity
                 .ok()
                 .body(replies);
@@ -63,8 +69,9 @@ public class ReplyApiController {
     //@Validated 검증 요청 자카르타에서 진행
     @PostMapping
     public ResponseEntity<?> posts(@Validated @RequestBody ReplyPostDto dto //@RequestBody : 통일된 데이터 양식을 JSON으로 받아서 파싱한다.
-    , BindingResult result //입력값 검증 결과 데이터를 갖고 있는 객체
-    ) {
+                                , BindingResult result//입력값 검증 결과 데이터를 갖고 있는 객체
+                                   , HttpSession session
+                                   ) {
 
         log.info("/api/v1/replies : POST");
         log.debug("parameter: {}", dto);
@@ -80,7 +87,7 @@ public class ReplyApiController {
                     .body(errors);
         }
 
-        boolean flag = replyService.register(dto);
+        boolean flag = replyService.register(dto, session);
 
         if(!flag) return ResponseEntity.internalServerError().body(" !!! 댓글 등록 실패 👻");
 

@@ -1,6 +1,7 @@
 
 import { BASE_URL } from "./reply.js";
 import {fetchInfScrollReplies} from "./getReply.js";
+import {callApi} from "./api.js";
 
 // const fetchModifyReply = async (rno) => {
 //     const res = await fetch(`${BASE_URL}/${rno}`, {
@@ -32,15 +33,15 @@ export function modifyReplyClickEvent() {
         // modReplyText ID를 가진 textarea의 placeholder 속성에 텍스트를 설정
         document.getElementById('modReplyText').setAttribute('placeholder', placeholderText);
 
-        //댓글번호 rno 가져오기 -
+        // 댓글번호 구하기
         const rno = e.target.closest('#replyContent').dataset.replyId;
 
         // 모달에 클릭한 댓글번호 달아놓기
         document.querySelector('.modal').dataset.rno = rno;
-        });
+    });
 
     //수정요청 class : btn-dark
-    document.getElementById('replyModBtn').addEventListener('click', e=> {
+    document.getElementById('replyModBtn').addEventListener('click', e => {
 
         fetchReplyModify();
     });
@@ -53,23 +54,28 @@ export function modifyReplyClickEvent() {
             bno: document.getElementById('wrap').dataset.bno
         }
 
-        const res = await fetch(BASE_URL, {
-            method: 'PUT',
-            headers: {
-                'content-type' : 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
+        console.log("e.target.closest('#replyContent').dataset.replyId;", rno);
+        console.log("document.getElementById('wrap').dataset.bno", bno);
+        console.log("payload : ", payload);
 
-        if(!res.ok) {
-            alert('수정 실패');
-        } else {
+
+        await callApi(BASE_URL, 'PUT', payload);
+        // const res = await fetch(BASE_URL, {
+        //     method: 'PUT',
+        //     headers: {
+        //         'content-type': 'application/json'
+        //     },
+        //     body: JSON.stringify(payload)
+        // });
+        //
+        // if (!res.ok) {
+        //     alert('수정 실패');
+        // } else {
 
             //수정 후 모달 닫기 버튼 클릭
             document.getElementById('modal-close').click();
 
-            window.scrollTo(0,500); //수정 후 위로 이동
+            window.scrollTo(0, 500); //수정 후 위로 이동
             await fetchInfScrollReplies();
         }
     }
-}

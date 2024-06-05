@@ -18,9 +18,10 @@ public class Reply {
     private long replyNo;
     @Setter
     private String replyText;
-    private String writer;
+    private String writer; //조회할 때 사용하는 이르
     private LocalDateTime replyDate;
     private long boardNo;
     private String account;
+    private String replyWriter; //이전에 입력했던 비회원 이름
 
 }

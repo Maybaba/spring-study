@@ -54,18 +54,20 @@
     <div id="replies" class="row">
         <div class="offset-md-1 col-md-10">
 
-            <%
-                // 세션에서 user 속성을 가져옴
-                Object user = session.getAttribute("login");
-            %>
+<%--            <%--%>
+<%--                // 세션에서 user 속성을 가져옴--%>
+<%--                Object user = session.getAttribute("login");--%>
+<%--            %>--%>
 
-            <%
-                if (user != null) {
-                    // 로그인 상태인 경우: 댓글창을 그대로 렌더링
-            %>
+<%--            <%--%>
+<%--                if (user != null) {--%>
+<%--                    // 로그인 상태인 경우: 댓글창을 그대로 렌더링--%>
+<%--            %>--%>
             <!-- 댓글 쓰기 영역 -->
             <div class="card">
                 <div class="card-body">
+
+                    <c:if test="${not empty login}">
                     <div class="row">
                         <div class="col-md-9">
                             <div class="form-group">
@@ -76,26 +78,36 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="newReplyWriter" hidden>댓글 작성자</label>
-                                <input id="newReplyWriter" name="replyWriter" type="text" class="form-control" placeholder="작성자 이름" style="margin-bottom: 6px;">
+                                <input id="newReplyWriter" name="replyWriter" type="text" class="form-control" placeholder="작성자 이름" value="${login.nickName}" readonly style="margin-bottom: 6px;">
                                 <button id="replyAddBtn" type="button" class="btn btn-dark form-control">등록</button>
                             </div>
                         </div>
                     </div>
+                    </c:if>
+                    <c:if test="${ empty login}">
+                    <div class="alert alert-warning" role="alert">
+                                            댓글을 작성하려면 로그인이 필요합니다.
+                                            <br><a href="/members/sign-in" class="alert-link">로그인하기</a>
+                                        </div>
+                    </c:if>
+
                 </div>
             </div> <!-- end reply write -->
-            <%
-            } else {
-                // 로그아웃 상태인 경우: 로그인 안내 메시지 표시
-            %>
 
-            <div class="alert alert-warning" role="alert">
-                댓글을 작성하려면 로그인이 필요합니다.
-                <br><a href="/members/sign-in" class="alert-link">로그인하기</a>
-            </div>
 
-            <%
-                }
-            %>
+<%--            <%--%>
+<%--            } else {--%>
+<%--                // 로그아웃 상태인 경우: 로그인 안내 메시지 표시--%>
+<%--            %>--%>
+
+<%--            <div class="alert alert-warning" role="alert">--%>
+<%--                댓글을 작성하려면 로그인이 필요합니다.--%>
+<%--                <br><a href="/members/sign-in" class="alert-link">로그인하기</a>--%>
+<%--            </div>--%>
+
+<%--            <%--%>
+<%--                }--%>
+<%--            %>--%>
 
 
             <!--댓글 내용 영역-->
@@ -121,7 +133,7 @@
     </div> <!-- end replies row -->
 
     <!-- 댓글 수정 모달 -->
-    <div class="modal fade bd-example-modal-lg" id="replyModifyModal">
+    <div class="modal fade bd-example-modal-lg" id="replyModifyModal" >
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
 
@@ -136,7 +148,7 @@
                     <div class="form-group">
                         <input id="modReplyId" type="hidden">
                         <label for="modReplyText" hidden></label>
-                        <textarea id="modReplyText" class="form-control" placeholder="내내냉" rows="3"></textarea>
+                        <textarea id="modReplyText" class="form-control" placeholder="마음대로 수정하기 모달" rows="3"></textarea>
                     </div>
                 </div>
 
@@ -221,27 +233,12 @@
         sendReaction('dislike');
     });
 
-    const $replies = document.querySelector(".card-body");
-    //로그인 하지 않았을 때 댓글 버튼 사라지게 하기 -
-    $replies.addEventListener('click', e => {
-        console.log('댓글창 이벤트 적용 됨')
-        $replies.style.display = 'none';
-    })
-
-    // 세션에서 user 속성을 가져옴
-    Object
-    user = session.getAttribute("login");
-
-    if (user != null) {
-        // 로그인 상태인 경우: 댓글창을 그대로 렌더링
-        <form action="submitComment" method="post">
-            <textarea name="comment" rows="4" cols="50"></textarea>
-            <input type="submit" value="Submit"/>
-        </form>
-
-    } else {
-    // 로그아웃 상태인 경우: 댓글창을 readonly로 설정하고, 로그인 페이지로 리다이렉션
-
+    // const $replies = document.querySelector(".card-body");
+    // //로그인 하지 않았을 때 댓글 버튼 사라지게 하기 -
+    // $replies.addEventListener('click', e => {
+    //     console.log('댓글창 이벤트 적용 됨')
+    //     $replies.style.display = 'none';
+    // });
 
 </script>
 

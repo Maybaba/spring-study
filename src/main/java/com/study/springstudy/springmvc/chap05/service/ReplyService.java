@@ -1,5 +1,6 @@
 package com.study.springstudy.springmvc.chap05.service;
 
+import com.study.springstudy.springmvc.LoginUtil;
 import com.study.springstudy.springmvc.chap04.common.Page;
 import com.study.springstudy.springmvc.chap04.common.PageMaker;
 import com.study.springstudy.springmvc.chap05.dto.response.ReplyListDto;
@@ -13,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,12 +41,15 @@ public class ReplyService {
     }
 
     //댓글 입력
-    public boolean register(ReplyPostDto dto) {
+    public boolean register(ReplyPostDto dto, HttpSession session) {
 
         Reply reply = Reply.builder()
                 .replyText(dto.getText())
                 .writer(dto.getAuthor())
                 .boardNo(dto.getBno())
+                .account(LoginUtil.getLoggedInUserAccount(session)) //이거 오늘 벨로그에 넣기
+//                .account(session.getId())
+                .replyWriter(dto.getAuthor())
                 .build()
                 ;
 
@@ -74,7 +80,7 @@ public class ReplyService {
         // 댓글 번호로 원본 글번호 찾기
         long bno = replyMapper.findBno(rno);
         boolean flag = replyMapper.delete(rno);
-        // 삭제 후 삭제된 목록을 리턴
+        // 삭제 된 후 줄어든 새로운 목록을 리턴
         return flag ? getReplies(bno, new Page(1, 10)) : null;
     }
 
