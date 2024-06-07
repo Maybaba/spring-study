@@ -5,10 +5,12 @@ import com.study.springstudy.springmvc.chap05.entity.Reaction;
 import com.study.springstudy.springmvc.chap05.entity.ReactionType;
 import com.study.springstudy.springmvc.chap05.mapper.ReactionMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ReactionService {
 
     private final ReactionMapper reactionMapper;
@@ -34,6 +36,8 @@ public class ReactionService {
                 .reactionType(newReactionType)
                 .build();
 
+        log.info(String.valueOf(newReaction));
+
         if (existingReaction != null) { // 처음 리액션이 아닌 경우
             if (existingReaction.getReactionType() == newReactionType) {
                 // 동일한 리액션이기 때문에 취소
@@ -45,9 +49,10 @@ public class ReactionService {
             }
         } else {
             // 처음 리액션을 한 경우
-            reactionMapper.save(newReaction); // 새 리액션 생성
+            reactionMapper.save(newReaction); // 새 리액션 저장
         }
 
+        // 리액션 한 후 재조회를 통해 DB데이터 상태를 체크
         return reactionMapper.findOne(boardNo, account);
 
     }
@@ -55,28 +60,31 @@ public class ReactionService {
 
     // 좋아요 중간처리
     public ReactionDto like(long boardNo, String account) {
-
         Reaction reaction = handleReaction(boardNo, account, ReactionType.LIKE);
-
         return getReactionDto(boardNo, reaction);
-    }
-
-    private ReactionDto getReactionDto(long boardNo, Reaction reaction) {
-        String reactionType = null;
-        if (reaction != null) { // 좋아요, 싫어요를 누른 상태
-            reactionType = reaction.getReactionType().toString();
-        }
-
-        return ReactionDto.builder()
-                .likeCount(reactionMapper.countLikes(boardNo))
-                .dislikeCount(reactionMapper.countDislikes(boardNo))
-                .userReaction(reactionType)
-                .build();
     }
 
     // 싫어요 중간처리
     public ReactionDto dislike(long boardNo, String account) {
         Reaction reaction = handleReaction(boardNo, account, ReactionType.DISLIKE);
-        return getReactionDto(boardNo, reaction);
+        return getReactionDto(boardNo, reaction); //리턴되는 리액션을 널이 아닌지 체크
+    }
+
+
+    //널이 아닌지 체크 후 아직 값이 없으면 이늄을 타입에 넣기
+    private ReactionDto getReactionDto(long boardNo, Reaction reaction) {
+
+        String reactionType = null;
+
+        if (reaction != null) { // 좋아요, 싫어요를 누른 상태
+            reactionType = reaction.getReactionType().toString();
+        }
+
+        //리액션
+        return ReactionDto.builder()
+                .likeCount(reactionMapper.countLikes(boardNo))
+                .dislikeCount(reactionMapper.countDislikes(boardNo))
+                .userReaction(reactionType)
+                .build();
     }
 }

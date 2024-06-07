@@ -76,7 +76,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="newReplyWriter" hidden>댓글 작성자</label>
-                                <input id="newReplyWriter" name="replyWriter" type="text" class="form-control" placeholder="작성자 이름" style="margin-bottom: 6px;">
+                                <input id="newReplyWriter" name="replyWriter" type="text" class="form-control" value="${login.nickName}" style="margin-bottom: 6px;" readonly>
                                 <button id="replyAddBtn" type="button" class="btn btn-dark form-control">등록</button>
                             </div>
                         </div>
@@ -96,6 +96,8 @@
             <%
                 }
             %>
+
+
 
 
             <!--댓글 내용 영역-->
@@ -182,7 +184,7 @@
             return;
         }
 
-        const {likeCount, dislikeCount, userReaction} = await res.json();
+        const { likeCount, dislikeCount, userReaction } = await res.json();
 
         document.getElementById('like-count').textContent = likeCount;
         document.getElementById('dislike-count').textContent = dislikeCount;
@@ -211,6 +213,7 @@
         }
     }
 
+
     // 좋아요 클릭 이벤트
     document.getElementById('like-btn').addEventListener('click', e => {
         sendReaction('like');
@@ -220,27 +223,6 @@
     document.getElementById('dislike-btn').addEventListener('click', e => {
         sendReaction('dislike');
     });
-
-    const $replies = document.querySelector(".card-body");
-    //로그인 하지 않았을 때 댓글 버튼 사라지게 하기 -
-    $replies.addEventListener('click', e => {
-        console.log('댓글창 이벤트 적용 됨')
-        $replies.style.display = 'none';
-    })
-
-    // 세션에서 user 속성을 가져옴
-    Object
-    user = session.getAttribute("login");
-
-    if (user != null) {
-        // 로그인 상태인 경우: 댓글창을 그대로 렌더링
-        <form action="submitComment" method="post">
-            <textarea name="comment" rows="4" cols="50"></textarea>
-            <input type="submit" value="Submit"/>
-        </form>
-
-    } else {
-    // 로그아웃 상태인 경우: 댓글창을 readonly로 설정하고, 로그인 페이지로 리다이렉션
 
 
 </script>

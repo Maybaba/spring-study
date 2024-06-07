@@ -13,7 +13,7 @@ export const fetchReplyPost = async () => {
         author: writerInput.value ,
         bno: document.getElementById('wrap').dataset.bno
     }
-    console.log(payload);
+    console.log("post payload : ", payload);
 
     const resp = await fetch(`${BASE_URL}`, {
         method: 'POST',
@@ -23,12 +23,20 @@ export const fetchReplyPost = async () => {
         body: JSON.stringify(payload)
     });
 
+    if (resp.status=== 403) {
+        alert("로그인이 필요한 서비스입니다");
+        window.location.href = "/members/log-in";
+        return;
+    }
+
+
+
     const replies = await resp.json();
     console.log(replies);
 
     textInput.value = '';
-    writerInput.value = '';
-    // renderReplies(replies);
+    // writerInput.value = '';
+    renderReplies(replies);
     fetchInfScrollReplies();
     window.scrollTo(0,0); //입력 끝나고 화면 상단으로 이동
 }

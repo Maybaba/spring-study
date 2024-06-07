@@ -28,7 +28,7 @@ public class ReplyDetailDto {
     public ReplyDetailDto(Reply r) {
         this.rno = r.getReplyNo();
         this.text = r.getReplyText();
-        this.writer = r.getWriter();
+        this.writer = r.getReplyWriter();
         this.createAt = r.getReplyDate();
         this.account = r.getAccount();
     }

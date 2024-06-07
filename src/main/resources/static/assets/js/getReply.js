@@ -71,7 +71,7 @@ export function renderReplies({pageInfo, replies}) { //기존 replies 디스트�
     // 댓글 목록 렌더링
     let tag = '';
     if (replies && replies.length > 0) {
-        replies.forEach(({ rno, writer, text, createAt }) => {
+        replies.forEach(({ reply_no:rno, writer, text, createAt }) => {
             tag += `
         <div id='replyContent' class='card-body' data-reply-id='${rno}'>
             <div class='row user-block'>

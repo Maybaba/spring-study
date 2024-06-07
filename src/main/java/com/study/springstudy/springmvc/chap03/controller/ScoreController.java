@@ -1,6 +1,5 @@
 package com.study.springstudy.springmvc.chap03.controller;
 
-import com.study.springstudy.springmvc.chap03.ScoreRepository;
 import com.study.springstudy.springmvc.chap03.dto.ScoreDetailResponseDto;
 import com.study.springstudy.springmvc.chap03.dto.ScoreListResponseDto;
 import com.study.springstudy.springmvc.chap03.dto.ScoreModifyDto;
@@ -9,7 +8,6 @@ import com.study.springstudy.springmvc.chap03.entity.Score;
 import com.study.springstudy.springmvc.chap03.repository.*;
 import com.study.springstudy.springmvc.chap03.service.ScoreService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

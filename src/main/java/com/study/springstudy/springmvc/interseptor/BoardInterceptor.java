@@ -64,7 +64,6 @@ public class BoardInterceptor implements HandlerInterceptor {
                 response.sendRedirect("/access-deny?message=authorization");
                 return false;
             }
-
         }
         return true;
     }
